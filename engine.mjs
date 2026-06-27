@@ -1,7 +1,9 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { extractXmlRoot, getArg, isDirectory, isFile, listVisibleEntries, loadYamlFile, readText, resolveArgPath } from './common.mjs';
+import { getArg, isDirectory, isFile, listVisibleEntries, loadYamlFile, readText, resolveArgPath } from './common.mjs';
+import { validateManifestData, validateRuleSetData } from './schemas.mjs';
+import { extractXmlRootName, selectXmlEntries } from './xml.mjs';
 
 export const Engine = {
   version: '1.0.0',
@@ -38,13 +40,13 @@ export const Engine = {
   },
 
   loadManifestValidators(manifestPath) {
-    const manifest = loadYamlFile(manifestPath);
+    const manifest = validateManifestData(loadYamlFile(manifestPath), manifestPath);
     const manifestDir = path.dirname(manifestPath);
     const rules = [];
 
     for (const entry of manifest.rules ?? []) {
       const ruleSetPath = path.resolve(manifestDir, entry.ruleFile);
-      const ruleSet = loadYamlFile(ruleSetPath);
+      const ruleSet = validateRuleSetData(loadYamlFile(ruleSetPath), ruleSetPath);
       rules.push({
         id: entry.ruleFile,
         title: entry.title ?? ruleSet.title ?? entry.ruleFile,
@@ -94,6 +96,9 @@ export const Engine = {
     lines.push(`- Estado global: \`${response.status ?? 'UNKNOWN'}\``);
     lines.push(`- Reglas OK: \`${response.summary?.pass ?? 0}\``);
     lines.push(`- Reglas con fallo: \`${response.summary?.fail ?? 0}\``);
+    if (response.error) {
+      lines.push(`- Error: ${response.error}`);
+    }
 
     for (const validator of response.validators ?? []) {
       lines.push('');
@@ -140,9 +145,25 @@ export const Engine = {
     const repoRoot = resolveArgPath('--repo-root', process.cwd());
     const manifestPath = resolveArgPath('--manifest', path.join(process.cwd(), 'rules/manifest.yaml'));
 
-    const response = this.runManifest(repoRoot, manifestPath);
-    process.stdout.write(`${JSON.stringify(response)}\n`);
+    try {
+      const response = this.runManifest(repoRoot, manifestPath);
+      process.stdout.write(`${JSON.stringify(response)}\n`);
+    } catch (error) {
+      const response = this.buildErrorResponse(manifestPath, error);
+      process.stdout.write(`${JSON.stringify(response)}\n`);
+      process.exitCode = 1;
+    }
   },
+};
+
+Engine.buildErrorResponse = function buildErrorResponse(manifestPath, error) {
+  return {
+    manifest: manifestPath,
+    status: 'FAIL',
+    summary: { pass: 0, fail: 0 },
+    validators: [],
+    error: error instanceof Error ? error.message : String(error),
+  };
 };
 
 function evaluateCheck(repoRoot, repoName, check) {
@@ -193,7 +214,7 @@ function evaluateCheck(repoRoot, repoName, check) {
     if (!isFile(absolutePath)) {
       return { id, description: check.description, status: 'FAIL', detail: check.root, failureMessage };
     }
-    const { root } = extractXmlRoot(readText(absolutePath));
+    const root = extractXmlRootName(readText(absolutePath));
     const ok = root === check.root;
     return { id, description: check.description, status: ok ? 'PASS' : 'FAIL', detail: root, failureMessage: ok ? undefined : failureMessage };
   }
@@ -244,62 +265,6 @@ function evaluateCheck(repoRoot, repoName, check) {
   }
 
   return { id, description: check.description, status: 'FAIL', detail: check.type, failureMessage: `Regla desconocida: '${check.type}'.` };
-}
-
-function selectXmlEntries(xmlText, selector) {
-  const entries = parseXmlEntries(xmlText);
-
-  if (!selector || selector === 'any') {
-    return entries;
-  }
-
-  if (selector === 'folder') {
-    return entries.filter((entry) => entry.tag === 'folder');
-  }
-
-  if (selector === 'folder[name]') {
-    return entries.filter((entry) => entry.tag === 'folder' && entry.attrs.name !== undefined);
-  }
-
-  const elementTypeMatch = selector.match(/^element\[xsi:type="([^"]+)"\]$/);
-  if (elementTypeMatch) {
-    const expectedType = elementTypeMatch[1];
-    return entries.filter((entry) => entry.tag === 'element' && entry.attrs['xsi:type'] === expectedType);
-  }
-
-  return [];
-}
-
-function parseXmlEntries(xmlText) {
-  const normalized = xmlText.replace(/^\uFEFF?\s*<\?xml[\s\S]*?\?>\s*/, '');
-  const entries = [];
-  const tagPattern = new RegExp('<(?!\\?|\\/|!--)([A-Za-z0-9_.:-]+)([^>]*)\\/?>(?!>)', 'g');
-  let match;
-
-  while ((match = tagPattern.exec(normalized)) !== null) {
-    const tag = match[1];
-    const attrs = {};
-    const attrText = match[2] || '';
-    const attrPattern = /([A-Za-z0-9_.:-]+)="([^"]*)"/g;
-    let attrMatch;
-
-    while ((attrMatch = attrPattern.exec(attrText)) !== null) {
-      attrs[attrMatch[1]] = decodeXmlEntities(attrMatch[2]);
-    }
-
-    entries.push({ tag, attrs, name: attrs.name });
-  }
-
-  return entries;
-}
-
-function decodeXmlEntities(value) {
-  return value
-    .replace(/&amp;/g, '&')
-    .replace(/&lt;/g, '<')
-    .replace(/&gt;/g, '>')
-    .replace(/&quot;/g, '"')
-    .replace(/&apos;/g, "'");
 }
 
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {

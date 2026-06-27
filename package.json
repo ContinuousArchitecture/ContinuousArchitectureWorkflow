@@ -1,0 +1,14 @@
+{
+  "name": "ci-architecture-governance",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "validate": "node engine.mjs"
+  },
+  "dependencies": {
+    "cheerio": "^1.0.0",
+    "fast-xml-parser": "^4.5.0",
+    "yaml": "^2.5.0",
+    "zod": "^3.23.8"
+  }
+}

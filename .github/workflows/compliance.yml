@@ -36,6 +36,11 @@ jobs:
           repository: fad3dc07-e43b-4db5-92bd-fbfecbc5ae1b/ci-architecture-governance
           path: governance
 
+      - name: Instalar dependencias
+        shell: bash
+        working-directory: governance
+        run: npm ci
+
       - id: run_engine
         name: Ejecutar motor
         shell: bash
@@ -60,6 +65,11 @@ jobs:
         with:
           repository: fad3dc07-e43b-4db5-92bd-fbfecbc5ae1b/ci-architecture-governance
           path: governance
+
+      - name: Instalar dependencias
+        shell: bash
+        working-directory: governance
+        run: npm ci
 
       - name: Mostrar informe consolidado
         shell: bash
