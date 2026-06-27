@@ -1,9 +1,11 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { getArg, isDirectory, isFile, listVisibleEntries, loadYamlFile, readText, resolveArgPath } from './common.mjs';
-import { validateManifestData, validateRuleSetData } from './schemas.mjs';
-import { extractXmlRootName, selectXmlEntries } from './xml.mjs';
+import { getArg, resolveArgPath } from './infra/args.mjs';
+import { isDirectory, isFile, listVisibleEntries, readText } from './infra/fs.mjs';
+import { loadYamlFile } from './infra/yaml.mjs';
+import { validateManifestData, validateRuleSetData } from './core/schemas.mjs';
+import { CHECK_HANDLERS } from './core/registry.mjs';
 
 export const Engine = {
   version: '1.0.0',
@@ -15,28 +17,6 @@ export const Engine = {
 
   validateYaml(filePath) {
     return loadYamlFile(filePath);
-  },
-
-  evaluateRules(repoRoot, ruleSet) {
-    const state = { status: 'PASS', observations: [], checks: [] };
-    const repoName = path.basename(repoRoot);
-
-    if (ruleSet.schemaVersion !== undefined && ruleSet.schemaVersion !== 1) {
-      state.status = 'FAIL';
-      state.observations.push(`Versión de esquema no soportada: '${ruleSet.schemaVersion}'.`);
-    }
-
-    for (const check of ruleSet.checks ?? []) {
-      const result = evaluateCheck(repoRoot, repoName, check);
-      state.checks.push({ id: result.id, description: check.description, status: result.status, detail: result.detail, failureMessage: result.failureMessage });
-      if (result.status === 'FAIL') {
-        state.status = 'FAIL';
-        state.observations.push(result.failureMessage);
-      }
-    }
-
-    state.status = state.status === 'PASS' && state.checks.every((item) => item.status === 'PASS') ? 'PASS' : 'FAIL';
-    return state;
   },
 
   loadManifestValidators(manifestPath) {
@@ -63,6 +43,30 @@ export const Engine = {
     }
 
     return rules;
+  },
+
+  evaluateRules(repoRoot, ruleSet) {
+    const state = { status: 'PASS', observations: [], checks: [] };
+    const repoName = path.basename(repoRoot);
+
+    if (ruleSet.schemaVersion !== undefined && ruleSet.schemaVersion !== 1) {
+      state.status = 'FAIL';
+      state.observations.push(`Versión de esquema no soportada: '${ruleSet.schemaVersion}'.`);
+    }
+
+    for (const check of ruleSet.checks ?? []) {
+      const handler = CHECK_HANDLERS[check.type];
+      const result = handler ? handler({ repoRoot, repoName, absolutePath: path.resolve(repoRoot, check.path), check }) : { status: 'FAIL', detail: check.type, error: `Regla desconocida: '${check.type}'.` };
+      state.checks.push({ id: check.id || check.type, description: check.description, status: result.status, detail: result.detail, failureMessage: result.error ?? check.failureMessage });
+
+      if (result.status === 'FAIL') {
+        state.status = 'FAIL';
+        state.observations.push(result.error ?? check.failureMessage ?? `Regla desconocida: '${check.type}'.`);
+      }
+    }
+
+    state.status = state.status === 'PASS' && state.checks.every((item) => item.status === 'PASS') ? 'PASS' : 'FAIL';
+    return state;
   },
 
   buildResponse(manifestPath, validators) {
@@ -165,107 +169,6 @@ Engine.buildErrorResponse = function buildErrorResponse(manifestPath, error) {
     error: error instanceof Error ? error.message : String(error),
   };
 };
-
-function evaluateCheck(repoRoot, repoName, check) {
-  const id = check.id || check.type;
-  const defaultMessages = {
-    'repository-name': `El nombre del repositorio no coincide con '${check.pattern}'.`,
-    path: `La ruta '${check.path}' no existe o no tiene el tipo esperado.`,
-    'single-visible-file': `La carpeta '${check.path}' no contiene exactamente el archivo '${check.name}'.`,
-    'file-not-empty': `El archivo '${check.path}' está vacío.`,
-    'xml-root': `El archivo '${check.path}' no tiene la raíz XML esperada '${check.root}'.`,
-    'text-contains': `El archivo '${check.path}' no contiene el texto esperado.`,
-    'xml-name-regex': `El archivo '${check.path}' no cumple la convención de nombres esperada.`,
-    'xml-name-not-contains': `El archivo '${check.path}' contiene nombres no permitidos.`,
-  };
-  const failureMessage = check.failureMessage || defaultMessages[check.type] || `Regla desconocida: '${check.type}'.`;
-
-  if (check.type === 'repository-name') {
-    const pattern = new RegExp(check.pattern);
-    const ok = pattern.test(repoName);
-    return { id, description: check.description, status: ok ? 'PASS' : 'FAIL', detail: repoName, failureMessage: ok ? undefined : failureMessage };
-  }
-
-  const absolutePath = path.resolve(repoRoot, check.path);
-
-  if (check.type === 'path') {
-    if (check.kind !== 'file' && check.kind !== 'dir') {
-      return { id, description: check.description, status: 'FAIL', detail: check.kind, failureMessage: `Tipo de ruta no válido: '${check.kind}'.` };
-    }
-    const ok = check.kind === 'file' ? isFile(absolutePath) : isDirectory(absolutePath);
-    return { id, description: check.description, status: ok ? 'PASS' : 'FAIL', detail: check.kind, failureMessage: ok ? undefined : failureMessage };
-  }
-
-  if (check.type === 'single-visible-file') {
-    let ok = false;
-    if (isDirectory(absolutePath)) {
-      const entries = listVisibleEntries(absolutePath);
-      ok = entries.length === 1 && entries[0].name === check.name && entries[0].isFile && !entries[0].isDirectory;
-    }
-    return { id, description: check.description, status: ok ? 'PASS' : 'FAIL', detail: check.name, failureMessage: ok ? undefined : failureMessage };
-  }
-
-  if (check.type === 'file-not-empty') {
-    const ok = isFile(absolutePath) && readText(absolutePath).trim().length > 0;
-    return { id, description: check.description, status: ok ? 'PASS' : 'FAIL', detail: check.path, failureMessage: ok ? undefined : failureMessage };
-  }
-
-  if (check.type === 'xml-root') {
-    if (!isFile(absolutePath)) {
-      return { id, description: check.description, status: 'FAIL', detail: check.root, failureMessage };
-    }
-    const root = extractXmlRootName(readText(absolutePath));
-    const ok = root === check.root;
-    return { id, description: check.description, status: ok ? 'PASS' : 'FAIL', detail: root, failureMessage: ok ? undefined : failureMessage };
-  }
-
-  if (check.type === 'text-contains') {
-    const ok = isFile(absolutePath) && readText(absolutePath).includes(check.text);
-    return { id, description: check.description, status: ok ? 'PASS' : 'FAIL', detail: check.text, failureMessage: ok ? undefined : failureMessage };
-  }
-
-  if (check.type === 'xml-name-regex') {
-    if (!isFile(absolutePath)) {
-      return { id, description: check.description, status: 'FAIL', detail: check.selector ?? check.path, failureMessage };
-    }
-
-    const entries = selectXmlEntries(readText(absolutePath), check.selector);
-    if (entries.length === 0) {
-      return { id, description: check.description, status: 'PASS', detail: 'sin coincidencias' };
-    }
-    const pattern = new RegExp(check.pattern);
-    const firstFailure = entries.find((entry) => !pattern.test(entry.name ?? ''));
-    return {
-      id,
-      description: check.description,
-      status: firstFailure ? 'FAIL' : 'PASS',
-      detail: firstFailure ? firstFailure.name : `${entries.length} entradas`,
-      failureMessage: firstFailure ? failureMessage : undefined,
-    };
-  }
-
-  if (check.type === 'xml-name-not-contains') {
-    if (!isFile(absolutePath)) {
-      return { id, description: check.description, status: 'FAIL', detail: check.selector ?? check.path, failureMessage };
-    }
-
-    const entries = selectXmlEntries(readText(absolutePath), check.selector);
-    if (entries.length === 0) {
-      return { id, description: check.description, status: 'PASS', detail: 'sin coincidencias' };
-    }
-    const forbidden = new Set(check.forbidden ?? []);
-    const firstFailure = entries.find((entry) => forbidden.has(entry.name ?? ''));
-    return {
-      id,
-      description: check.description,
-      status: firstFailure ? 'FAIL' : 'PASS',
-      detail: firstFailure ? firstFailure.name : `${entries.length} entradas`,
-      failureMessage: firstFailure ? failureMessage : undefined,
-    };
-  }
-
-  return { id, description: check.description, status: 'FAIL', detail: check.type, failureMessage: `Regla desconocida: '${check.type}'.` };
-}
 
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
   Engine.main();
