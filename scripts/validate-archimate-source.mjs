@@ -1,6 +1,9 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
+// Valida el modelo fuente esperado dentro de `artifact/source`.
+// El script exige un único archivo `design.archimate` y comprueba que el
+// contenido parezca un modelo XML de ArchiMate antes de escribir el reporte.
 function getArg(name, fallback = '') {
   const idx = process.argv.indexOf(name);
   return idx >= 0 && process.argv[idx + 1] ? process.argv[idx + 1] : fallback;
@@ -14,10 +17,12 @@ const observations = [];
 const checks = [];
 let status = 'PASS';
 
+// La carpeta fuente debe existir antes de validar archivos.
 if (!fs.existsSync(sourcePath) || !fs.statSync(sourcePath).isDirectory()) {
   status = 'FAIL';
   observations.push(`Source folder '${sourcePath}' is missing or not a directory.`);
 } else {
+  // Solo se permite un archivo visible: `design.archimate`.
   const visibleEntries = fs.readdirSync(sourcePath, { withFileTypes: true })
     .filter((entry) => !entry.name.startsWith('.'))
     .map((entry) => ({ name: entry.name, isFile: entry.isFile(), isDirectory: entry.isDirectory() }))
@@ -32,6 +37,7 @@ if (!fs.existsSync(sourcePath) || !fs.statSync(sourcePath).isDirectory()) {
     status = 'FAIL';
     observations.push(`Expected only '${expectedFile}' under '${sourcePath}', found: ${JSON.stringify(visibleEntries.map((entry) => entry.name))}.`);
   } else {
+    // Verifica el contenido sin introducir una dependencia XML pesada.
     const text = fs.readFileSync(expectedFile, 'utf8');
     const normalized = text.replace(/^\uFEFF?\s*<\?xml[\s\S]*?\?>\s*/, '');
     const openTagMatch = normalized.match(/^<\s*([A-Za-z0-9_.:-]+)([^>]*)>/);
@@ -62,6 +68,7 @@ if (checks.length === 0) {
   checks.push({ name: 'design_archimate', status });
 }
 
+// Emite un reporte compacto para el workflow llamador.
 const report = {
   path: sourcePath,
   status,
@@ -69,6 +76,7 @@ const report = {
   observations,
 };
 
+// Escribe el reporte en disco; el workflow lo lee y lo publica como salida.
 fs.mkdirSync(path.dirname(reportFile), { recursive: true });
 fs.writeFileSync(reportFile, `${JSON.stringify(report, null, 2)}\n`, 'utf8');
 process.stdout.write(`${status}\n`);

@@ -1,6 +1,9 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
+// Valida la estructura base esperada para un activo arquitectónico gobernado.
+// Comprueba el nombre del repositorio y el layout mínimo de carpetas/archivos,
+// y luego escribe un reporte JSON para que el workflow lo consuma.
 function getArg(name, fallback = '') {
   const idx = process.argv.indexOf(name);
   return idx >= 0 && process.argv[idx + 1] ? process.argv[idx + 1] : fallback;
@@ -24,10 +27,12 @@ const observations = [];
 const checks = [];
 const repoOk = new RegExp(repositoryNamePattern).test(repoName);
 
+// Conserva un rastro legible para el reporte final.
 if (!repoOk) {
   observations.push(`Repository name '${repoName}' does not match '${repositoryNamePattern}'.`);
 }
 
+// Valida cada ruta requerida como archivo o carpeta según corresponda.
 for (const [relativePath, expectedKind] of requiredPaths) {
   const absolutePath = path.resolve(repoRoot, relativePath);
   const exists = fs.existsSync(absolutePath);
@@ -38,6 +43,7 @@ for (const [relativePath, expectedKind] of requiredPaths) {
   checks.push({ path: relativePath, kind: expectedKind, status: kindOk ? 'PASS' : 'FAIL' });
 }
 
+// Consolida las verificaciones en un estado único para CI.
 const status = repoOk && checks.every((item) => item.status === 'PASS') ? 'PASS' : 'FAIL';
 const report = {
   name: repoName,
@@ -46,6 +52,7 @@ const report = {
   observations,
 };
 
+// Persiste el reporte JSON para que el workflow lo exponga como salida.
 fs.mkdirSync(path.dirname(reportFile), { recursive: true });
 fs.writeFileSync(reportFile, `${JSON.stringify(report, null, 2)}\n`, 'utf8');
 process.stdout.write(`${status}\n`);
