@@ -74,7 +74,7 @@ export const Engine = {
       });
     });
 
-    return buildResponse(manifestPath, artifact, validators);
+    return buildResponse(repoRoot, manifestPath, artifact, validators);
   },
 
   buildValidateResponse(response) {
@@ -96,7 +96,9 @@ export const Engine = {
     const stats = collectStats(validators, allChecks);
     const executive = buildExecutiveSummary(response, stats, validators, allChecks);
     const decision = decisionFromLintStatus(response.lintStatus ?? response.status ?? 'UNKNOWN');
-    const artifactPath = response.artifact?.current ?? response.artifact?.source?.path ?? 'Unknown';
+    const artifactPath = response.artifact?.current
+      ? toRelativePath(response.repoRoot, response.artifact.current)
+      : (response.artifact?.source?.path ?? 'Unknown');
 
     lines.push('# Architecture Compliance Report');
     lines.push('');
@@ -168,7 +170,7 @@ export const Engine = {
     lines.push('|---|---|');
     lines.push(`| Estado técnico | ${statusBadge(response.systemStatus ?? 'UNKNOWN')} |`);
     lines.push(`| Manifiesto | \`${escapeTableCell(response.manifest ?? '')}\` |`);
-    lines.push(`| Archivo fuente | \`${escapeTableCell(response.artifact?.source?.path ?? 'Unknown')}\` |`);
+    lines.push(`| Patrón fuente | \`${escapeTableCell(response.artifact?.source?.path ?? 'Unknown')}\` |`);
     lines.push(`| Artefacto evaluado | \`${escapeTableCell(artifactPath)}\` |`);
     lines.push(`| Motor | \`${Engine.version}\` |`);
     lines.push(`| DSLs ejecutados | \`${validators.length}\` |`);
@@ -283,6 +285,14 @@ function escapeTableCell(value) {
     .replace(/\|/g, '\\|')
     .replace(/\n/g, ' ')
     .trim();
+}
+
+function toRelativePath(root, target) {
+  if (!root || !target) {
+    return String(target ?? 'Unknown');
+  }
+
+  return path.relative(root, target).replace(/\\/g, '/');
 }
 
 function suggestAction(check) {
@@ -617,7 +627,7 @@ function buildRuleResult(id, rule, status, detail, failureMessage, group) {
   };
 }
 
-function buildResponse(manifestPath, artifact, validators) {
+function buildResponse(repoRoot, manifestPath, artifact, validators) {
   const summary = {
     pass: validators.filter((item) => item.status === 'PASS').length,
     warn: validators.filter((item) => item.status === 'WARN').length,
@@ -628,6 +638,7 @@ function buildResponse(manifestPath, artifact, validators) {
 
   return {
     manifest: manifestPath,
+    repoRoot,
     artifact,
     status: lintStatus,
     systemStatus: 'PASS',
