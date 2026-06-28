@@ -90,42 +90,150 @@ export const Engine = {
 
   renderSummary(response) {
     const lines = [];
-    lines.push('## Validation Report');
+    const validators = response.validators ?? [];
+    const allChecks = validators.flatMap((validator) => (validator.checks ?? []).map((check) => ({ validator, check })));
+    const actionable = allChecks.filter(({ check }) => check.status !== 'PASS');
+    const stats = collectStats(validators, allChecks);
+    const decision = decisionFromLintStatus(response.lintStatus ?? response.status ?? 'UNKNOWN');
+
+    lines.push('# Architecture Compliance Report');
     lines.push('');
-    lines.push(`- Estado global: \`${response.status ?? 'UNKNOWN'}\``);
-    lines.push(`- Estado del sistema: \`${response.systemStatus ?? 'UNKNOWN'}\``);
-    lines.push(`- Estado del linter: \`${response.lintStatus ?? 'UNKNOWN'}\``);
-    lines.push(`- DSLs OK: \`${response.summary?.pass ?? 0}\``);
-    lines.push(`- DSLs con advertencia: \`${response.summary?.warn ?? 0}\``);
-    lines.push(`- DSLs con fallo: \`${response.summary?.fail ?? 0}\``);
-    if (response.error) {
-      lines.push(`- Error: ${response.error}`);
+    lines.push('## Resultado ejecutivo');
+    lines.push('');
+    lines.push('| Indicador | Valor |');
+    lines.push('|---|---|');
+    lines.push(`| Estado del diseño | ${statusBadge(response.lintStatus ?? response.status ?? 'UNKNOWN')} |`);
+    lines.push(`| Decisión | ${decision} |`);
+    lines.push(`| Errores bloqueantes | \`${stats.failures}\` |`);
+    lines.push(`| Advertencias | \`${stats.warnings}\` |`);
+    lines.push(`| DSLs ejecutados | \`${validators.length}\` |`);
+    lines.push(`| Reglas ejecutadas | \`${allChecks.length}\` |`);
+    lines.push(`| Merge permitido | ${isMergeAllowed(response.lintStatus ?? response.status ?? 'UNKNOWN') ? 'Sí' : 'No'} |`);
+
+    if (response.systemStatus === 'ERROR') {
+      lines.push('');
+      lines.push(`> Error técnico: ${response.error ?? 'Unknown error'}`);
+    } else if (response.lintStatus === 'WARN') {
+      lines.push('');
+      lines.push(`> El diseño puede continuar, pero requiere revisar ${stats.warnings} advertencia(s).`);
+    } else if (response.lintStatus === 'PASS') {
+      lines.push('');
+      lines.push('> El diseño cumple sin observaciones bloqueantes.');
     }
 
-    for (const validator of response.validators ?? []) {
+    lines.push('');
+    lines.push('## Hallazgos accionables');
+    if (actionable.length === 0) {
       lines.push('');
+      lines.push('No hay hallazgos que requieran atención.');
+    } else {
+      lines.push('');
+      lines.push('| Severidad | DSL | Regla | Ubicación | Detalle | Acción sugerida |');
+      lines.push('|---|---|---|---|---|---|');
+      for (const { validator, check } of actionable) {
+        const location = check.group ?? 'General';
+        const detail = escapeTableCell(check.detail ?? check.message ?? '');
+        const suggestion = escapeTableCell(suggestAction(check));
+        lines.push(`| ${statusBadge(check.status)} | ${escapeTableCell(validator.title ?? validator.id ?? 'DSL')} | ${escapeTableCell(check.id)} | ${escapeTableCell(location)} | ${detail} | ${suggestion} |`);
+      }
+    }
+
+    lines.push('');
+    lines.push('## Resumen por DSL');
+    lines.push('');
+    lines.push('| DSL | Estado | PASS | WARN | FAIL |');
+    lines.push('|---|---|---:|---:|---:|');
+    for (const validator of validators) {
+      const counts = countChecks(validator.checks ?? []);
+      lines.push(`| ${escapeTableCell(validator.title ?? validator.id ?? 'DSL')} | ${statusBadge(validator.status ?? 'UNKNOWN')} | \`${counts.PASS}\` | \`${counts.WARN}\` | \`${counts.FAIL}\` |`);
+    }
+
+    lines.push('');
+    lines.push('<details>');
+    lines.push('<summary>Evidencia técnica completa</summary>');
+    lines.push('');
+
+    for (const validator of validators) {
       lines.push(`### ${validator.title ?? validator.id ?? 'DSL'}`);
       if (validator.description) {
         lines.push(validator.description);
       }
-      lines.push(`- Estado: \`${validator.status ?? 'UNKNOWN'}\``);
-
+      lines.push('');
+      lines.push('| Grupo | Regla | Estado | Detalle |');
+      lines.push('|---|---|---|---|');
       for (const [group, checks] of Object.entries(groupChecks(validator.checks ?? []))) {
-        lines.push(`#### ${group}`);
         for (const check of checks) {
-          const detail = check.detail === undefined ? '' : ` (${check.detail})`;
-          lines.push(`- \`${check.status}\` ${check.id}${check.description ? ` - ${check.description}` : ''}${detail}`);
+          const detail = check.detail === undefined ? '' : String(check.detail);
+          lines.push(`| ${escapeTableCell(group)} | ${escapeTableCell(check.id)} | ${statusBadge(check.status ?? 'UNKNOWN')} | ${escapeTableCell(detail)} |`);
         }
       }
-
-      for (const item of validator.observations ?? []) {
-        lines.push(`- ${item}`);
+      lines.push('');
+      if (validator.observations?.length > 0) {
+        lines.push('Observaciones:');
+        for (const item of validator.observations) {
+          lines.push(`- ${item}`);
+        }
+        lines.push('');
       }
     }
+
+    lines.push('</details>');
 
     return `${lines.join('\n')}\n`;
   },
 };
+
+function collectStats(validators, allChecks) {
+  const warnings = allChecks.filter(({ check }) => check.status === 'WARN').length;
+  const failures = allChecks.filter(({ check }) => check.status === 'FAIL').length;
+  const systemErrors = validators.filter((validator) => validator.systemStatus === 'ERROR').length;
+  return { warnings, failures, systemErrors };
+}
+
+function countChecks(checks) {
+  return checks.reduce((acc, check) => {
+    const key = check.status ?? 'UNKNOWN';
+    if (acc[key] === undefined) {
+      acc[key] = 0;
+    }
+    acc[key] += 1;
+    return acc;
+  }, { PASS: 0, WARN: 0, FAIL: 0, ERROR: 0 });
+}
+
+function decisionFromLintStatus(status) {
+  if (status === 'PASS') return 'Cumple';
+  if (status === 'WARN') return 'Cumple con advertencias';
+  if (status === 'FAIL') return 'No cumple';
+  return 'Error técnico';
+}
+
+function isMergeAllowed(status) {
+  return status === 'PASS' || status === 'WARN';
+}
+
+function statusBadge(status) {
+  return `\`${status ?? 'UNKNOWN'}\``;
+}
+
+function escapeTableCell(value) {
+  return String(value ?? '')
+    .replace(/\|/g, '\\|')
+    .replace(/\n/g, ' ')
+    .trim();
+}
+
+function suggestAction(check) {
+  if (check.status === 'WARN') {
+    return check.message ?? 'Revisar la convención y ajustar el elemento.';
+  }
+
+  if (check.status === 'FAIL') {
+    return check.message ?? 'Bloquea el cumplimiento y requiere corrección.';
+  }
+
+  return 'Sin acción.';
+}
 
 function evaluateDsl(dsl, context) {
   if (dsl.archi_consistency_dsl) {
