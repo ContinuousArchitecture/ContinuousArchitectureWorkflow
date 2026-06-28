@@ -1,4 +1,4 @@
-# Continuous Architecture Workflow
+# CALinter
 
 Repositorio de gobernanza del linter `continuous-architecture-linter`.
 
