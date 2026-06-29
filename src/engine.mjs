@@ -186,51 +186,24 @@ function isMergeAllowedSummary({ failCount, systemError }) {
 }
 
 function renderDashboardHeaderFinal({ artifactPath, score, decision, mergeAllowed, failCount, warnCount, rulesEvaluated, rulesPassed, dslCount }) {
-  const safeScore = score === null ? 0 : Math.max(0, Math.min(10, Number(score)));
-  const scoreText = score === null ? 'No evaluable' : formatScore(safeScore);
-  const barText = score === null ? '░░░░░░░░░░' : renderScoreBar(safeScore);
-  const fileLine = boxLine(`  ${artifactPath}`);
-  const scoreLine = boxLine(`  SCORE        ${scoreText}  ${barText}`);
-  const decisionLine = boxLine(`  DECISIÓN     ${decision}`);
-  const mergeLine = boxLine(`  MERGE        ${mergeAllowed ? 'Permitido' : 'Bloqueado'}`);
-  const countsRow = `  ${cell('FAIL 🔴', 18)}│  ${cell('WARN 🟡', 18)}│  ${cell('PASS 🟢', 18)} `;
-  const countsValues = `  ${cell(`${formatCount(failCount)} bloqueantes`, 18)}│  ${cell(`${formatCount(warnCount)} observación${warnCount === 1 ? '' : 'es'}`, 18)}│  ${cell(`${formatCount(rulesPassed)} reglas`, 18)} `;
-  const footerLine = boxLine(`  Reglas evaluadas: ${formatCount(rulesEvaluated)}                         DSLs: ${formatCount(dslCount)}`);
+  const scoreText = formatScore(score);
+  const failLabel = `${formatCount(failCount)} bloqueantes`;
+  const warnLabel = `${formatCount(warnCount)} observación${warnCount === 1 ? '' : 'es'}`;
+  const passLabel = `${formatCount(rulesPassed)} reglas`;
+  const rulesLabel = formatCount(rulesEvaluated);
+  const dslLabel = formatCount(dslCount);
 
   return [
-    '> ```text',
-    '> ┌──────────────────────────────────────────────────────────────┐',
-    `> │${fileLine}│`,
-    '> ├──────────────────────────────────────────────────────────────┤',
-    `> │${scoreLine}│`,
-    `> │${decisionLine}│`,
-    `> │${mergeLine}│`,
-    '> ├──────────────────────┬──────────────────────┬────────────────┤',
-    `> │${countsRow}│`,
-    `> │${countsValues}│`,
-    '> ├──────────────────────┴──────────────────────┴────────────────┤',
-    `> │${footerLine}│`,
-    '> └──────────────────────────────────────────────────────────────┘',
-    '> ```',
+    `> ## Cumplimiento: **${scoreText}** — ${decision}`,
+    '>',
+    '> | Resumen del artefacto evaluado |',
+    '> |---|',
+    `> | **Archivo:** \`${escapeInlineCode(artifactPath)}\` |`,
+    `> | **Merge:** ${mergeAllowed ? 'Permitido' : 'Bloqueado'} |`,
+    `> | **FAIL 🔴:** **${failLabel.startsWith('99+') ? '99+' : formatCount(failCount)}** bloqueantes · **WARN 🟡:** **${warnCount > 99 ? '99+' : formatCount(warnCount)}** ${warnCount === 1 ? 'observación' : 'observaciones'} · **PASS 🟢:** **${rulesPassed > 99 ? '99+' : formatCount(rulesPassed)}** reglas |`,
+    `> | **Reglas evaluadas:** **${rulesLabel}** · **DSLs ejecutados:** **${dslLabel}** |`,
     '',
   ];
-}
-
-function boxLine(content) {
-  return fitText(content, 60);
-}
-
-function cell(content, width) {
-  return fitText(content, width).trimEnd();
-}
-
-function fitText(content, width) {
-  const text = String(content ?? '');
-  if (text.length >= width) {
-    return text.slice(0, width);
-  }
-
-  return text.padEnd(width, ' ');
 }
 
 function formatCount(value) {
