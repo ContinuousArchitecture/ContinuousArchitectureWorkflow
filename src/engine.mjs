@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import stringWidth from 'string-width';
 import { getArg, resolveArgPath } from './infra/args.mjs';
 import { isFile, readText } from './infra/fs.mjs';
 import { loadYamlFile } from './infra/yaml.mjs';
@@ -187,19 +188,64 @@ function isMergeAllowedSummary({ failCount, systemError }) {
 
 function renderDashboardHeaderFinal({ artifactPath, score, decision, mergeAllowed, failCount, warnCount, rulesEvaluated, rulesPassed, dslCount }) {
   const scoreText = formatScore(score);
-  const failLabel = `${formatCount(failCount)} bloqueantes`;
-  const warnLabel = `${formatCount(warnCount)} observación${warnCount === 1 ? '' : 'es'}`;
-  const passLabel = `${formatCount(rulesPassed)} reglas`;
-  const rulesLabel = formatCount(rulesEvaluated);
-  const dslLabel = formatCount(dslCount);
+  const resultLabel = getResultLabel({ failCount, warnCount, systemError: false });
+  const evaluatedFile = artifactPath;
+  const labelWidth = 10;
+  const valueWidth = 45;
+  const headerWidth = 60;
+  const topBorder = `┌${'─'.repeat(headerWidth)}┐`;
+  const separator = '├────────────┬─────────────────────────────────────────────────┤';
+  const bottomBorder = '└────────────┴─────────────────────────────────────────────────┘';
+  const resultText = renderResultValue(resultLabel, scoreText, valueWidth);
 
   return [
-    `> | **Archivo:** \`${escapeInlineCode(artifactPath)}\` |`,
-    `> | **Evaluación:** ${renderEvaluationState(failCount, warnCount)} · **${scoreText}** |`,
-    `> | **FAIL:** **${failLabel.startsWith('99+') ? '99+' : formatCount(failCount)}** bloqueantes | **WARN:** **${warnCount > 99 ? '99+' : formatCount(warnCount)}** ${warnCount === 1 ? 'observación' : 'observaciones'} | **PASS:** **${rulesPassed > 99 ? '99+' : formatCount(rulesPassed)}** reglas |`,
-    `> | **Reglas evaluadas:** **${rulesLabel}** · **DSLs ejecutados:** **${dslLabel}** |`,
+    '> ```text',
+    `> ${topBorder}`,
+    `> │ ${visualPadEnd('VALIDACIÓN ARCHIMATE', 58)} │`,
+    `> ${separator}`,
+    `> ${renderDashboardRow('Archivo', evaluatedFile, labelWidth, valueWidth)}`,
+    `> ${renderDashboardRow('Resultado', resultText, labelWidth, valueWidth)}`,
+    `> ${renderDashboardRow('Merge', mergeAllowed ? 'Permitido' : 'Bloqueado', labelWidth, valueWidth)}`,
+    `> ${bottomBorder}`,
+    '> ```',
     '',
   ];
+}
+
+function renderDashboardRow(label, value, labelWidth, valueWidth) {
+  const left = visualPadEnd(label, labelWidth);
+  const right = visualPadEnd(value, valueWidth);
+  return `│ ${left} │ ${right} │`;
+}
+
+function renderResultValue(resultLabel, scoreText, valueWidth) {
+  const scoreWidth = stringWidth(scoreText);
+  const labelWidth = Math.max(0, valueWidth - scoreWidth);
+  const left = visualPadEnd(resultLabel, labelWidth);
+  return `${left}${scoreText}`;
+}
+
+function visualPadEnd(value, width) {
+  const text = String(value ?? '');
+  const visible = stringWidth(text);
+  const padding = Math.max(0, width - visible);
+  return `${text}${' '.repeat(padding)}`;
+}
+
+function getResultLabel({ failCount, warnCount, systemError }) {
+  if (systemError) {
+    return '⚫ NO EVALUABLE';
+  }
+
+  if (failCount > 0) {
+    return '🔴 NO CUMPLE';
+  }
+
+  if (warnCount > 0) {
+    return '🟡 ACEPTABLE CON OBSERVACIONES';
+  }
+
+  return '✅ APROBADO';
 }
 
 function renderEvaluationState(failCount, warnCount) {
