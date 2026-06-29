@@ -95,7 +95,6 @@ export const Engine = {
 
     const validators = response.validators ?? [];
     const checks = flattenChecks(validators);
-    const passChecks = checks.filter((check) => check.status === 'PASS');
     const warnChecks = checks.filter((check) => check.status === 'WARN');
     const failChecks = checks.filter((check) => check.status === 'FAIL');
     const status = response.lintStatus ?? response.status ?? 'UNKNOWN';
@@ -103,29 +102,32 @@ export const Engine = {
       ? toRelativePath(response.repoRoot, response.artifact.current)
       : (response.artifact?.source?.path ?? 'Unknown');
     const score = calculateComplianceScore(checks);
-    const summary = response.summary ?? countChecks(checks);
+    const ruleSummary = countChecks(checks);
+    const checksByValidator = groupChecksByValidator(validators);
+    const resultLabel = labelForStatus(status);
+    const complianceLabel = score === null ? 'No evaluable' : `${score}/10`;
+    const complianceSummary = score === null ? 'No evaluable' : resultLabel;
+    const exceptionSection = renderExceptionSummary(failChecks, warnChecks);
+    const passSection = renderPassDetails(checksByValidator);
 
     return `${[
       '# Reporte de Validación ArchiMate',
       '',
-      ...renderScorecard({
-        artifactPath,
-        artifactType: formatArtifactType(response.artifact?.type),
-        sourceTool: formatToolName(response.artifact?.tool),
-        score,
-        status,
-        summary,
-        rulesEvaluated: checks.length,
-        dslsExecuted: validators.length,
-      }),
+      `## Cumplimiento: **${complianceLabel}** — ${complianceSummary}`,
       '',
-      '## Reglas evaluadas',
+      '| Indicador | Valor |',
+      '|---|---|',
+      `| **Archivo evaluado** | \`${escapeInlineCode(artifactPath)}\` |`,
+      `| **Resultado** | ${resultLabel} |`,
+      `| **Merge permitido** | ${isMergeAllowed(status) ? 'Sí' : 'No'} |`,
+      `| **Errores bloqueantes** | ${ruleSummary.FAIL ?? ruleSummary.fail ?? 0} |`,
+      `| **Advertencias** | ${ruleSummary.WARN ?? ruleSummary.warn ?? 0} |`,
+      `| **Reglas evaluadas** | ${checks.length} |`,
+      `| **Reglas cumplidas** | ${ruleSummary.PASS ?? ruleSummary.pass ?? 0} |`,
+      `| **DSLs ejecutados** | ${validators.length} |`,
       '',
-      ...renderPassPanel(passChecks),
-      '',
-      ...renderWarnPanel(warnChecks),
-      '',
-      ...renderFailPanel(failChecks),
+      ...exceptionSection,
+      ...passSection,
     ].join('\n').trimEnd()}\n`;
   },
 };
@@ -173,6 +175,107 @@ function flattenChecks(validators) {
     validatorId: validator.id,
     validatorTitle: validator.title,
   })));
+}
+
+function groupChecksByValidator(validators) {
+  return validators.map((validator) => ({
+    title: validator.title ?? validator.id ?? 'Reglas',
+    checks: validator.checks ?? [],
+  }));
+}
+
+function labelForStatus(status) {
+  if (status === 'PASS') return 'Cumple';
+  if (status === 'WARN') return 'Cumple con advertencias';
+  if (status === 'FAIL') return 'No cumple';
+  if (status === 'ERROR') return 'Error técnico';
+  return 'Desconocido';
+}
+
+function renderExceptionSummary(failChecks, warnChecks) {
+  const lines = [];
+
+  if (failChecks.length > 0) {
+    lines.push(
+      '## Errores bloqueantes',
+      '',
+      `**${failChecks.length} regla${failChecks.length === 1 ? '' : 's'} bloqueante${failChecks.length === 1 ? '' : 's'} requiere${failChecks.length === 1 ? '' : 'n'} revisión**`,
+      '',
+      ...renderIssueBlock(failChecks, 'Regla', 'Ubicación', 'Elemento o recurso', 'Motivo', 'Recomendación')
+    );
+  }
+
+  if (warnChecks.length > 0) {
+    if (lines.length > 0) {
+      lines.push('');
+    }
+
+    lines.push(
+      '## Advertencias',
+      '',
+      `**${warnChecks.length} observación${warnChecks.length === 1 ? '' : 'es'} requiere${warnChecks.length === 1 ? '' : 'n'} revisión**`,
+      '',
+      ...renderIssueBlock(warnChecks, 'Regla', 'Ubicación', 'Elemento', 'Problema', 'Recomendación')
+    );
+  }
+
+  return lines;
+}
+
+function renderIssueBlock(checks, ruleLabel, locationLabel, elementLabel, problemLabel, recommendationLabel) {
+  const lines = [];
+
+  for (const check of checks) {
+    lines.push(`> **${ruleLabel}:** \`${escapeInlineCode(check.id)}\``);
+    lines.push(`> **${locationLabel}:** \`${escapeInlineCode(check.group ?? 'General')}\``);
+
+    const element = getMeaningfulDetail(check.detail);
+    if (element) {
+      lines.push(`> **${elementLabel}:** \`${escapeInlineCode(element)}\``);
+    }
+
+    lines.push(`> **${problemLabel}:** ${normalizeInlineText(check.message ?? 'Revisar el hallazgo reportado.')}`);
+    lines.push(`> **${recommendationLabel}:** ${normalizeInlineText(suggestAction(check))}`);
+    lines.push('>');
+  }
+
+  if (lines.length > 0) {
+    lines.pop();
+  }
+
+  return lines;
+}
+
+function renderPassDetails(checksByValidator) {
+  const passCount = checksByValidator.reduce((acc, validator) => acc + (validator.checks ?? []).filter((check) => check.status === 'PASS').length, 0);
+  if (passCount === 0) {
+    return [];
+  }
+
+  const lines = [
+    '<details>',
+    `<summary>Ver ${passCount} ${pluralize(passCount, 'regla cumplida', 'reglas cumplidas')}</summary>`,
+    '',
+  ];
+
+  for (const validator of checksByValidator) {
+    const passChecks = (validator.checks ?? []).filter((check) => check.status === 'PASS');
+    if (passChecks.length === 0) {
+      continue;
+    }
+
+    lines.push(`### ${validator.title}`);
+    lines.push('');
+
+    for (const check of passChecks) {
+      lines.push(`- \`${escapeInlineCode(check.id)}\` — ${escapeMarkdownText(stripTrailingPeriod(check.description ?? check.detail ?? 'Cumple.'))}`);
+    }
+
+    lines.push('');
+  }
+
+  lines.push('</details>');
+  return lines;
 }
 
 function renderScorecard({ artifactPath, artifactType, sourceTool, score, status, summary, rulesEvaluated, dslsExecuted }) {
@@ -286,9 +389,6 @@ function renderSystemErrorSummary(response) {
     '',
     '## Estado del sistema',
     '',
-    '> [!CAUTION]',
-    `> ${badge('ERROR', 'engine fallido', 'red')}`,
-    '>',
     '> El motor no pudo completar la validación.',
     `> **Detalle:** ${normalizeInlineText(response.error ?? 'Error desconocido.')}`,
     '> **Acción:** Revisar el manifiesto, el artefacto de entrada y la configuración del workflow.',
