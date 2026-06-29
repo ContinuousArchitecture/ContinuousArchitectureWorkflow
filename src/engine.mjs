@@ -114,7 +114,7 @@ export const Engine = {
     });
 
     return `${[
-      '# Reporte de Validación ArchiMate',
+      '# Calidad del diseño',
       '',
       ...dashboard.lines,
       ...renderWarningPanelFinal(warnChecks),
@@ -183,17 +183,17 @@ function isMergeAllowedSummary({ failCount, systemError }) {
 
 async function renderDashboardSectionFinal({ validators, score, passCount, warnCount, failCount, rulesEvaluated, dslCount, resultLabel }) {
   try {
+    const dimensions = buildDimensionSummaries(validators);
+    const worstDimension = [...dimensions].sort((left, right) => left.score - right.score)[0] ?? { label: 'N/A', score: 0 };
     const [complianceUrl, distributionUrl, dimensionsUrl] = await Promise.all([
       createQuickChartUrl(buildComplianceChartConfig({ score, failCount, warnCount }), { width: 220, height: 160 }),
       createQuickChartUrl(buildDistributionChartConfig({ passCount, warnCount, failCount }), { width: 260, height: 160 }),
-      createQuickChartUrl(buildDimensionsChartConfig(buildDimensionSummaries(validators)), { width: 300, height: 160 }),
+      createQuickChartUrl(buildDimensionsChartConfig(dimensions), { width: 300, height: 160 }),
     ]);
 
     return {
       lines: [
-        '## Dashboard',
-        '',
-        `| <img src="${complianceUrl}" width="220" height="160" alt="Cumplimiento general"> | <img src="${distributionUrl}" width="260" height="160" alt="Distribución de resultados"> | <img src="${dimensionsUrl}" width="300" height="160" alt="Calidad por dimensión"> |`,
+        `| **Cumplimiento** [${formatScore(score)}](${complianceUrl}) | **Reglas** [PASS ${formatCount(passCount)} · WARN ${formatCount(warnCount)} · FAIL ${formatCount(failCount)}](${distributionUrl}) | **Dimensiones** [${worstDimension.label} ${formatScore(worstDimension.score)}](${dimensionsUrl}) |`,
         '',
       ],
       systemIssueLines: [],
@@ -201,8 +201,6 @@ async function renderDashboardSectionFinal({ validators, score, passCount, warnC
   } catch (error) {
     return {
       lines: [
-        '## Dashboard',
-        '',
         '```text',
         `Cumplimiento: ${formatScore(score)}`,
         `Resultado: ${resultLabel}`,
@@ -812,7 +810,7 @@ function renderIssueEntry(check, elementLabel, observationLabel) {
 
 function renderSystemErrorSummary(response) {
   return [
-    '# Reporte de Validación ArchiMate',
+    '# Calidad del diseño',
     '',
     '## Estado del sistema',
     '',
