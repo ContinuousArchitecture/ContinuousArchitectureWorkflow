@@ -10,8 +10,6 @@ import { validateDslData, validateManifestData } from './core/schemas.mjs';
 export const Engine = {
   version: '2.0.0',
   defaultManifestPath: 'specs/manifest.yaml',
-  defaultSummaryTemplatePath: 'specs/summary-template.md',
-  defaultWarningTemplatePath: 'specs/warning-template.md',
 
   main() {
     const mode = getArg('--mode', 'validate');
@@ -91,139 +89,46 @@ export const Engine = {
   },
 
   renderSummary(response) {
+    if (response.systemStatus === 'ERROR') {
+      return `${renderSystemErrorSummary(response).trimEnd()}\n`;
+    }
+
     const validators = response.validators ?? [];
-    const allChecks = validators.flatMap((validator) => (validator.checks ?? []).map((check) => ({ validator, check })));
-    const actionable = allChecks.filter(({ check }) => check.status !== 'PASS');
-    const ruleChecks = allChecks.map(({ check }) => check);
-    const stats = collectStats(validators, allChecks);
+    const checks = flattenChecks(validators);
+    const passChecks = checks.filter((check) => check.status === 'PASS');
+    const warnChecks = checks.filter((check) => check.status === 'WARN');
+    const failChecks = checks.filter((check) => check.status === 'FAIL');
     const status = response.lintStatus ?? response.status ?? 'UNKNOWN';
     const artifactPath = response.artifact?.current
       ? toRelativePath(response.repoRoot, response.artifact.current)
       : (response.artifact?.source?.path ?? 'Unknown');
-    const globalScore = response.systemStatus === 'ERROR' ? null : calculateComplianceScore(ruleChecks);
-    const summaryTemplatePath = resolveTemplatePath(response.manifest, response.summaryTemplatePath ?? this.defaultSummaryTemplatePath);
-    const warningTemplatePath = resolveTemplatePath(response.manifest, response.warningTemplatePath ?? this.defaultWarningTemplatePath);
-    const rendered = renderTemplate(loadTemplateFile(summaryTemplatePath), {
-      artifactType: formatArtifactType(response.artifact?.type),
-      sourceTool: formatToolName(response.artifact?.tool),
-      score: globalScore === null ? 'No evaluable' : formatScore(globalScore),
-      result: decisionFromLintStatus(status),
-      mergeAllowed: isMergeAllowed(status) ? 'Sí' : 'No',
-      blockingErrors: String(stats.failures),
-      warnings: String(stats.warnings),
-      rulesEvaluated: String(allChecks.length),
-      dslsExecuted: String(validators.length),
-      evaluatedFile: escapeTableCell(artifactPath),
-      rules_section: renderRulesSection({
-        status,
-        actionable,
-        validators,
-        warningTemplatePath,
-        response,
-      }),
-    });
+    const score = calculateComplianceScore(checks);
+    const summary = response.summary ?? countChecks(checks);
 
-    return `${rendered.trimEnd()}\n`;
+    return `${[
+      '# Reporte de Validación ArchiMate',
+      '',
+      ...renderScorecard({
+        artifactPath,
+        artifactType: formatArtifactType(response.artifact?.type),
+        sourceTool: formatToolName(response.artifact?.tool),
+        score,
+        status,
+        summary,
+        rulesEvaluated: checks.length,
+        dslsExecuted: validators.length,
+      }),
+      '',
+      '## Reglas evaluadas',
+      '',
+      ...renderPassPanel(passChecks),
+      '',
+      ...renderWarnPanel(warnChecks),
+      '',
+      ...renderFailPanel(failChecks),
+    ].join('\n').trimEnd()}\n`;
   },
 };
-
-function loadTemplateFile(templatePath) {
-  if (!fs.existsSync(templatePath) || !fs.statSync(templatePath).isFile()) {
-    throw new Error(`No se encontró la plantilla de resumen: ${templatePath}`);
-  }
-
-  return fs.readFileSync(templatePath, 'utf8');
-}
-
-function resolveTemplatePath(manifestPath, templatePath) {
-  return path.resolve(path.dirname(manifestPath), templatePath);
-}
-
-function renderTemplate(template, values) {
-  return template.replace(/\{\{\s*([a-zA-Z0-9_]+)\s*\}\}/g, (_match, key) => String(values[key] ?? ''));
-}
-
-function renderRulesSection({ status, actionable, validators, warningTemplatePath, response }) {
-  const sections = [];
-
-  const passedChecks = validators.flatMap((validator) => (validator.checks ?? []).map((check) => ({ validator, check }))).filter(({ check }) => check.status === 'PASS');
-  sections.push(renderPassBlock(passedChecks));
-
-  if (status === 'WARN' && actionable.length > 0) {
-    const warning = actionable.find(({ check }) => check.status === 'WARN') ?? actionable[0];
-    sections.push(renderTemplate(loadTemplateFile(warningTemplatePath), {
-      countLabel: `${actionable.filter(({ check }) => check.status === 'WARN').length} regla con observación`,
-      ruleId: warning?.check?.id ?? 'N/A',
-      location: warning?.check?.group ?? 'General',
-      element: warning?.check?.detail ?? warning?.check?.message ?? 'N/A',
-      problem: lowercaseFirst(warning?.check?.message ?? warning?.check?.detail ?? 'Revisar el hallazgo reportado.'),
-      recommendation: suggestAction(warning?.check ?? {}),
-    }));
-  }
-
-  sections.push(renderFailBlock(response.systemStatus, actionable));
-  return sections.filter(Boolean).join('\n\n');
-}
-
-function renderPassBlock(passedChecks) {
-  const count = passedChecks.length;
-  const lines = [
-    '> [!TIP]',
-    `> **PASS — ${count} reglas cumplidas**`,
-    '>',
-  ];
-
-  if (count === 0) {
-    lines.push('> No hay reglas cumplidas para mostrar.');
-    return lines.join('\n');
-  }
-
-  for (const { check } of passedChecks) {
-    const evidence = stripTrailingPeriod(check.description ?? check.detail ?? 'OK');
-    lines.push(`> - \`${escapeTableCell(check.id)}\` — ${escapeTableCell(evidence)}.`);
-  }
-
-  return lines.join('\n');
-}
-
-function renderFailBlock(systemStatus, actionable) {
-  const failCount = actionable.filter(({ check }) => check.status === 'FAIL').length;
-  if (systemStatus === 'ERROR') {
-    return [
-      '> [!CAUTION]',
-      '> **FAIL — No evaluable**',
-      '>',
-      '> No se pudo evaluar el diseño por un error técnico.',
-    ].join('\n');
-  }
-
-  if (failCount === 0) {
-    return [
-      '> [!CAUTION]',
-      '> **FAIL — 0 reglas no cumplidas**',
-      '>',
-      '> No existen reglas bloqueantes incumplidas.',
-    ].join('\n');
-  }
-
-  const lines = [
-    '> [!CAUTION]',
-    `> **FAIL — ${failCount} reglas no cumplidas**`,
-    '>',
-    '> Revisa las siguientes reglas bloqueantes:',
-  ];
-  for (const { check } of actionable.filter(({ check }) => check.status === 'FAIL')) {
-    lines.push(`> - \`${escapeTableCell(check.id)}\` — ${escapeTableCell(check.message ?? check.detail ?? 'Revisar.')}`);
-  }
-  return lines.join('\n');
-}
-
-function collectStats(validators, allChecks) {
-  const warnings = allChecks.filter(({ check }) => check.status === 'WARN').length;
-  const failures = allChecks.filter(({ check }) => check.status === 'FAIL').length;
-  const systemErrors = validators.filter((validator) => validator.systemStatus === 'ERROR').length;
-  return { warnings, failures, systemErrors };
-}
 
 function countChecks(checks) {
   return checks.reduce((acc, check) => {
@@ -234,13 +139,6 @@ function countChecks(checks) {
     acc[key] += 1;
     return acc;
   }, { PASS: 0, WARN: 0, FAIL: 0, ERROR: 0 });
-}
-
-function decisionFromLintStatus(status) {
-  if (status === 'PASS') return 'Cumple';
-  if (status === 'WARN') return 'Cumple con advertencias';
-  if (status === 'FAIL') return 'No cumple';
-  return 'Error técnico';
 }
 
 function isMergeAllowed(status) {
@@ -261,10 +159,6 @@ function calculateComplianceScore(checks) {
   return Math.max(0, score);
 }
 
-function formatScore(score) {
-  return `${score}/10`;
-}
-
 function formatArtifactType(value) {
   return String(value ?? 'ArchiMate').toLowerCase() === 'archimate' ? 'ArchiMate' : String(value ?? 'ArchiMate');
 }
@@ -273,35 +167,221 @@ function formatToolName(value) {
   return String(value ?? 'Archi').toLowerCase() === 'archi' ? 'Archi' : String(value ?? 'Archi');
 }
 
-function stripTrailingPeriod(value) {
-  return String(value ?? '').replace(/\.+$/, '');
+function flattenChecks(validators) {
+  return validators.flatMap((validator) => (validator.checks ?? []).map((check) => ({
+    ...check,
+    validatorId: validator.id,
+    validatorTitle: validator.title,
+  })));
 }
 
-function lowercaseFirst(value) {
-  const text = String(value ?? '');
-  if (text.length === 0) {
-    return text;
+function renderScorecard({ artifactPath, artifactType, sourceTool, score, status, summary, rulesEvaluated, dslsExecuted }) {
+  const mergeAllowed = isMergeAllowed(status);
+  const complianceText = score === null ? 'No evaluable' : `${score}/10`;
+  const complianceColor = score === null ? 'lightgrey' : scoreColor(score);
+  const resultColor = statusColor(status);
+  const failColor = summary.fail > 0 ? 'red' : 'brightgreen';
+  const warnColor = summary.warn > 0 ? 'yellow' : 'brightgreen';
+
+  return [
+    '> [!NOTE]',
+    '> **Resumen del artefacto evaluado**',
+    '>',
+    ...renderQuotedTable([
+    ['Archivo', `\`${escapeInlineCode(artifactPath)}\``],
+    ['Tipo de artefacto', artifactType],
+    ['Herramienta origen', sourceTool],
+    ['Cumplimiento', badge('cumplimiento', complianceText, complianceColor)],
+    ['Resultado', badge('resultado', statusLabel(status), resultColor)],
+    ['Merge permitido', badge('merge', mergeAllowed ? 'permitido' : 'bloqueado', mergeAllowed ? 'brightgreen' : 'red')],
+    ['Errores bloqueantes', badge('fail', `${summary.fail} ${pluralize(summary.fail, 'bloqueante', 'bloqueantes')}`, failColor)],
+    ['Advertencias', badge('warn', `${summary.warn} ${pluralize(summary.warn, 'observación', 'observaciones')}`, warnColor)],
+    ['Reglas evaluadas', `\`${rulesEvaluated}\``],
+    ['DSLs ejecutados', `\`${dslsExecuted}\``],
+  ]),
+  ];
+}
+
+function renderPassPanel(passChecks) {
+  const count = passChecks.length;
+  const lines = [
+    '> [!TIP]',
+    `> ${badge('PASS', `${count} ${pluralize(count, 'regla', 'reglas')}`, 'brightgreen')}`,
+    '>',
+  ];
+
+  if (count === 0) {
+    lines.push('> No existen reglas cumplidas.');
+    return lines;
   }
 
-  return `${text[0].toLowerCase()}${text.slice(1)}`;
+  for (const check of passChecks) {
+    const description = stripTrailingPeriod(check.description ?? check.detail ?? 'Cumple');
+    lines.push(`> - \`${escapeInlineCode(check.id)}\` — ${escapeMarkdownText(description)}`);
+  }
+
+  return lines;
 }
 
-function statusEmoji(status) {
-  if (status === 'PASS') return '🟢';
-  if (status === 'WARN') return '🟡';
-  if (status === 'FAIL') return '🔴';
-  return '⚫';
+function renderWarnPanel(warnChecks) {
+  const count = warnChecks.length;
+  const lines = [
+    '> [!WARNING]',
+    `> ${badge('WARN', `${count} ${pluralize(count, 'observación', 'observaciones')}`, count === 0 ? 'brightgreen' : 'yellow')}`,
+    '>',
+  ];
+
+  if (count === 0) {
+    lines.push('> No existen reglas con observación.');
+    return lines;
+  }
+
+  for (const check of warnChecks) {
+    lines.push(...renderIssueEntry(check, 'Elemento', 'Observación'));
+  }
+
+  return lines;
 }
 
-function statusVisual(status) {
-  return `${statusEmoji(status)} \`${status ?? 'UNKNOWN'}\``;
+function renderFailPanel(failChecks) {
+  const count = failChecks.length;
+  const lines = [
+    '> [!CAUTION]',
+    `> ${badge('FAIL', `${count} ${pluralize(count, 'bloqueante', 'bloqueantes')}`, count === 0 ? 'brightgreen' : 'red')}`,
+    '>',
+  ];
+
+  if (count === 0) {
+    lines.push('> No existen reglas bloqueantes incumplidas.');
+    return lines;
+  }
+
+  for (const check of failChecks) {
+    lines.push(...renderIssueEntry(check, 'Elemento o recurso', 'Motivo del fallo'));
+  }
+
+  return lines;
 }
 
-function escapeTableCell(value) {
-  return String(value ?? '')
-    .replace(/\|/g, '\\|')
-    .replace(/\n/g, ' ')
-    .trim();
+function renderIssueEntry(check, elementLabel, observationLabel) {
+  const lines = [`> - \`${escapeInlineCode(check.id)}\``];
+  const location = check.group ?? 'General';
+  const element = getMeaningfulDetail(check.detail);
+  const observation = normalizeInlineText(check.message ?? check.detail ?? 'Revisar el hallazgo reportado.');
+  const recommendation = normalizeInlineText(suggestAction(check));
+
+  lines.push(`>   - **Ubicación:** \`${escapeInlineCode(location)}\``);
+  if (element) {
+    lines.push(`>   - **${elementLabel}:** \`${escapeInlineCode(element)}\``);
+  }
+  lines.push(`>   - **${observationLabel}:** ${observation}`);
+  lines.push(`>   - **Recomendación:** ${recommendation}`);
+
+  return lines;
+}
+
+function renderSystemErrorSummary(response) {
+  return [
+    '# Reporte de Validación ArchiMate',
+    '',
+    '## Estado del sistema',
+    '',
+    '> [!CAUTION]',
+    `> ${badge('ERROR', 'engine fallido', 'red')}`,
+    '>',
+    '> El motor no pudo completar la validación.',
+    `> **Detalle:** ${normalizeInlineText(response.error ?? 'Error desconocido.')}`,
+    '> **Acción:** Revisar el manifiesto, el artefacto de entrada y la configuración del workflow.',
+  ];
+}
+
+function badge(label, message, color) {
+  const safeLabel = encodeURIComponent(String(label));
+  const safeMessage = encodeURIComponent(String(message));
+  return `![${safeLabel}](https://img.shields.io/badge/${safeLabel}-${safeMessage}-${color})`;
+}
+
+function statusColor(status) {
+  if (status === 'PASS') return 'brightgreen';
+  if (status === 'WARN') return 'yellow';
+  if (status === 'FAIL') return 'red';
+  if (status === 'ERROR') return 'critical';
+  return 'lightgrey';
+}
+
+function scoreColor(score) {
+  if (score === null || score === undefined) return 'lightgrey';
+  if (score >= 10) return 'brightgreen';
+  if (score >= 7) return 'yellow';
+  return 'red';
+}
+
+function statusLabel(status) {
+  if (status === 'PASS' || status === 'WARN' || status === 'FAIL' || status === 'ERROR') {
+    return status;
+  }
+
+  return 'UNKNOWN';
+}
+
+function pluralize(count, singular, plural) {
+  return count === 1 ? singular : plural;
+}
+
+function renderQuotedTable(rows) {
+  const lines = ['> | Indicador | Valor |', '> |---|---|'];
+  for (const [indicator, value] of rows) {
+    lines.push(`> | ${indicator} | ${value} |`);
+  }
+  return lines;
+}
+
+function escapeInlineCode(value) {
+  return String(value ?? '').replace(/`/g, '\\`').trim();
+}
+
+function escapeMarkdownText(value) {
+  return String(value ?? '').replace(/\r?\n+/g, ' ').trim();
+}
+
+function normalizeInlineText(value) {
+  return escapeMarkdownText(value);
+}
+
+function getMeaningfulDetail(value) {
+  const text = normalizeInlineText(value);
+  if (!text) {
+    return '';
+  }
+
+  const normalized = text.toLowerCase();
+  const genericValues = new Set([
+    'binary',
+    'missing-context',
+    'missing-rule',
+    'n/a',
+    'na',
+    'pass',
+    'sin coincidencias',
+    'unsupported',
+    'xml',
+    'utf-8',
+    'utf-8-bom',
+  ]);
+
+  if (genericValues.has(normalized)) {
+    return '';
+  }
+
+  if (/^no se (encontró|encontro|definió|definio)/i.test(text)) {
+    return '';
+  }
+
+  return text;
+}
+
+function stripTrailingPeriod(value) {
+  return String(value ?? '').replace(/\.+$/, '');
 }
 
 function toRelativePath(root, target) {
