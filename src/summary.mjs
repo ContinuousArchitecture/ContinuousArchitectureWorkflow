@@ -169,7 +169,7 @@ async function renderSummaryMarkdownV03(summary) {
   lines.push('');
   lines.push(`<img src="${resultChart}" width="260" />`);
   lines.push('');
-  lines.push(`<strong>Resultado</strong><br/>${summary.scoreLabel} · Contrato ${summary.contractOk ? 'OK' : 'ERROR'}`);
+  lines.push(`<strong>Resultado</strong><br/>${summary.generalState} · ${summary.scoreLabel}<br/>Contrato ${summary.contractOk ? 'OK' : 'ERROR'}`);
   lines.push('');
   lines.push('</td>');
   lines.push('<td width="33%" align="center">');
@@ -195,9 +195,46 @@ async function renderSummaryMarkdownV03(summary) {
   lines.push('## Reporte de reglas');
   lines.push('');
 
-  for (const rule of sortRulesForReport(summary.ruleResults)) {
-    lines.push(...renderRuleAlert(rule));
+  const groupedRules = groupRulesByStatus(summary.ruleResults);
+  for (const status of ['fail', 'warning', 'notimplemented', 'pass']) {
+    const rules = groupedRules.get(status) ?? [];
+    lines.push(`### ${formatRuleGroupHeading(status)}`);
     lines.push('');
+    lines.push(...buildRuleGroupNarrative(status, rules));
+    lines.push('');
+    lines.push(...buildRuleGroupAlert(status, rules.length));
+    lines.push('');
+
+    lines.push('| Regla | Dimensión | Severidad | Score | Evaluadas | Pasadas | Falladas | Hallazgos | Mensaje |');
+    lines.push('| --- | --- | --- | ---: | ---: | ---: | ---: | ---: | --- |');
+    if (rules.length === 0) {
+      lines.push('| _Sin reglas_ | _Sin reglas_ | _Sin reglas_ | _Sin reglas_ | _Sin reglas_ | _Sin reglas_ | _Sin reglas_ | _Sin reglas_ | _Sin reglas_ |');
+      lines.push('');
+      continue;
+    }
+
+    for (const rule of rules) {
+      lines.push(`| \`${escapeInlineCode(rule.ruleId)}\` | ${normalizeInlineText(rule.dimension ?? 'General')} | ${normalizeInlineText(rule.severity ?? 'n/a')} | ${formatDimensionScore(rule.score)} | ${formatDimensionScore(rule.evaluated)} | ${formatDimensionScore(rule.passed)} | ${formatDimensionScore(rule.failed)} | ${formatDimensionScore(rule.findings?.length ?? 0)} | ${normalizeInlineText(getRuleMessage(rule))}${formatRuleFindingsInline(rule)} |`);
+    }
+
+    for (const rule of rules) {
+      if ((rule.findings ?? []).length === 0) {
+        continue;
+      }
+
+      lines.push('<details>');
+      lines.push(`<summary>Ver hallazgos de ${escapeInlineCode(rule.ruleId)}</summary>`);
+      lines.push('');
+      lines.push('| ID | Campo | Valor | Mensaje |');
+      lines.push('| --- | --- | --- | --- |');
+      for (const finding of rule.findings) {
+        lines.push(`| \`${truncateInline(finding.recordId ?? 'n/a', 12)}\` | ${normalizeInlineText(finding.field ?? 'n/a')} | ${normalizeInlineText(truncateInline(formatFindingValue(finding.value), 80))} | ${normalizeInlineText(finding.message ?? 'n/a')} |`);
+      }
+      lines.push('');
+      lines.push('</details>');
+      lines.push('');
+    }
+
   }
 
   return lines.join('\n').trimEnd();
@@ -213,183 +250,6 @@ function groupRulesByStatus(rules) {
     groups.get(status).push(rule);
     return groups;
   }, new Map());
-}
-
-function renderRuleAlert(rule) {
-  const status = String(rule.status ?? '').toLowerCase();
-  const dimension = normalizeInlineText(rule.dimension ?? 'General');
-  const ruleId = escapeInlineCode(rule.ruleId);
-  const examples = summarizeFindings(rule.findings ?? [], 3);
-
-  if (status === 'pass') {
-    return [
-      '> [!TIP]',
-      `> **\`${ruleId}\`**`,
-      `> **Dimensión:** ${dimension}`,
-      '>',
-      `> ${normalizeInlineText(passSummaryForRule(rule))}`,
-    ];
-  }
-
-  const alertType = status === 'warning' ? 'WARNING' : 'CAUTION';
-  const title = `> **\`${ruleId}\`**`;
-  const dimensionLine = `> **Dimensión:** ${dimension}`;
-  const issueLine = `> ${normalizeInlineText(issueSummaryForRule(rule))}`;
-  const actionLine = `> **Acción recomendada:** ${normalizeInlineText(actionSummaryForRule(rule))}`;
-  const detailsLines = buildResolutionDetails(rule, examples);
-
-  return [
-    `> [!${alertType}]`,
-    title,
-    dimensionLine,
-    '>',
-    issueLine,
-    '>',
-    actionLine,
-    ...detailsLines,
-  ];
-}
-
-function passSummaryForRule(rule) {
-  if (String(rule.ruleId ?? '') === 'carpetas_obligatorias_regla') {
-    return 'La estructura mínima requerida está presente.';
-  }
-
-  if (String(rule.ruleId ?? '') === 'abuso_association_regla') {
-    return 'El uso de relaciones `AssociationRelationship` está dentro del umbral aceptado.';
-  }
-
-  return rule.message ?? 'La regla cumple correctamente.';
-}
-
-function issueSummaryForRule(rule) {
-  const status = String(rule.status ?? '').toLowerCase();
-  if (status === 'notimplemented') {
-    return 'Regla declarada, pero el motor aún no soporta su scope u operador.';
-  }
-
-  return rule.message ?? 'Hay elementos que no cumplen la convención definida.';
-}
-
-function actionSummaryForRule(rule) {
-  const status = String(rule.status ?? '').toLowerCase();
-  if (status === 'notimplemented') {
-    return 'Implementar soporte en el motor antes de usar esta regla como métrica de calidad.';
-  }
-
-  if (String(rule.ruleId ?? '') === 'nomenclatura_regla') {
-    return 'Corregir los nombres para que sean claros, legibles y comiencen con mayúscula.';
-  }
-
-  if (String(rule.ruleId ?? '') === 'vistas_vacias_regla') {
-    return 'Eliminar las vistas vacías o completar su contenido.';
-  }
-
-  if (String(rule.ruleId ?? '') === 'exceso_elementos_por_vista_regla') {
-    return 'Dividir la vista en diagramas más específicos.';
-  }
-
-  if (String(rule.ruleId ?? '') === 'exceso_relaciones_por_vista_regla') {
-    return 'Reducir conexiones visuales o separar la vista por intención.';
-  }
-
-  return rule.reason ?? 'Revisar y corregir el artefacto.';
-}
-
-function buildResolutionDetails(rule, examples) {
-  const status = String(rule.status ?? '').toLowerCase();
-  if (status === 'pass') {
-    return [];
-  }
-
-  const lines = ['>', '> <details>', '> <summary>Cómo se resuelve</summary>', '>'];
-  lines.push(`> ${normalizeInlineText(resolutionIntroForRule(rule))}`);
-  lines.push('>');
-
-  for (const bullet of resolutionBulletsForRule(rule)) {
-    lines.push(`> - ${normalizeInlineText(bullet)}`);
-  }
-
-  if (examples.length > 0) {
-    lines.push('>');
-    lines.push('> Ejemplos detectados:');
-    lines.push('>');
-    for (const example of examples) {
-      lines.push(`> - ${normalizeInlineText(example)}`);
-    }
-  }
-
-  lines.push('>');
-  lines.push('> </details>');
-  return lines;
-}
-
-function resolutionIntroForRule(rule) {
-  const id = String(rule.ruleId ?? '');
-  if (id === 'nomenclatura_regla') {
-    return 'Corrige los elementos reportados para que:';
-  }
-  if (id === 'vistas_vacias_regla') {
-    return 'Revisa las vistas reportadas y aplica una de estas acciones:';
-  }
-  if (id === 'exceso_elementos_por_vista_regla') {
-    return 'Una vista saturada reduce la legibilidad del diseño. Para corregirla:';
-  }
-  if (id === 'exceso_relaciones_por_vista_regla') {
-    return 'Para mejorar la lectura:';
-  }
-  if (String(rule.status ?? '').toLowerCase() === 'notimplemented') {
-    return 'Esta regla no requiere corrección del artefacto todavía.';
-  }
-  return 'Revisa la evidencia y corrige el elemento señalado:';
-}
-
-function resolutionBulletsForRule(rule) {
-  const id = String(rule.ruleId ?? '');
-  if (id === 'nomenclatura_regla') {
-    return [
-      'comiencen con mayúscula;',
-      'usen nombres claros y breves;',
-      'no utilicen frases largas como descripción.',
-    ];
-  }
-  if (id === 'vistas_vacias_regla') {
-    return [
-      'eliminar la vista si no aporta al diseño;',
-      'moverla a una carpeta temporal si aún está en construcción;',
-      'agregar los elementos mínimos necesarios para que comunique una intención.',
-    ];
-  }
-  if (id === 'exceso_elementos_por_vista_regla') {
-    return [
-      'separa la vista por capa, dominio o propósito;',
-      'crea vistas específicas para negocio, aplicación y tecnología;',
-      'evita mezclar contexto ejecutivo con detalle técnico.',
-    ];
-  }
-  if (id === 'exceso_relaciones_por_vista_regla') {
-    return [
-      'elimina relaciones visuales que no aportan a la pregunta de la vista;',
-      'crea una vista de integración separada si necesitas mostrar muchas dependencias;',
-      'evita que una sola vista intente explicar todo el modelo.',
-    ];
-  }
-  if (String(rule.status ?? '').toLowerCase() === 'notimplemented') {
-    return [
-      'Esta regla no requiere corrección del artefacto todavía.',
-      'Requiere soporte técnico en CALinter antes de ser usada como métrica.',
-    ];
-  }
-  return ['Revisa la evidencia reportada y ajusta el modelo.'];
-}
-
-function summarizeFindings(findings, limit) {
-  return findings.slice(0, limit).map((finding) => {
-    const id = truncateInline(finding.recordId ?? 'n/a', 12);
-    const field = normalizeInlineText(finding.field ?? 'n/a');
-    const value = truncateInline(formatFindingValue(finding.value), 40);
-    return `\`${id}\` · \`${field}\`: \`${value}\``;
-  });
 }
 
 function sortRulesForReport(rules) {

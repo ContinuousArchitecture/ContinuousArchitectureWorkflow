@@ -96,9 +96,10 @@ function readJson(filePath) {
 function assertSummaryShape(summaryMarkdownText) {
   const requiredLabels = ['Estructura', 'Nomenclatura', 'Integridad', 'Relaciones', 'Trazabilidad', 'Legibilidad'];
   const legacyLabels = ['XML', 'Identidad', 'Estilo', 'Vistas'];
+  const forbiddenSections = ['## Observaciones', '## Reglas cumplidas', '## Consistencia del contrato', '## Contrato'];
 
-  if (!summaryMarkdownText.includes('Resultado parcial')) {
-    throw new Error('Expected summary to show Resultado parcial.');
+  if (!summaryMarkdownText.includes('Evaluación parcial')) {
+    throw new Error('Expected summary to show Evaluación parcial.');
   }
 
   if (!summaryMarkdownText.includes('4/6 dimensiones evaluadas')) {
@@ -110,7 +111,7 @@ function assertSummaryShape(summaryMarkdownText) {
   }
 
   const dashboardSection = summaryMarkdownText.split('## Dashboard')[1]?.split('## Reporte de reglas')[0] ?? '';
-  if (dashboardSection.includes('[!WARNING]') || dashboardSection.includes('[!CAUTION]') || dashboardSection.includes('[!TIP]') || dashboardSection.includes('[!NOTE]') || dashboardSection.includes('<details>')) {
+  if (dashboardSection.includes('[!WARNING]') || dashboardSection.includes('[!CAUTION]') || dashboardSection.includes('[!TIP]') || dashboardSection.includes('[!NOTE]')) {
     throw new Error('Expected dashboard to avoid admonitions.');
   }
 
@@ -119,14 +120,10 @@ function assertSummaryShape(summaryMarkdownText) {
     throw new Error(`Expected exactly 3 dashboard charts, got ${chartCount}.`);
   }
 
-  const reportSection = summaryMarkdownText.split('## Reporte de reglas')[1] ?? '';
-  const alertCount = (reportSection.match(/^> \[!(WARNING|CAUTION|TIP)\]/gm) ?? []).length;
-  if (alertCount < 6) {
-    throw new Error(`Expected rule report to render alerts for all rules, got ${alertCount}.`);
-  }
-
-  if (reportSection.includes('| Regla |') || reportSection.includes('## Observaciones') || reportSection.includes('## Reglas cumplidas')) {
-    throw new Error('Expected rule report to be vertical alerts only.');
+  for (const section of forbiddenSections) {
+    if (summaryMarkdownText.includes(section)) {
+      throw new Error(`Expected summary not to include legacy section '${section}'.`);
+    }
   }
 
   for (const label of requiredLabels) {
