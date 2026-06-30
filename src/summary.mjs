@@ -1208,7 +1208,7 @@ function buildResultChartConfig(summary) {
         doughnutlabel: {
           labels: [
             {
-              text: 'You are at',
+              text: 'Cumplimiento',
               font: {
                 size: 12,
               },
