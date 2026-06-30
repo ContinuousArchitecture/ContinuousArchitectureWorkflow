@@ -18,10 +18,10 @@ jobs:
       contents: read
     steps:
       - name: Checkout del consumidor
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Checkout de gobernanza
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           repository: ContinuousArchitecture/CALinter
           path: governance
