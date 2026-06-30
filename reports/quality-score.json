@@ -1,10 +1,11 @@
 {
   "metadata": {
-    "generatedAt": "2026-06-30T00:20:38.609Z",
+    "generatedAt": "2026-06-30T00:43:04.366Z",
     "version": "0.0.3"
   },
-  "overallScore": 81,
-  "status": "warning",
+  "overallScore": 79,
+  "status": "incomplete",
+  "partial": true,
   "radarOrder": [
     "Estructura",
     "Nomenclatura",
@@ -21,12 +22,14 @@
       "score": 100,
       "status": "pass",
       "weightTotal": 100,
+      "includedRules": 1,
       "rules": [
         {
           "ruleId": "carpetas_obligatorias_regla",
           "weight": 100,
           "score": 100,
-          "status": "pass"
+          "status": "pass",
+          "includeInQualityScore": true
         }
       ]
     },
@@ -34,15 +37,17 @@
       "id": "nomenclatura",
       "label": "Nomenclatura",
       "target": 85,
-      "score": 75,
+      "score": 77,
       "status": "warning",
       "weightTotal": 100,
+      "includedRules": 1,
       "rules": [
         {
           "ruleId": "nomenclatura_regla",
           "weight": 100,
-          "score": 75,
-          "status": "warning"
+          "score": 77,
+          "status": "warning",
+          "includeInQualityScore": true
         }
       ]
     },
@@ -51,14 +56,16 @@
       "label": "Integridad",
       "target": 95,
       "score": null,
-      "status": "notImplemented",
+      "status": "incomplete",
       "weightTotal": 0,
+      "includedRules": 0,
       "rules": [
         {
           "ruleId": "referencias_rotas_regla",
           "weight": 100,
           "score": null,
-          "status": "notImplemented"
+          "status": "notImplemented",
+          "includeInQualityScore": false
         }
       ]
     },
@@ -66,15 +73,17 @@
       "id": "relaciones",
       "label": "Relaciones",
       "target": 80,
-      "score": 50,
+      "score": 71,
       "status": "warning",
       "weightTotal": 100,
+      "includedRules": 1,
       "rules": [
         {
           "ruleId": "abuso_association_regla",
           "weight": 100,
-          "score": 50,
-          "status": "warning"
+          "score": 71,
+          "status": "pass",
+          "includeInQualityScore": true
         }
       ]
     },
@@ -83,14 +92,16 @@
       "label": "Trazabilidad",
       "target": 80,
       "score": null,
-      "status": "notImplemented",
+      "status": "incomplete",
       "weightTotal": 0,
+      "includedRules": 0,
       "rules": [
         {
           "ruleId": "elementos_aislados_regla",
           "weight": 100,
           "score": null,
-          "status": "notImplemented"
+          "status": "notImplemented",
+          "includeInQualityScore": false
         }
       ]
     },
@@ -98,27 +109,31 @@
       "id": "legibilidad",
       "label": "Legibilidad",
       "target": 80,
-      "score": 100,
-      "status": "pass",
+      "score": 67,
+      "status": "warning",
       "weightTotal": 100,
+      "includedRules": 3,
       "rules": [
         {
           "ruleId": "vistas_vacias_regla",
           "weight": 30,
-          "score": 100,
-          "status": "pass"
+          "score": 67,
+          "status": "warning",
+          "includeInQualityScore": true
         },
         {
           "ruleId": "exceso_elementos_por_vista_regla",
           "weight": 35,
-          "score": 100,
-          "status": "pass"
+          "score": 67,
+          "status": "warning",
+          "includeInQualityScore": true
         },
         {
           "ruleId": "exceso_relaciones_por_vista_regla",
           "weight": 35,
-          "score": 100,
-          "status": "pass"
+          "score": 67,
+          "status": "warning",
+          "includeInQualityScore": true
         }
       ]
     }

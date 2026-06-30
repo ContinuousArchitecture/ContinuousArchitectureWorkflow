@@ -12,6 +12,10 @@ The engine reads `.calinter/archi-rules.yml` and `.calinter/archi-quality.yml`, 
 
 Unsupported rules are marked `notImplemented` instead of being invented.
 
+## Input Fixture
+
+The sample ArchiMate input lives at `artifact/source/design.archimate` and is treated as read-only example data for validation.
+
 ## Workflow
 
 The reusable GitHub Action lives in `.github/workflows/compliance.yml` and is driven by the YAML contracts in `.calinter/`.

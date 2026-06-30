@@ -15,9 +15,11 @@ export const Engine = {
   async main() {
     const mode = getArg('--mode', 'validate');
     const repoRoot = resolveArgPath('--repo-root', process.cwd());
+    const governanceRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+    const outputRoot = resolveArgPath('--output-root', governanceRoot);
 
     try {
-      const reports = generateDesignReports(repoRoot);
+      const reports = generateDesignReports({ governanceRoot, targetRoot: repoRoot, outputRoot });
       const response = buildReportResponse(repoRoot, reports);
 
       if (mode === 'summary') {
@@ -67,7 +69,9 @@ function buildReportResponse(repoRoot, reports) {
   const validators = buildValidatorsFromReports(reports);
   const checks = flattenChecks(validators);
   const summary = countChecks(checks);
-  const lintStatus = summary.FAIL > 0 ? 'FAIL' : (summary.WARN > 0 ? 'WARN' : 'PASS');
+  const lintStatus = reports.qualityScore?.status === 'incomplete'
+    ? 'INCOMPLETE'
+    : (summary.FAIL > 0 ? 'FAIL' : (summary.WARN > 0 ? 'WARN' : 'PASS'));
 
   return {
     repoRoot,
@@ -112,6 +116,8 @@ function mapRuleStatus(status) {
   if (value === 'pass') return 'PASS';
   if (value === 'warning') return 'WARN';
   if (value === 'fail') return 'FAIL';
+  if (value === 'notimplemented') return 'ERROR';
+  if (value === 'incomplete') return 'ERROR';
   return 'ERROR';
 }
 

@@ -29,7 +29,7 @@ export async function renderDesignSummary(response) {
     totalRules,
     rulesEvaluated,
     dslCount,
-    resultLabel: getResultLabel({ failCount: failChecks.length, warnCount: warnChecks.length, systemError: false }),
+    resultLabel: getResultLabel({ failCount: failChecks.length, warnCount: warnChecks.length, systemError: false, incomplete: String(response.status ?? '').toUpperCase() === 'INCOMPLETE' }),
   });
 
   return `${[
@@ -37,6 +37,7 @@ export async function renderDesignSummary(response) {
     ...renderWarningPanelFinal(warnChecks),
     ...renderCautionPanelFinal(failChecks),
     ...renderTipPanelFinal(validators, passChecks),
+    ...renderIncompletePanel(String(response.status ?? '').toUpperCase() === 'INCOMPLETE'),
     ...dashboard.systemIssueLines,
   ].join('\n').trimEnd()}\n`;
 }
@@ -130,13 +131,15 @@ function buildExpectedQualityScore({ qualityConfig, qualityDimensions, ruleResul
       };
     });
 
+    const dimensionPartial = rules.some((rule) => rule.score === null || String(rule.status ?? '').toLowerCase() === 'notimplemented');
+
     const scoredRules = rules.filter((rule) => rule.score !== null && Number.isFinite(rule.score));
     const weightTotal = scoredRules.reduce((sum, rule) => sum + rule.weight, 0);
     const weightedScore = scoredRules.reduce((sum, rule) => sum + (rule.score * rule.weight), 0);
     const score = weightTotal > 0 ? Math.round(weightedScore / weightTotal) : null;
     const hasCriticalFailure = scoredRules.some((rule) => (ruleResultsById.get(rule.ruleId)?.status === 'fail') && String(rulesById.get(rule.ruleId)?.severity ?? '').toLowerCase() === 'error');
     const target = Number(dimension.target) || 0;
-    const status = hasCriticalFailure ? 'fail' : (score === null ? 'notImplemented' : (score >= target ? 'pass' : 'warning'));
+    const status = hasCriticalFailure ? 'fail' : (dimensionPartial ? 'incomplete' : (score === null ? 'incomplete' : (score >= target ? 'pass' : 'warning')));
 
     return {
       id: dimensionId,
@@ -155,11 +158,12 @@ function buildExpectedQualityScore({ qualityConfig, qualityDimensions, ruleResul
     : null;
   const status = dimensions.some((dimension) => dimension.status === 'fail')
     ? 'fail'
-    : (dimensions.some((dimension) => dimension.status === 'warning') ? 'warning' : 'pass');
+    : (dimensions.some((dimension) => dimension.status === 'incomplete') ? 'incomplete' : (dimensions.some((dimension) => dimension.status === 'warning') ? 'warning' : 'pass'));
 
   return {
     overallScore,
     status,
+    partial: dimensions.some((dimension) => dimension.status === 'incomplete'),
     radarOrder: dimensions.map((dimension) => dimension.label),
     dimensions,
   };
@@ -176,6 +180,10 @@ function assertQualityScoreMatches(actual, expected) {
 
   if (String(actual?.status ?? '') !== expected.status) {
     throw new Error(`Contrato inválido: quality-score.json no coincide con el estado esperado '${expected.status}'.`);
+  }
+
+  if (Boolean(actual?.partial) !== Boolean(expected.partial)) {
+    throw new Error('Contrato inválido: quality-score.json no coincide con el indicador partial.');
   }
 
   if (!arraysEqual(actual?.radarOrder ?? [], expected.radarOrder)) {
@@ -252,23 +260,32 @@ function assertQualityScoreMatches(actual, expected) {
 }
 
 function assertQuickchartMatchesQualityScore(quickchart, qualityScore) {
+  const included = (qualityScore.dimensions ?? []).filter((dimension) => Number.isFinite(dimension.score));
   const radarLabels = quickchart?.data?.labels ?? [];
-  const radarOrder = qualityScore.radarOrder ?? [];
+  const expectedLabels = included.map((dimension) => dimension.label);
   const evaluatedSeries = quickchart?.data?.datasets?.[0]?.data ?? [];
   const targetSeries = quickchart?.data?.datasets?.[1]?.data ?? [];
-  const dimensionScores = (qualityScore.dimensions ?? []).map((dimension) => dimension.score);
-  const dimensionTargets = (qualityScore.dimensions ?? []).map((dimension) => dimension.target);
+  const expectedScores = included.map((dimension) => dimension.score);
+  const expectedTargets = included.map((dimension) => dimension.target);
 
-  if (!arraysEqual(radarLabels, radarOrder)) {
+  if (!arraysEqual(radarLabels, expectedLabels)) {
     throw new Error('Contrato inválido: quickchart-radar.json no coincide con quality-score.json en el orden de dimensiones.');
   }
 
-  if (!arraysEqual(evaluatedSeries, dimensionScores)) {
+  if (!arraysEqual(evaluatedSeries, expectedScores)) {
     throw new Error('Contrato inválido: quickchart-radar.json no coincide con quality-score.json en el dataset Evaluado.');
   }
 
-  if (!arraysEqual(targetSeries, dimensionTargets)) {
+  if (!arraysEqual(targetSeries, expectedTargets)) {
     throw new Error('Contrato inválido: quickchart-radar.json no coincide con quality-score.json en el dataset Objetivo.');
+  }
+
+  if (Boolean(quickchart?.partial) !== Boolean(qualityScore.partial)) {
+    throw new Error('Contrato inválido: quickchart-radar.json no coincide con el indicador partial.');
+  }
+
+  if (!arraysEqual(quickchart?.omittedDimensions ?? [], (qualityScore.dimensions ?? []).filter((dimension) => !Number.isFinite(dimension.score)).map((dimension) => dimension.label))) {
+    throw new Error('Contrato inválido: quickchart-radar.json no coincide con las dimensiones omitidas.');
   }
 }
 
@@ -324,9 +341,13 @@ function flattenChecks(validators) {
   })));
 }
 
-function getResultLabel({ failCount, warnCount, systemError }) {
+function getResultLabel({ failCount, warnCount, systemError, incomplete }) {
   if (systemError) {
     return '⚫ NO EVALUABLE';
+  }
+
+  if (incomplete) {
+    return '🟠 EVALUACIÓN PARCIAL';
   }
 
   if (failCount > 0) {
@@ -338,6 +359,20 @@ function getResultLabel({ failCount, warnCount, systemError }) {
   }
 
   return '✅ APROBADO';
+}
+
+function renderIncompletePanel(isIncomplete) {
+  if (!isIncomplete) {
+    return [];
+  }
+
+  return [
+    '> [!CAUTION]',
+    '> **EVALUACIÓN PARCIAL**',
+    '>',
+    '> Hay dimensiones no implementadas y el radar se publica de forma parcial.',
+    '',
+  ];
 }
 
 async function renderDashboardSectionFinal({ validators, complianceText, passCount, warnCount, failCount, totalRules, rulesEvaluated, dslCount, resultLabel }) {

@@ -61,9 +61,6 @@ rules:
     severity: warning
     source:
       collection: elements
-      filter:
-        field: name
-        notEmpty: true
     scope: each
     assert:
       field: name

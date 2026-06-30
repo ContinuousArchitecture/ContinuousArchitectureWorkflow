@@ -3,37 +3,23 @@
     "source": "artifact/source/design.archimate",
     "adapterVersion": "0.0.3",
     "format": "archi-native",
-    "generatedAt": "2026-06-29T16:00:00.000Z",
-    "modelId": "model-001",
+    "generatedAt": "2026-06-30T00:43:04.361Z",
+    "modelId": "96d80788-74ee-4d23-86b6-1d632d7d9474",
     "modelName": "Agile Manifesto"
   },
   "folders": [
     {
-      "id": "folder-views",
-      "name": "Views",
-      "type": "views",
+      "collection": "folders",
+      "id": "7f387aef-bf59-4675-852f-a7565a4a6acc",
+      "name": "Strategy",
+      "type": "strategy",
       "parentId": null,
       "parentName": null,
-      "path": "/Views"
+      "path": "/Strategy"
     },
     {
-      "id": "folder-as-is",
-      "name": "AS-IS",
-      "type": "views",
-      "parentId": "folder-views",
-      "parentName": "Views",
-      "path": "/Views/AS-IS"
-    },
-    {
-      "id": "folder-to-be",
-      "name": "TO-BE",
-      "type": "views",
-      "parentId": "folder-views",
-      "parentName": "Views",
-      "path": "/Views/TO-BE"
-    },
-    {
-      "id": "folder-business",
+      "collection": "folders",
+      "id": "7beb4b89-5179-4fce-9629-52d67266d3e6",
       "name": "Business",
       "type": "business",
       "parentId": null,
@@ -41,132 +27,3779 @@
       "path": "/Business"
     },
     {
-      "id": "folder-relations",
+      "collection": "folders",
+      "id": "0226cb10-150e-441d-81e3-25dc2df844e2",
+      "name": "Application",
+      "type": "application",
+      "parentId": null,
+      "parentName": null,
+      "path": "/Application"
+    },
+    {
+      "collection": "folders",
+      "id": "20e3a380-ab5d-4c26-9537-b5027e4628c7",
+      "name": "Technology & Physical",
+      "type": "technology",
+      "parentId": null,
+      "parentName": null,
+      "path": "/Technology & Physical"
+    },
+    {
+      "collection": "folders",
+      "id": "6ed5e23c-33b9-455c-bf4f-c391861f28d8",
+      "name": "Motivation",
+      "type": "motivation",
+      "parentId": null,
+      "parentName": null,
+      "path": "/Motivation"
+    },
+    {
+      "collection": "folders",
+      "id": "33a6e24d-cad0-4bd0-a27f-d3061c66d601",
+      "name": "Implementation & Migration",
+      "type": "implementation_migration",
+      "parentId": null,
+      "parentName": null,
+      "path": "/Implementation & Migration"
+    },
+    {
+      "collection": "folders",
+      "id": "8bb27c5a-ce2b-4b73-a028-8bbb35ca7fc1",
+      "name": "Other",
+      "type": "other",
+      "parentId": null,
+      "parentName": null,
+      "path": "/Other"
+    },
+    {
+      "collection": "folders",
+      "id": "1834abd8-2fcc-435f-846f-5bb5c929df39",
       "name": "Relations",
       "type": "relations",
       "parentId": null,
       "parentName": null,
       "path": "/Relations"
+    },
+    {
+      "collection": "folders",
+      "id": "94fcbd37-6ade-486a-a526-843bab1640ea",
+      "name": "Views",
+      "type": "diagrams",
+      "parentId": null,
+      "parentName": null,
+      "path": "/Views"
+    },
+    {
+      "collection": "folders",
+      "id": "id-ca4190f92cfc442e9c4beec158a9d825",
+      "name": "TO-BE",
+      "type": null,
+      "parentId": "94fcbd37-6ade-486a-a526-843bab1640ea",
+      "parentName": "Views",
+      "path": "/Views/TO-BE"
+    },
+    {
+      "collection": "folders",
+      "id": "id-aa84eddb394248ba852a9478bc5af61b",
+      "name": "AS-IS",
+      "type": null,
+      "parentId": "94fcbd37-6ade-486a-a526-843bab1640ea",
+      "parentName": "Views",
+      "path": "/Views/AS-IS"
     }
   ],
   "elements": [
     {
-      "id": "el-001",
-      "name": "Customer",
+      "collection": "elements",
+      "id": "00d4acfd-9da1-4d5c-80cc-2cf682725ddb",
+      "name": "We",
       "type": "archimate:BusinessActor",
-      "folderId": "folder-business",
-      "folderName": "Business",
-      "sourceFile": "artifact/source/design.archimate"
+      "folderId": "7beb4b89-5179-4fce-9629-52d67266d3e6",
+      "folderName": "Business"
     },
     {
-      "id": "el-002",
-      "name": "Order Service",
+      "collection": "elements",
+      "id": "f7fae001-cab8-4b90-a0ab-784c69228c30",
+      "name": "Uncovering better ways of",
+      "type": "archimate:BusinessProcess",
+      "folderId": "7beb4b89-5179-4fce-9629-52d67266d3e6",
+      "folderName": "Business"
+    },
+    {
+      "collection": "elements",
+      "id": "74922623-12f2-4c19-9270-221d2f5920e8",
+      "name": "Helping others",
+      "type": "archimate:BusinessFunction",
+      "folderId": "7beb4b89-5179-4fce-9629-52d67266d3e6",
+      "folderName": "Business"
+    },
+    {
+      "collection": "elements",
+      "id": "09297a62-c2e3-46c3-8f4a-8ead8625a466",
+      "name": "Software development",
+      "type": "archimate:BusinessFunction",
+      "folderId": "7beb4b89-5179-4fce-9629-52d67266d3e6",
+      "folderName": "Business"
+    },
+    {
+      "collection": "elements",
+      "id": "1a57452c-7c95-402a-bf1b-e2c4a710acea",
+      "name": "Software programmers",
+      "type": "archimate:BusinessRole",
+      "folderId": "7beb4b89-5179-4fce-9629-52d67266d3e6",
+      "folderName": "Business"
+    },
+    {
+      "collection": "elements",
+      "id": "8b416a69-dabb-4f5e-9a7e-4b55b65ced03",
+      "name": "Individuals",
+      "type": "archimate:BusinessActor",
+      "folderId": "7beb4b89-5179-4fce-9629-52d67266d3e6",
+      "folderName": "Business"
+    },
+    {
+      "collection": "elements",
+      "id": "a1b39a05-8e32-4f67-869b-5b208381b5ec",
+      "name": "interactions ",
+      "type": "archimate:BusinessInteraction",
+      "folderId": "7beb4b89-5179-4fce-9629-52d67266d3e6",
+      "folderName": "Business"
+    },
+    {
+      "collection": "elements",
+      "id": "9c00c2d0-115d-47c8-9f02-99730f6d4158",
+      "name": "Customer collaboration",
+      "type": "archimate:BusinessCollaboration",
+      "folderId": "7beb4b89-5179-4fce-9629-52d67266d3e6",
+      "folderName": "Business"
+    },
+    {
+      "collection": "elements",
+      "id": "a9450b04-e885-47b3-addf-079d7766475e",
+      "name": "Responding to change",
+      "type": "archimate:BusinessProcess",
+      "folderId": "7beb4b89-5179-4fce-9629-52d67266d3e6",
+      "folderName": "Business"
+    },
+    {
+      "collection": "elements",
+      "id": "80c31b9b-f474-49f0-9588-4c9d68136240",
+      "name": "Processes",
+      "type": "archimate:BusinessProcess",
+      "folderId": "7beb4b89-5179-4fce-9629-52d67266d3e6",
+      "folderName": "Business"
+    },
+    {
+      "collection": "elements",
+      "id": "fd087fda-a48b-4cbe-992f-1689160591c0",
+      "name": "Contract negotiation",
+      "type": "archimate:BusinessProcess",
+      "folderId": "7beb4b89-5179-4fce-9629-52d67266d3e6",
+      "folderName": "Business"
+    },
+    {
+      "collection": "elements",
+      "id": "fe65bfbf-1850-44a7-a79b-8efe7bf402d9",
+      "name": "Following a plan",
+      "type": "archimate:BusinessProcess",
+      "folderId": "7beb4b89-5179-4fce-9629-52d67266d3e6",
+      "folderName": "Business"
+    },
+    {
+      "collection": "elements",
+      "id": "211ab6f2-1737-4d70-bed6-6f76870986f2",
+      "name": "Working software",
       "type": "archimate:ApplicationComponent",
-      "folderId": "folder-business",
-      "folderName": "Business",
-      "sourceFile": "artifact/source/design.archimate"
+      "folderId": "0226cb10-150e-441d-81e3-25dc2df844e2",
+      "folderName": "Application"
     },
     {
-      "id": "el-009",
-      "name": "Legacy Interface",
-      "type": "archimate:ApplicationInterface",
-      "folderId": "folder-business",
-      "folderName": "Business",
-      "sourceFile": "artifact/source/design.archimate"
+      "collection": "elements",
+      "id": "fc43cec0-90d7-45ff-92c1-2f4789cc7e71",
+      "name": "Tools",
+      "type": "archimate:ApplicationComponent",
+      "folderId": "0226cb10-150e-441d-81e3-25dc2df844e2",
+      "folderName": "Application"
     },
     {
-      "id": "el-012",
-      "name": "employee data management",
-      "type": "archimate:ApplicationFunction",
-      "folderId": "folder-business",
-      "folderName": "Business",
-      "sourceFile": "artifact/source/design.archimate"
+      "collection": "elements",
+      "id": "2b3629b5-b051-42a8-b032-7ca4e8c43d36",
+      "name": "Value",
+      "type": "archimate:Value",
+      "folderId": "6ed5e23c-33b9-455c-bf4f-c391861f28d8",
+      "folderName": "Motivation"
+    },
+    {
+      "collection": "elements",
+      "id": "a654dbf0-0b27-4678-8032-9db141e153b3",
+      "name": "1. Our highest priority is to satisfy the customer through early and continuous delivery of valuable software.",
+      "type": "archimate:Principle",
+      "folderId": "6ed5e23c-33b9-455c-bf4f-c391861f28d8",
+      "folderName": "Motivation"
+    },
+    {
+      "collection": "elements",
+      "id": "21756b8b-bab6-485e-8de3-2ae4dd0a3026",
+      "name": "2. Welcome changing requirements, even late in  development. Agile processes harness change for  the customer's competitive advantage.",
+      "type": "archimate:Principle",
+      "folderId": "6ed5e23c-33b9-455c-bf4f-c391861f28d8",
+      "folderName": "Motivation"
+    },
+    {
+      "collection": "elements",
+      "id": "f655e0cb-7761-4a29-9deb-8e300b4fa146",
+      "name": "3. Deliver working software frequently, from a  couple of weeks to a couple of months, with a  preference to the shorter timescale.",
+      "type": "archimate:Principle",
+      "folderId": "6ed5e23c-33b9-455c-bf4f-c391861f28d8",
+      "folderName": "Motivation"
+    },
+    {
+      "collection": "elements",
+      "id": "bdc25d56-cfce-4381-8dc1-78a1f9047f3d",
+      "name": "4. Business people and developers must work  together daily throughout the project.",
+      "type": "archimate:Principle",
+      "folderId": "6ed5e23c-33b9-455c-bf4f-c391861f28d8",
+      "folderName": "Motivation"
+    },
+    {
+      "collection": "elements",
+      "id": "2b222efb-649a-4097-9e14-47feb8524725",
+      "name": "5. Build projects around motivated individuals.  Give them the environment and support they need,  and trust them to get the job done.",
+      "type": "archimate:Principle",
+      "folderId": "6ed5e23c-33b9-455c-bf4f-c391861f28d8",
+      "folderName": "Motivation"
+    },
+    {
+      "collection": "elements",
+      "id": "624e5e7d-73c6-469b-a092-ff896faea0f3",
+      "name": "6. The most efficient and effective method of  conveying information to and within a development  team is face-to-face conversation.",
+      "type": "archimate:Principle",
+      "folderId": "6ed5e23c-33b9-455c-bf4f-c391861f28d8",
+      "folderName": "Motivation"
+    },
+    {
+      "collection": "elements",
+      "id": "441941b6-c128-4702-9cc0-6892af7d1520",
+      "name": "7. Working software is the primary measure of progress.",
+      "type": "archimate:Principle",
+      "folderId": "6ed5e23c-33b9-455c-bf4f-c391861f28d8",
+      "folderName": "Motivation"
+    },
+    {
+      "collection": "elements",
+      "id": "f05186e5-b26c-449c-8084-73ef9f1fe915",
+      "name": "8. Agile processes promote sustainable development.  The sponsors, developers, and users should be able  to maintain a constant pace indefinitely.",
+      "type": "archimate:Principle",
+      "folderId": "6ed5e23c-33b9-455c-bf4f-c391861f28d8",
+      "folderName": "Motivation"
+    },
+    {
+      "collection": "elements",
+      "id": "9456b8b2-7692-462b-9551-99bba832e0cf",
+      "name": "9. Continuous attention to technical excellence  and good design enhances agility.",
+      "type": "archimate:Principle",
+      "folderId": "6ed5e23c-33b9-455c-bf4f-c391861f28d8",
+      "folderName": "Motivation"
+    },
+    {
+      "collection": "elements",
+      "id": "b7cf4ee5-f0cd-4a59-8e71-7c33c633b310",
+      "name": "10. Simplicity – the art of maximizing the amount  of work not done – is essential.",
+      "type": "archimate:Principle",
+      "folderId": "6ed5e23c-33b9-455c-bf4f-c391861f28d8",
+      "folderName": "Motivation"
+    },
+    {
+      "collection": "elements",
+      "id": "437ebe49-1541-40b3-8b5e-de4ad987a112",
+      "name": "11. The best architectures, requirements, and designs  emerge from self-organizing teams.",
+      "type": "archimate:Principle",
+      "folderId": "6ed5e23c-33b9-455c-bf4f-c391861f28d8",
+      "folderName": "Motivation"
+    },
+    {
+      "collection": "elements",
+      "id": "b1082889-c7ab-4384-b24a-834fec4817a5",
+      "name": "12. At regular intervals, the team reflects on how  to become more effective, then tunes and adjusts  its behavior accordingly.",
+      "type": "archimate:Principle",
+      "folderId": "6ed5e23c-33b9-455c-bf4f-c391861f28d8",
+      "folderName": "Motivation"
+    },
+    {
+      "collection": "elements",
+      "id": "5786c2e0-2582-432b-8ed1-35426743dd01",
+      "name": "Valuable Software",
+      "type": "archimate:Driver",
+      "folderId": "6ed5e23c-33b9-455c-bf4f-c391861f28d8",
+      "folderName": "Motivation"
+    },
+    {
+      "collection": "elements",
+      "id": "c89d36f0-01e3-41ae-b634-8cbe5dd08778",
+      "name": "Customer",
+      "type": "archimate:Stakeholder",
+      "folderId": "6ed5e23c-33b9-455c-bf4f-c391861f28d8",
+      "folderName": "Motivation"
+    },
+    {
+      "collection": "elements",
+      "id": "7350668e-c640-48d9-8d52-77190b0d1b96",
+      "name": "Customer satisfaction",
+      "type": "archimate:Driver",
+      "folderId": "6ed5e23c-33b9-455c-bf4f-c391861f28d8",
+      "folderName": "Motivation"
+    },
+    {
+      "collection": "elements",
+      "id": "c436b32c-6527-4fdc-ad31-ea317cd472fe",
+      "name": "Early delivery",
+      "type": "archimate:Driver",
+      "folderId": "6ed5e23c-33b9-455c-bf4f-c391861f28d8",
+      "folderName": "Motivation"
+    },
+    {
+      "collection": "elements",
+      "id": "f2bbf020-b54d-4c28-81c3-1ef1b0625389",
+      "name": "Continuous delivery",
+      "type": "archimate:Driver",
+      "folderId": "6ed5e23c-33b9-455c-bf4f-c391861f28d8",
+      "folderName": "Motivation"
+    },
+    {
+      "collection": "elements",
+      "id": "71b4a705-4c22-460e-8044-6d9c0c0f9bd0",
+      "name": "It's all about priority!",
+      "type": "archimate:Meaning",
+      "folderId": "6ed5e23c-33b9-455c-bf4f-c391861f28d8",
+      "folderName": "Motivation"
+    },
+    {
+      "collection": "elements",
+      "id": "fd8fcb81-ee0e-40aa-9a73-d18b5cfa1f8f",
+      "name": "Customer competitive advantage",
+      "type": "archimate:Driver",
+      "folderId": "6ed5e23c-33b9-455c-bf4f-c391861f28d8",
+      "folderName": "Motivation"
+    },
+    {
+      "collection": "elements",
+      "id": "6e338cc0-6403-44c2-83de-748d108a6ada",
+      "name": "Agile Processes harnessing the change",
+      "type": "archimate:Driver",
+      "folderId": "6ed5e23c-33b9-455c-bf4f-c391861f28d8",
+      "folderName": "Motivation"
+    },
+    {
+      "collection": "elements",
+      "id": "df0ac801-07bb-40c8-ade0-cfe216812dbe",
+      "name": "Welcoming changing requirements",
+      "type": "archimate:Driver",
+      "folderId": "6ed5e23c-33b9-455c-bf4f-c391861f28d8",
+      "folderName": "Motivation"
+    },
+    {
+      "collection": "elements",
+      "id": "90bb8850-70a5-4da4-bdc9-0aa8f50bd299",
+      "name": "Frequent delivery",
+      "type": "archimate:Driver",
+      "folderId": "6ed5e23c-33b9-455c-bf4f-c391861f28d8",
+      "folderName": "Motivation"
+    },
+    {
+      "collection": "elements",
+      "id": "1869fa51-0b26-433b-9d95-2a9a89403161",
+      "name": "Working software",
+      "type": "archimate:Driver",
+      "folderId": "6ed5e23c-33b9-455c-bf4f-c391861f28d8",
+      "folderName": "Motivation"
+    },
+    {
+      "collection": "elements",
+      "id": "4cc5b868-1c32-4ec6-9ae0-051b0223adab",
+      "name": "From couple of weeks to couple of months",
+      "type": "archimate:Meaning",
+      "folderId": "6ed5e23c-33b9-455c-bf4f-c391861f28d8",
+      "folderName": "Motivation"
+    },
+    {
+      "collection": "elements",
+      "id": "050d5252-14c8-468c-9f9f-c2ef2667bcc5",
+      "name": "Shorter time scale is preferred",
+      "type": "archimate:Meaning",
+      "folderId": "6ed5e23c-33b9-455c-bf4f-c391861f28d8",
+      "folderName": "Motivation"
+    },
+    {
+      "collection": "elements",
+      "id": "70951419-241e-42e0-b3b5-3b70af04a195",
+      "name": "Business and Developers collaboration",
+      "type": "archimate:Driver",
+      "folderId": "6ed5e23c-33b9-455c-bf4f-c391861f28d8",
+      "folderName": "Motivation"
+    },
+    {
+      "collection": "elements",
+      "id": "b211c56c-9a56-4449-a4d6-b3f643d129b9",
+      "name": "Job done",
+      "type": "archimate:Driver",
+      "folderId": "6ed5e23c-33b9-455c-bf4f-c391861f28d8",
+      "folderName": "Motivation"
+    },
+    {
+      "collection": "elements",
+      "id": "27bf346c-910b-47c9-be71-8f3b5a2a1b5f",
+      "name": "Daily collaboration",
+      "type": "archimate:Requirement",
+      "folderId": "6ed5e23c-33b9-455c-bf4f-c391861f28d8",
+      "folderName": "Motivation"
+    },
+    {
+      "collection": "elements",
+      "id": "f896e070-3fed-490d-9387-766aaaad996b",
+      "name": "Collaboration throughout the entire project",
+      "type": "archimate:Requirement",
+      "folderId": "6ed5e23c-33b9-455c-bf4f-c391861f28d8",
+      "folderName": "Motivation"
+    },
+    {
+      "collection": "elements",
+      "id": "2335713b-2f1b-46c5-acee-1d39c98c8186",
+      "name": "Even late in development",
+      "type": "archimate:Meaning",
+      "folderId": "6ed5e23c-33b9-455c-bf4f-c391861f28d8",
+      "folderName": "Motivation"
+    },
+    {
+      "collection": "elements",
+      "id": "4d806cec-ff5e-4835-b646-f65789e6fc61",
+      "name": "Environment must meet the needs of developers",
+      "type": "archimate:Requirement",
+      "folderId": "6ed5e23c-33b9-455c-bf4f-c391861f28d8",
+      "folderName": "Motivation"
+    },
+    {
+      "collection": "elements",
+      "id": "6ad05bc7-5b38-4aef-8ada-aef8672db286",
+      "name": "Level of support must meet the needs of developers",
+      "type": "archimate:Requirement",
+      "folderId": "6ed5e23c-33b9-455c-bf4f-c391861f28d8",
+      "folderName": "Motivation"
+    },
+    {
+      "collection": "elements",
+      "id": "6d7710eb-57ec-4c1b-a645-b9ce5d6b231d",
+      "name": "Recruit or develop motivated individuals",
+      "type": "archimate:Requirement",
+      "folderId": "6ed5e23c-33b9-455c-bf4f-c391861f28d8",
+      "folderName": "Motivation"
+    },
+    {
+      "collection": "elements",
+      "id": "a8a6804d-e17b-45fd-9703-af10eb14ee1c",
+      "name": "Trust them",
+      "type": "archimate:Requirement",
+      "folderId": "6ed5e23c-33b9-455c-bf4f-c391861f28d8",
+      "folderName": "Motivation"
+    },
+    {
+      "collection": "elements",
+      "id": "3c30d268-2693-4b74-ac86-8068c94df4b7",
+      "name": "Efficient and effective flow of  information",
+      "type": "archimate:Driver",
+      "folderId": "6ed5e23c-33b9-455c-bf4f-c391861f28d8",
+      "folderName": "Motivation"
+    },
+    {
+      "collection": "elements",
+      "id": "b255fe7c-be92-46ae-98ed-88cdd6ae5ed9",
+      "name": "Face-to-face conversation",
+      "type": "archimate:Requirement",
+      "folderId": "6ed5e23c-33b9-455c-bf4f-c391861f28d8",
+      "folderName": "Motivation"
+    },
+    {
+      "collection": "elements",
+      "id": "d16b91b4-b68f-47bd-900d-d6db8d064045",
+      "name": "Team",
+      "type": "archimate:Stakeholder",
+      "folderId": "6ed5e23c-33b9-455c-bf4f-c391861f28d8",
+      "folderName": "Motivation"
+    },
+    {
+      "collection": "elements",
+      "id": "539a9436-f825-45da-b59a-deeccce8569a",
+      "name": "Measure of progress",
+      "type": "archimate:Driver",
+      "folderId": "6ed5e23c-33b9-455c-bf4f-c391861f28d8",
+      "folderName": "Motivation"
+    },
+    {
+      "collection": "elements",
+      "id": "234f5ab8-4323-4e8c-a5f2-7f464caa8276",
+      "name": "Working Software",
+      "type": "archimate:Assessment",
+      "folderId": "6ed5e23c-33b9-455c-bf4f-c391861f28d8",
+      "folderName": "Motivation"
+    },
+    {
+      "collection": "elements",
+      "id": "b70c85da-d736-40dc-a856-23b7fdb184f0",
+      "name": "Sustainable development",
+      "type": "archimate:Driver",
+      "folderId": "6ed5e23c-33b9-455c-bf4f-c391861f28d8",
+      "folderName": "Motivation"
+    },
+    {
+      "collection": "elements",
+      "id": "0d694952-8274-4a81-ac6e-4e21eeb7ccb4",
+      "name": "Agile processes",
+      "type": "archimate:Requirement",
+      "folderId": "6ed5e23c-33b9-455c-bf4f-c391861f28d8",
+      "folderName": "Motivation"
+    },
+    {
+      "collection": "elements",
+      "id": "7632c7e4-368e-46b9-8150-e11087b7cbb2",
+      "name": "Indefinite and constant pace of sponsors, developers and users",
+      "type": "archimate:Driver",
+      "folderId": "6ed5e23c-33b9-455c-bf4f-c391861f28d8",
+      "folderName": "Motivation"
+    },
+    {
+      "collection": "elements",
+      "id": "bc23245b-4a94-4fde-b6c5-7ba84f660ddb",
+      "name": "Agility",
+      "type": "archimate:Driver",
+      "folderId": "6ed5e23c-33b9-455c-bf4f-c391861f28d8",
+      "folderName": "Motivation"
+    },
+    {
+      "collection": "elements",
+      "id": "d3673968-f8cd-4216-b82e-4f61cac74943",
+      "name": "Continuous attention",
+      "type": "archimate:Assessment",
+      "folderId": "6ed5e23c-33b9-455c-bf4f-c391861f28d8",
+      "folderName": "Motivation"
+    },
+    {
+      "collection": "elements",
+      "id": "73aba525-e300-48c7-a967-ea12f700dff0",
+      "name": "Technical excellence ",
+      "type": "archimate:Requirement",
+      "folderId": "6ed5e23c-33b9-455c-bf4f-c391861f28d8",
+      "folderName": "Motivation"
+    },
+    {
+      "collection": "elements",
+      "id": "a298db37-cccd-4f32-a94d-8fd52c889b1f",
+      "name": "Good design",
+      "type": "archimate:Requirement",
+      "folderId": "6ed5e23c-33b9-455c-bf4f-c391861f28d8",
+      "folderName": "Motivation"
+    },
+    {
+      "collection": "elements",
+      "id": "aafb861b-df6d-4a96-a7b6-c70ca4e8d832",
+      "name": "Simplicity",
+      "type": "archimate:Driver",
+      "folderId": "6ed5e23c-33b9-455c-bf4f-c391861f28d8",
+      "folderName": "Motivation"
+    },
+    {
+      "collection": "elements",
+      "id": "12bc4173-cc2f-4619-a95b-989682122548",
+      "name": "Unnecessary work not done",
+      "type": "archimate:Driver",
+      "folderId": "6ed5e23c-33b9-455c-bf4f-c391861f28d8",
+      "folderName": "Motivation"
+    },
+    {
+      "collection": "elements",
+      "id": "dd1cdacf-7e87-44f0-af3d-a27c1ccbc9ff",
+      "name": "Necessary work done",
+      "type": "archimate:Driver",
+      "folderId": "6ed5e23c-33b9-455c-bf4f-c391861f28d8",
+      "folderName": "Motivation"
+    },
+    {
+      "collection": "elements",
+      "id": "f46e5a7e-0a4d-4fad-8e50-b803387fc77e",
+      "name": "Best  Architecture, Requirements  and Design",
+      "type": "archimate:Driver",
+      "folderId": "6ed5e23c-33b9-455c-bf4f-c391861f28d8",
+      "folderName": "Motivation"
+    },
+    {
+      "collection": "elements",
+      "id": "78f60606-2112-4331-a744-3d18ff90fcc8",
+      "name": "Self-organizing teams",
+      "type": "archimate:Requirement",
+      "folderId": "6ed5e23c-33b9-455c-bf4f-c391861f28d8",
+      "folderName": "Motivation"
+    },
+    {
+      "collection": "elements",
+      "id": "dba42491-792f-456b-9402-b34258f78726",
+      "name": "More Effective Team",
+      "type": "archimate:Driver",
+      "folderId": "6ed5e23c-33b9-455c-bf4f-c391861f28d8",
+      "folderName": "Motivation"
+    },
+    {
+      "collection": "elements",
+      "id": "bacb4850-a689-445d-bf80-7bd9598df48c",
+      "name": "Regular tuning and adjustment of behavior",
+      "type": "archimate:Requirement",
+      "folderId": "6ed5e23c-33b9-455c-bf4f-c391861f28d8",
+      "folderName": "Motivation"
+    },
+    {
+      "collection": "elements",
+      "id": "9a0aebe8-f698-40b4-9c50-d16b28a33f99",
+      "name": "Regular reflections",
+      "type": "archimate:Assessment",
+      "folderId": "6ed5e23c-33b9-455c-bf4f-c391861f28d8",
+      "folderName": "Motivation"
+    },
+    {
+      "collection": "elements",
+      "id": "295527bc-9644-4fc1-888f-27776ede846a",
+      "name": "Comprehensive documentation",
+      "type": "archimate:Deliverable",
+      "folderId": "33a6e24d-cad0-4bd0-a27f-d3061c66d601",
+      "folderName": "Implementation & Migration"
     }
   ],
   "relationships": [
     {
-      "id": "rel-001",
-      "name": "",
+      "collection": "relationships",
+      "id": "2e214c4f-1dc3-49b1-9f21-2019a07386c2",
+      "name": null,
       "type": "archimate:ServingRelationship",
-      "source": "el-001",
-      "target": "el-002",
-      "folderId": "folder-relations",
-      "folderName": "Relations"
+      "folderId": "1834abd8-2fcc-435f-846f-5bb5c929df39",
+      "folderName": "Relations",
+      "source": "fc43cec0-90d7-45ff-92c1-2f4789cc7e71",
+      "target": "a1b39a05-8e32-4f67-869b-5b208381b5ec"
     },
     {
-      "id": "rel-014",
-      "name": "",
+      "collection": "relationships",
+      "id": "b37e7786-86de-4a71-b6e4-d7d96d2ccdcf",
+      "name": "come to",
+      "type": "archimate:InfluenceRelationship",
+      "folderId": "1834abd8-2fcc-435f-846f-5bb5c929df39",
+      "folderName": "Relations",
+      "source": "80fc542a-0116-4503-8d7b-b2ca17251513",
+      "target": "2b3629b5-b051-42a8-b032-7ca4e8c43d36"
+    },
+    {
+      "collection": "relationships",
+      "id": "03be5571-3fbd-4956-8f8e-c223b6c6e9b8",
+      "name": null,
+      "type": "archimate:ServingRelationship",
+      "folderId": "1834abd8-2fcc-435f-846f-5bb5c929df39",
+      "folderName": "Relations",
+      "source": "74922623-12f2-4c19-9270-221d2f5920e8",
+      "target": "09297a62-c2e3-46c3-8f4a-8ead8625a466"
+    },
+    {
+      "collection": "relationships",
+      "id": "9dc6eb3b-d80a-4778-b0b8-91327a3d74ba",
+      "name": null,
+      "type": "archimate:AssignmentRelationship",
+      "folderId": "1834abd8-2fcc-435f-846f-5bb5c929df39",
+      "folderName": "Relations",
+      "source": "00d4acfd-9da1-4d5c-80cc-2cf682725ddb",
+      "target": "1a57452c-7c95-402a-bf1b-e2c4a710acea"
+    },
+    {
+      "collection": "relationships",
+      "id": "73ace2d3-573b-4f75-a209-bc915043b7a7",
+      "name": null,
+      "type": "archimate:CompositionRelationship",
+      "folderId": "1834abd8-2fcc-435f-846f-5bb5c929df39",
+      "folderName": "Relations",
+      "source": "57aa40db-5d2c-4249-b9d6-0f9774080b76",
+      "target": "a1b39a05-8e32-4f67-869b-5b208381b5ec"
+    },
+    {
+      "collection": "relationships",
+      "id": "721d9408-9b00-46f0-9857-0ada8499efc6",
+      "name": null,
+      "type": "archimate:InfluenceRelationship",
+      "folderId": "1834abd8-2fcc-435f-846f-5bb5c929df39",
+      "folderName": "Relations",
+      "source": "74922623-12f2-4c19-9270-221d2f5920e8",
+      "target": "80fc542a-0116-4503-8d7b-b2ca17251513"
+    },
+    {
+      "collection": "relationships",
+      "id": "7ac63fe5-a662-4ef6-98b1-b436028ddc98",
+      "name": null,
+      "type": "archimate:CompositionRelationship",
+      "folderId": "1834abd8-2fcc-435f-846f-5bb5c929df39",
+      "folderName": "Relations",
+      "source": "2b3629b5-b051-42a8-b032-7ca4e8c43d36",
+      "target": "4a05c0d8-26f2-4737-b3fa-960faa9d8a4c"
+    },
+    {
+      "collection": "relationships",
+      "id": "8a93b363-4b77-4219-af51-b9eded28e80a",
+      "name": null,
+      "type": "archimate:CompositionRelationship",
+      "folderId": "1834abd8-2fcc-435f-846f-5bb5c929df39",
+      "folderName": "Relations",
+      "source": "2b3629b5-b051-42a8-b032-7ca4e8c43d36",
+      "target": "57aa40db-5d2c-4249-b9d6-0f9774080b76"
+    },
+    {
+      "collection": "relationships",
+      "id": "56615c4a-63cd-483c-bac3-caa72d49a13b",
+      "name": null,
+      "type": "archimate:CompositionRelationship",
+      "folderId": "1834abd8-2fcc-435f-846f-5bb5c929df39",
+      "folderName": "Relations",
+      "source": "57aa40db-5d2c-4249-b9d6-0f9774080b76",
+      "target": "a9450b04-e885-47b3-addf-079d7766475e"
+    },
+    {
+      "collection": "relationships",
+      "id": "76f9c0e9-44d2-4b87-a012-bfd2ca9c3afa",
+      "name": null,
+      "type": "archimate:CompositionRelationship",
+      "folderId": "1834abd8-2fcc-435f-846f-5bb5c929df39",
+      "folderName": "Relations",
+      "source": "4a05c0d8-26f2-4737-b3fa-960faa9d8a4c",
+      "target": "fc43cec0-90d7-45ff-92c1-2f4789cc7e71"
+    },
+    {
+      "collection": "relationships",
+      "id": "0b5f2b56-ea18-4a57-b4f1-c6227e4ab54b",
+      "name": null,
+      "type": "archimate:TriggeringRelationship",
+      "folderId": "1834abd8-2fcc-435f-846f-5bb5c929df39",
+      "folderName": "Relations",
+      "source": "9c00c2d0-115d-47c8-9f02-99730f6d4158",
+      "target": "a9450b04-e885-47b3-addf-079d7766475e"
+    },
+    {
+      "collection": "relationships",
+      "id": "b483a3e1-2102-4525-9662-0274974ff843",
+      "name": null,
+      "type": "archimate:RealizationRelationship",
+      "folderId": "1834abd8-2fcc-435f-846f-5bb5c929df39",
+      "folderName": "Relations",
+      "source": "295527bc-9644-4fc1-888f-27776ede846a",
+      "target": "fd087fda-a48b-4cbe-992f-1689160591c0"
+    },
+    {
+      "collection": "relationships",
+      "id": "a387e77d-9d7e-48eb-a793-04a86e3a1a62",
+      "name": null,
+      "type": "archimate:CompositionRelationship",
+      "folderId": "1834abd8-2fcc-435f-846f-5bb5c929df39",
+      "folderName": "Relations",
+      "source": "f7fae001-cab8-4b90-a0ab-784c69228c30",
+      "target": "09297a62-c2e3-46c3-8f4a-8ead8625a466"
+    },
+    {
+      "collection": "relationships",
+      "id": "b2f7c101-741f-40b7-b058-92372c4459fc",
+      "name": null,
+      "type": "archimate:CompositionRelationship",
+      "folderId": "1834abd8-2fcc-435f-846f-5bb5c929df39",
+      "folderName": "Relations",
+      "source": "4a05c0d8-26f2-4737-b3fa-960faa9d8a4c",
+      "target": "fe65bfbf-1850-44a7-a79b-8efe7bf402d9"
+    },
+    {
+      "collection": "relationships",
+      "id": "1a5119a8-fef9-4888-807d-2abda645f74c",
+      "name": null,
+      "type": "archimate:RealizationRelationship",
+      "folderId": "1834abd8-2fcc-435f-846f-5bb5c929df39",
+      "folderName": "Relations",
+      "source": "295527bc-9644-4fc1-888f-27776ede846a",
+      "target": "211ab6f2-1737-4d70-bed6-6f76870986f2"
+    },
+    {
+      "collection": "relationships",
+      "id": "e091ecc4-2f3b-4b82-924b-dc1b82a428ad",
+      "name": null,
+      "type": "archimate:CompositionRelationship",
+      "folderId": "1834abd8-2fcc-435f-846f-5bb5c929df39",
+      "folderName": "Relations",
+      "source": "4a05c0d8-26f2-4737-b3fa-960faa9d8a4c",
+      "target": "295527bc-9644-4fc1-888f-27776ede846a"
+    },
+    {
+      "collection": "relationships",
+      "id": "46d770cf-e4de-4f05-a4c6-a26316ed338b",
+      "name": "and",
+      "type": "archimate:RealizationRelationship",
+      "folderId": "1834abd8-2fcc-435f-846f-5bb5c929df39",
+      "folderName": "Relations",
+      "source": "fc43cec0-90d7-45ff-92c1-2f4789cc7e71",
+      "target": "80c31b9b-f474-49f0-9588-4c9d68136240"
+    },
+    {
+      "collection": "relationships",
+      "id": "96ec4f62-6210-4fda-93cb-a09ddf275bc8",
+      "name": null,
+      "type": "archimate:SpecializationRelationship",
+      "folderId": "1834abd8-2fcc-435f-846f-5bb5c929df39",
+      "folderName": "Relations",
+      "source": "fe65bfbf-1850-44a7-a79b-8efe7bf402d9",
+      "target": "a9450b04-e885-47b3-addf-079d7766475e"
+    },
+    {
+      "collection": "relationships",
+      "id": "40ff3079-83c2-47be-9e1f-5eba283708cb",
+      "name": null,
+      "type": "archimate:CompositionRelationship",
+      "folderId": "1834abd8-2fcc-435f-846f-5bb5c929df39",
+      "folderName": "Relations",
+      "source": "57aa40db-5d2c-4249-b9d6-0f9774080b76",
+      "target": "8b416a69-dabb-4f5e-9a7e-4b55b65ced03"
+    },
+    {
+      "collection": "relationships",
+      "id": "0f3d5255-7f2e-4e5b-96f0-62e09c27618d",
+      "name": null,
+      "type": "archimate:CompositionRelationship",
+      "folderId": "1834abd8-2fcc-435f-846f-5bb5c929df39",
+      "folderName": "Relations",
+      "source": "f7fae001-cab8-4b90-a0ab-784c69228c30",
+      "target": "74922623-12f2-4c19-9270-221d2f5920e8"
+    },
+    {
+      "collection": "relationships",
+      "id": "4a4e9cd5-a56e-415d-838c-98b6b6a78297",
+      "name": null,
+      "type": "archimate:CompositionRelationship",
+      "folderId": "1834abd8-2fcc-435f-846f-5bb5c929df39",
+      "folderName": "Relations",
+      "source": "4a05c0d8-26f2-4737-b3fa-960faa9d8a4c",
+      "target": "80c31b9b-f474-49f0-9588-4c9d68136240"
+    },
+    {
+      "collection": "relationships",
+      "id": "3938e813-4069-4d6f-8b1d-1d237f178d4a",
+      "name": null,
+      "type": "archimate:CompositionRelationship",
+      "folderId": "1834abd8-2fcc-435f-846f-5bb5c929df39",
+      "folderName": "Relations",
+      "source": "57aa40db-5d2c-4249-b9d6-0f9774080b76",
+      "target": "211ab6f2-1737-4d70-bed6-6f76870986f2"
+    },
+    {
+      "collection": "relationships",
+      "id": "aa835ebd-6772-46ea-8c1c-7d041dcde5c2",
+      "name": null,
       "type": "archimate:AssociationRelationship",
-      "source": "el-001",
-      "target": "el-009",
-      "folderId": "folder-relations",
-      "folderName": "Relations"
+      "folderId": "1834abd8-2fcc-435f-846f-5bb5c929df39",
+      "folderName": "Relations",
+      "source": "fc43cec0-90d7-45ff-92c1-2f4789cc7e71",
+      "target": "295527bc-9644-4fc1-888f-27776ede846a"
+    },
+    {
+      "collection": "relationships",
+      "id": "a7c928cb-b271-4a7a-a3c4-ca3f1cc96b50",
+      "name": null,
+      "type": "archimate:CompositionRelationship",
+      "folderId": "1834abd8-2fcc-435f-846f-5bb5c929df39",
+      "folderName": "Relations",
+      "source": "57aa40db-5d2c-4249-b9d6-0f9774080b76",
+      "target": "9c00c2d0-115d-47c8-9f02-99730f6d4158"
+    },
+    {
+      "collection": "relationships",
+      "id": "5817c2cc-82c0-445e-89ad-659b0b5cb910",
+      "name": "and",
+      "type": "archimate:AssignmentRelationship",
+      "folderId": "1834abd8-2fcc-435f-846f-5bb5c929df39",
+      "folderName": "Relations",
+      "source": "8b416a69-dabb-4f5e-9a7e-4b55b65ced03",
+      "target": "a1b39a05-8e32-4f67-869b-5b208381b5ec"
+    },
+    {
+      "collection": "relationships",
+      "id": "6e734df1-3910-41d0-8404-80a08256e136",
+      "name": null,
+      "type": "archimate:TriggeringRelationship",
+      "folderId": "1834abd8-2fcc-435f-846f-5bb5c929df39",
+      "folderName": "Relations",
+      "source": "9c00c2d0-115d-47c8-9f02-99730f6d4158",
+      "target": "fd087fda-a48b-4cbe-992f-1689160591c0"
+    },
+    {
+      "collection": "relationships",
+      "id": "89af8465-887c-42db-a86b-75cd2b440fea",
+      "name": null,
+      "type": "archimate:RealizationRelationship",
+      "folderId": "1834abd8-2fcc-435f-846f-5bb5c929df39",
+      "folderName": "Relations",
+      "source": "211ab6f2-1737-4d70-bed6-6f76870986f2",
+      "target": "a1b39a05-8e32-4f67-869b-5b208381b5ec"
+    },
+    {
+      "collection": "relationships",
+      "id": "93450367-c3e9-4cd6-bcff-efcc47fe473a",
+      "name": null,
+      "type": "archimate:CompositionRelationship",
+      "folderId": "1834abd8-2fcc-435f-846f-5bb5c929df39",
+      "folderName": "Relations",
+      "source": "4a05c0d8-26f2-4737-b3fa-960faa9d8a4c",
+      "target": "fd087fda-a48b-4cbe-992f-1689160591c0"
+    },
+    {
+      "collection": "relationships",
+      "id": "7be0fde6-9840-46e4-b204-ad40b26e786a",
+      "name": null,
+      "type": "archimate:InfluenceRelationship",
+      "folderId": "1834abd8-2fcc-435f-846f-5bb5c929df39",
+      "folderName": "Relations",
+      "source": "09297a62-c2e3-46c3-8f4a-8ead8625a466",
+      "target": "80fc542a-0116-4503-8d7b-b2ca17251513"
+    },
+    {
+      "collection": "relationships",
+      "id": "ef077150-eb0a-49f1-bc3b-46f13478149b",
+      "name": null,
+      "type": "archimate:ServingRelationship",
+      "folderId": "1834abd8-2fcc-435f-846f-5bb5c929df39",
+      "folderName": "Relations",
+      "source": "fe65bfbf-1850-44a7-a79b-8efe7bf402d9",
+      "target": "fd087fda-a48b-4cbe-992f-1689160591c0"
+    },
+    {
+      "collection": "relationships",
+      "id": "8267a610-e948-4344-b885-fa9638dcb779",
+      "name": null,
+      "type": "archimate:AssignmentRelationship",
+      "folderId": "1834abd8-2fcc-435f-846f-5bb5c929df39",
+      "folderName": "Relations",
+      "source": "8b416a69-dabb-4f5e-9a7e-4b55b65ced03",
+      "target": "80c31b9b-f474-49f0-9588-4c9d68136240"
+    },
+    {
+      "collection": "relationships",
+      "id": "e7f4d99b-0e4c-419b-ac97-24ccf7e01919",
+      "name": null,
+      "type": "archimate:AssignmentRelationship",
+      "folderId": "1834abd8-2fcc-435f-846f-5bb5c929df39",
+      "folderName": "Relations",
+      "source": "1a57452c-7c95-402a-bf1b-e2c4a710acea",
+      "target": "f7fae001-cab8-4b90-a0ab-784c69228c30"
+    },
+    {
+      "collection": "relationships",
+      "id": "3dfa16ea-6128-41b4-a92f-da5503412e7b",
+      "name": null,
+      "type": "archimate:ServingRelationship",
+      "folderId": "1834abd8-2fcc-435f-846f-5bb5c929df39",
+      "folderName": "Relations",
+      "source": "211ab6f2-1737-4d70-bed6-6f76870986f2",
+      "target": "9c00c2d0-115d-47c8-9f02-99730f6d4158"
+    },
+    {
+      "collection": "relationships",
+      "id": "e891047b-26f1-43dd-9302-659e003b887e",
+      "name": null,
+      "type": "archimate:AssociationRelationship",
+      "folderId": "1834abd8-2fcc-435f-846f-5bb5c929df39",
+      "folderName": "Relations",
+      "source": "c89d36f0-01e3-41ae-b634-8cbe5dd08778",
+      "target": "7350668e-c640-48d9-8d52-77190b0d1b96"
+    },
+    {
+      "collection": "relationships",
+      "id": "c4686a3e-dde6-4e68-873a-415c9d037628",
+      "name": null,
+      "type": "archimate:SpecializationRelationship",
+      "folderId": "1834abd8-2fcc-435f-846f-5bb5c929df39",
+      "folderName": "Relations",
+      "source": "5786c2e0-2582-432b-8ed1-35426743dd01",
+      "target": "7350668e-c640-48d9-8d52-77190b0d1b96"
+    },
+    {
+      "collection": "relationships",
+      "id": "f9986fdf-f2ee-4300-ae20-340a31072568",
+      "name": null,
+      "type": "archimate:SpecializationRelationship",
+      "folderId": "1834abd8-2fcc-435f-846f-5bb5c929df39",
+      "folderName": "Relations",
+      "source": "c436b32c-6527-4fdc-ad31-ea317cd472fe",
+      "target": "7350668e-c640-48d9-8d52-77190b0d1b96"
+    },
+    {
+      "collection": "relationships",
+      "id": "33858e3c-9059-4b4e-8acf-110e01d8c2b6",
+      "name": null,
+      "type": "archimate:SpecializationRelationship",
+      "folderId": "1834abd8-2fcc-435f-846f-5bb5c929df39",
+      "folderName": "Relations",
+      "source": "f2bbf020-b54d-4c28-81c3-1ef1b0625389",
+      "target": "7350668e-c640-48d9-8d52-77190b0d1b96"
+    },
+    {
+      "collection": "relationships",
+      "id": "e5ccb80d-e4cb-4685-ad88-1bca300e866d",
+      "name": null,
+      "type": "archimate:AssociationRelationship",
+      "folderId": "1834abd8-2fcc-435f-846f-5bb5c929df39",
+      "folderName": "Relations",
+      "source": "c436b32c-6527-4fdc-ad31-ea317cd472fe",
+      "target": "5786c2e0-2582-432b-8ed1-35426743dd01"
+    },
+    {
+      "collection": "relationships",
+      "id": "c0caddc1-aca7-4706-b01a-9279f2741068",
+      "name": null,
+      "type": "archimate:AssociationRelationship",
+      "folderId": "1834abd8-2fcc-435f-846f-5bb5c929df39",
+      "folderName": "Relations",
+      "source": "5786c2e0-2582-432b-8ed1-35426743dd01",
+      "target": "f2bbf020-b54d-4c28-81c3-1ef1b0625389"
+    },
+    {
+      "collection": "relationships",
+      "id": "9fbadba6-c960-49dd-a533-811a3a0745ba",
+      "name": "+",
+      "type": "archimate:InfluenceRelationship",
+      "folderId": "1834abd8-2fcc-435f-846f-5bb5c929df39",
+      "folderName": "Relations",
+      "source": "a654dbf0-0b27-4678-8032-9db141e153b3",
+      "target": "5786c2e0-2582-432b-8ed1-35426743dd01"
+    },
+    {
+      "collection": "relationships",
+      "id": "f4cba77e-5c1f-443f-a739-c5998c0265f9",
+      "name": "+",
+      "type": "archimate:InfluenceRelationship",
+      "folderId": "1834abd8-2fcc-435f-846f-5bb5c929df39",
+      "folderName": "Relations",
+      "source": "a654dbf0-0b27-4678-8032-9db141e153b3",
+      "target": "f2bbf020-b54d-4c28-81c3-1ef1b0625389"
+    },
+    {
+      "collection": "relationships",
+      "id": "fd0673df-6c97-45b6-bc13-b921bc578d66",
+      "name": "+",
+      "type": "archimate:InfluenceRelationship",
+      "folderId": "1834abd8-2fcc-435f-846f-5bb5c929df39",
+      "folderName": "Relations",
+      "source": "a654dbf0-0b27-4678-8032-9db141e153b3",
+      "target": "c436b32c-6527-4fdc-ad31-ea317cd472fe"
+    },
+    {
+      "collection": "relationships",
+      "id": "e095fd71-64ed-46bd-9cc2-36ed1a6fd55b",
+      "name": null,
+      "type": "archimate:AssociationRelationship",
+      "folderId": "1834abd8-2fcc-435f-846f-5bb5c929df39",
+      "folderName": "Relations",
+      "source": "71b4a705-4c22-460e-8044-6d9c0c0f9bd0",
+      "target": "57aa40db-5d2c-4249-b9d6-0f9774080b76"
+    },
+    {
+      "collection": "relationships",
+      "id": "7ef8da84-20cd-4450-8c77-8b33c8435f12",
+      "name": null,
+      "type": "archimate:AssociationRelationship",
+      "folderId": "1834abd8-2fcc-435f-846f-5bb5c929df39",
+      "folderName": "Relations",
+      "source": "71b4a705-4c22-460e-8044-6d9c0c0f9bd0",
+      "target": "4a05c0d8-26f2-4737-b3fa-960faa9d8a4c"
+    },
+    {
+      "collection": "relationships",
+      "id": "ab7077ec-8267-4adc-951a-0fc4ed53426e",
+      "name": null,
+      "type": "archimate:AssociationRelationship",
+      "folderId": "1834abd8-2fcc-435f-846f-5bb5c929df39",
+      "folderName": "Relations",
+      "source": "fd8fcb81-ee0e-40aa-9a73-d18b5cfa1f8f",
+      "target": "c89d36f0-01e3-41ae-b634-8cbe5dd08778"
+    },
+    {
+      "collection": "relationships",
+      "id": "aee10ef4-7444-4934-b8cc-9815d84265f3",
+      "name": null,
+      "type": "archimate:SpecializationRelationship",
+      "folderId": "1834abd8-2fcc-435f-846f-5bb5c929df39",
+      "folderName": "Relations",
+      "source": "6e338cc0-6403-44c2-83de-748d108a6ada",
+      "target": "fd8fcb81-ee0e-40aa-9a73-d18b5cfa1f8f"
+    },
+    {
+      "collection": "relationships",
+      "id": "0d7bfbe9-227b-40a3-8de6-9ff4c304648a",
+      "name": null,
+      "type": "archimate:SpecializationRelationship",
+      "folderId": "1834abd8-2fcc-435f-846f-5bb5c929df39",
+      "folderName": "Relations",
+      "source": "df0ac801-07bb-40c8-ade0-cfe216812dbe",
+      "target": "6e338cc0-6403-44c2-83de-748d108a6ada"
+    },
+    {
+      "collection": "relationships",
+      "id": "9ffbb0c4-1a31-4de3-8bda-866b583c6f64",
+      "name": "+",
+      "type": "archimate:InfluenceRelationship",
+      "folderId": "1834abd8-2fcc-435f-846f-5bb5c929df39",
+      "folderName": "Relations",
+      "source": "21756b8b-bab6-485e-8de3-2ae4dd0a3026",
+      "target": "6e338cc0-6403-44c2-83de-748d108a6ada"
+    },
+    {
+      "collection": "relationships",
+      "id": "7df29147-7ccb-4a13-9bb6-af908cc1628a",
+      "name": "+",
+      "type": "archimate:InfluenceRelationship",
+      "folderId": "1834abd8-2fcc-435f-846f-5bb5c929df39",
+      "folderName": "Relations",
+      "source": "21756b8b-bab6-485e-8de3-2ae4dd0a3026",
+      "target": "df0ac801-07bb-40c8-ade0-cfe216812dbe"
+    },
+    {
+      "collection": "relationships",
+      "id": "a0193524-aea5-41e2-a844-b127c23adecd",
+      "name": "+",
+      "type": "archimate:InfluenceRelationship",
+      "folderId": "1834abd8-2fcc-435f-846f-5bb5c929df39",
+      "folderName": "Relations",
+      "source": "fd8fcb81-ee0e-40aa-9a73-d18b5cfa1f8f",
+      "target": "7350668e-c640-48d9-8d52-77190b0d1b96"
+    },
+    {
+      "collection": "relationships",
+      "id": "4360167e-53c6-4d01-a24b-41303ee85799",
+      "name": null,
+      "type": "archimate:AssociationRelationship",
+      "folderId": "1834abd8-2fcc-435f-846f-5bb5c929df39",
+      "folderName": "Relations",
+      "source": "1869fa51-0b26-433b-9d95-2a9a89403161",
+      "target": "90bb8850-70a5-4da4-bdc9-0aa8f50bd299"
+    },
+    {
+      "collection": "relationships",
+      "id": "0347c2d9-cb17-4378-a7af-49948361d7de",
+      "name": null,
+      "type": "archimate:AssociationRelationship",
+      "folderId": "1834abd8-2fcc-435f-846f-5bb5c929df39",
+      "folderName": "Relations",
+      "source": "1869fa51-0b26-433b-9d95-2a9a89403161",
+      "target": "c89d36f0-01e3-41ae-b634-8cbe5dd08778"
+    },
+    {
+      "collection": "relationships",
+      "id": "b29b4e11-9b63-4c50-8990-ef13528ece03",
+      "name": null,
+      "type": "archimate:AssociationRelationship",
+      "folderId": "1834abd8-2fcc-435f-846f-5bb5c929df39",
+      "folderName": "Relations",
+      "source": "90bb8850-70a5-4da4-bdc9-0aa8f50bd299",
+      "target": "c89d36f0-01e3-41ae-b634-8cbe5dd08778"
+    },
+    {
+      "collection": "relationships",
+      "id": "91dab273-78c7-49de-a987-86d504baf6a7",
+      "name": null,
+      "type": "archimate:SpecializationRelationship",
+      "folderId": "1834abd8-2fcc-435f-846f-5bb5c929df39",
+      "folderName": "Relations",
+      "source": "050d5252-14c8-468c-9f9f-c2ef2667bcc5",
+      "target": "4cc5b868-1c32-4ec6-9ae0-051b0223adab"
+    },
+    {
+      "collection": "relationships",
+      "id": "ee1c1a14-3f7a-47bf-8acb-75f4c46f367c",
+      "name": null,
+      "type": "archimate:AssociationRelationship",
+      "folderId": "1834abd8-2fcc-435f-846f-5bb5c929df39",
+      "folderName": "Relations",
+      "source": "4cc5b868-1c32-4ec6-9ae0-051b0223adab",
+      "target": "90bb8850-70a5-4da4-bdc9-0aa8f50bd299"
+    },
+    {
+      "collection": "relationships",
+      "id": "bd1526e4-ae46-4009-898a-16ace1402ef7",
+      "name": "+",
+      "type": "archimate:InfluenceRelationship",
+      "folderId": "1834abd8-2fcc-435f-846f-5bb5c929df39",
+      "folderName": "Relations",
+      "source": "f655e0cb-7761-4a29-9deb-8e300b4fa146",
+      "target": "90bb8850-70a5-4da4-bdc9-0aa8f50bd299"
+    },
+    {
+      "collection": "relationships",
+      "id": "f1bf83e7-1216-4714-aac8-d0c58291b45e",
+      "name": null,
+      "type": "archimate:AssociationRelationship",
+      "folderId": "1834abd8-2fcc-435f-846f-5bb5c929df39",
+      "folderName": "Relations",
+      "source": "70951419-241e-42e0-b3b5-3b70af04a195",
+      "target": "c89d36f0-01e3-41ae-b634-8cbe5dd08778"
+    },
+    {
+      "collection": "relationships",
+      "id": "febaa042-e446-4639-ae18-b3d6c3908557",
+      "name": "+",
+      "type": "archimate:InfluenceRelationship",
+      "folderId": "1834abd8-2fcc-435f-846f-5bb5c929df39",
+      "folderName": "Relations",
+      "source": "bdc25d56-cfce-4381-8dc1-78a1f9047f3d",
+      "target": "70951419-241e-42e0-b3b5-3b70af04a195"
+    },
+    {
+      "collection": "relationships",
+      "id": "81f35b7f-00ea-4ddb-bf15-b19eba844506",
+      "name": null,
+      "type": "archimate:AssociationRelationship",
+      "folderId": "1834abd8-2fcc-435f-846f-5bb5c929df39",
+      "folderName": "Relations",
+      "source": "27bf346c-910b-47c9-be71-8f3b5a2a1b5f",
+      "target": "70951419-241e-42e0-b3b5-3b70af04a195"
+    },
+    {
+      "collection": "relationships",
+      "id": "720b42a9-b51a-41ad-87f5-c1c3704fb149",
+      "name": null,
+      "type": "archimate:AssociationRelationship",
+      "folderId": "1834abd8-2fcc-435f-846f-5bb5c929df39",
+      "folderName": "Relations",
+      "source": "f896e070-3fed-490d-9387-766aaaad996b",
+      "target": "70951419-241e-42e0-b3b5-3b70af04a195"
+    },
+    {
+      "collection": "relationships",
+      "id": "6f7a1ea2-5db4-420c-8e40-b86a0d11941c",
+      "name": null,
+      "type": "archimate:AssociationRelationship",
+      "folderId": "1834abd8-2fcc-435f-846f-5bb5c929df39",
+      "folderName": "Relations",
+      "source": "2335713b-2f1b-46c5-acee-1d39c98c8186",
+      "target": "df0ac801-07bb-40c8-ade0-cfe216812dbe"
+    },
+    {
+      "collection": "relationships",
+      "id": "c9f681cd-374b-4148-8db6-f2c862bda867",
+      "name": "+",
+      "type": "archimate:InfluenceRelationship",
+      "folderId": "1834abd8-2fcc-435f-846f-5bb5c929df39",
+      "folderName": "Relations",
+      "source": "a8a6804d-e17b-45fd-9703-af10eb14ee1c",
+      "target": "b211c56c-9a56-4449-a4d6-b3f643d129b9"
+    },
+    {
+      "collection": "relationships",
+      "id": "2ad72e34-a089-43a9-8584-f9b842faf3c9",
+      "name": null,
+      "type": "archimate:AssociationRelationship",
+      "folderId": "1834abd8-2fcc-435f-846f-5bb5c929df39",
+      "folderName": "Relations",
+      "source": "b211c56c-9a56-4449-a4d6-b3f643d129b9",
+      "target": "c89d36f0-01e3-41ae-b634-8cbe5dd08778"
+    },
+    {
+      "collection": "relationships",
+      "id": "20b9b811-24e1-48a8-87bf-42773156b7d1",
+      "name": "+",
+      "type": "archimate:InfluenceRelationship",
+      "folderId": "1834abd8-2fcc-435f-846f-5bb5c929df39",
+      "folderName": "Relations",
+      "source": "6ad05bc7-5b38-4aef-8ada-aef8672db286",
+      "target": "b211c56c-9a56-4449-a4d6-b3f643d129b9"
+    },
+    {
+      "collection": "relationships",
+      "id": "ffb0fe33-251d-47ce-83a9-d4df446f5691",
+      "name": "+",
+      "type": "archimate:InfluenceRelationship",
+      "folderId": "1834abd8-2fcc-435f-846f-5bb5c929df39",
+      "folderName": "Relations",
+      "source": "4d806cec-ff5e-4835-b646-f65789e6fc61",
+      "target": "b211c56c-9a56-4449-a4d6-b3f643d129b9"
+    },
+    {
+      "collection": "relationships",
+      "id": "aa7428f5-67f3-4152-aabc-6c96563db7b3",
+      "name": "+",
+      "type": "archimate:InfluenceRelationship",
+      "folderId": "1834abd8-2fcc-435f-846f-5bb5c929df39",
+      "folderName": "Relations",
+      "source": "6d7710eb-57ec-4c1b-a645-b9ce5d6b231d",
+      "target": "b211c56c-9a56-4449-a4d6-b3f643d129b9"
+    },
+    {
+      "collection": "relationships",
+      "id": "22fbef19-f718-41e9-a333-7dd1c04abbae",
+      "name": "+",
+      "type": "archimate:InfluenceRelationship",
+      "folderId": "1834abd8-2fcc-435f-846f-5bb5c929df39",
+      "folderName": "Relations",
+      "source": "a8a6804d-e17b-45fd-9703-af10eb14ee1c",
+      "target": "6d7710eb-57ec-4c1b-a645-b9ce5d6b231d"
+    },
+    {
+      "collection": "relationships",
+      "id": "3c0a07fb-99a8-41ae-a14c-889aca8a3c04",
+      "name": "+",
+      "type": "archimate:InfluenceRelationship",
+      "folderId": "1834abd8-2fcc-435f-846f-5bb5c929df39",
+      "folderName": "Relations",
+      "source": "6ad05bc7-5b38-4aef-8ada-aef8672db286",
+      "target": "6d7710eb-57ec-4c1b-a645-b9ce5d6b231d"
+    },
+    {
+      "collection": "relationships",
+      "id": "b3a21f56-ef29-40ef-bce1-1e4412f2badf",
+      "name": "+",
+      "type": "archimate:InfluenceRelationship",
+      "folderId": "1834abd8-2fcc-435f-846f-5bb5c929df39",
+      "folderName": "Relations",
+      "source": "4d806cec-ff5e-4835-b646-f65789e6fc61",
+      "target": "6d7710eb-57ec-4c1b-a645-b9ce5d6b231d"
+    },
+    {
+      "collection": "relationships",
+      "id": "fa6a66e7-fe2f-40e4-9de1-1acecee0a742",
+      "name": "+",
+      "type": "archimate:InfluenceRelationship",
+      "folderId": "1834abd8-2fcc-435f-846f-5bb5c929df39",
+      "folderName": "Relations",
+      "source": "2b222efb-649a-4097-9e14-47feb8524725",
+      "target": "6d7710eb-57ec-4c1b-a645-b9ce5d6b231d"
+    },
+    {
+      "collection": "relationships",
+      "id": "9c11f945-5139-4a2b-9c69-3d4a79d6208f",
+      "name": null,
+      "type": "archimate:AssociationRelationship",
+      "folderId": "1834abd8-2fcc-435f-846f-5bb5c929df39",
+      "folderName": "Relations",
+      "source": "c89d36f0-01e3-41ae-b634-8cbe5dd08778",
+      "target": "3c30d268-2693-4b74-ac86-8068c94df4b7"
+    },
+    {
+      "collection": "relationships",
+      "id": "196932ed-2d9c-4a28-9d25-5c0d40ce529b",
+      "name": null,
+      "type": "archimate:AssociationRelationship",
+      "folderId": "1834abd8-2fcc-435f-846f-5bb5c929df39",
+      "folderName": "Relations",
+      "source": "d16b91b4-b68f-47bd-900d-d6db8d064045",
+      "target": "3c30d268-2693-4b74-ac86-8068c94df4b7"
+    },
+    {
+      "collection": "relationships",
+      "id": "45805d87-70c1-4b49-b90f-203c036ec0d3",
+      "name": null,
+      "type": "archimate:AssociationRelationship",
+      "folderId": "1834abd8-2fcc-435f-846f-5bb5c929df39",
+      "folderName": "Relations",
+      "source": "b255fe7c-be92-46ae-98ed-88cdd6ae5ed9",
+      "target": "d16b91b4-b68f-47bd-900d-d6db8d064045"
+    },
+    {
+      "collection": "relationships",
+      "id": "254a8a77-ab42-4296-a576-a5a66797e015",
+      "name": "+",
+      "type": "archimate:InfluenceRelationship",
+      "folderId": "1834abd8-2fcc-435f-846f-5bb5c929df39",
+      "folderName": "Relations",
+      "source": "624e5e7d-73c6-469b-a092-ff896faea0f3",
+      "target": "3c30d268-2693-4b74-ac86-8068c94df4b7"
+    },
+    {
+      "collection": "relationships",
+      "id": "f7b7757c-5e18-410e-9464-49fd71305c7c",
+      "name": "+",
+      "type": "archimate:InfluenceRelationship",
+      "folderId": "1834abd8-2fcc-435f-846f-5bb5c929df39",
+      "folderName": "Relations",
+      "source": "b255fe7c-be92-46ae-98ed-88cdd6ae5ed9",
+      "target": "3c30d268-2693-4b74-ac86-8068c94df4b7"
+    },
+    {
+      "collection": "relationships",
+      "id": "54f25524-d2cc-4d69-a9ce-49f4fc7e0010",
+      "name": null,
+      "type": "archimate:AssociationRelationship",
+      "folderId": "1834abd8-2fcc-435f-846f-5bb5c929df39",
+      "folderName": "Relations",
+      "source": "b255fe7c-be92-46ae-98ed-88cdd6ae5ed9",
+      "target": "c89d36f0-01e3-41ae-b634-8cbe5dd08778"
+    },
+    {
+      "collection": "relationships",
+      "id": "8f1ac062-45f3-4394-84e9-1156a3607ad7",
+      "name": "+",
+      "type": "archimate:InfluenceRelationship",
+      "folderId": "1834abd8-2fcc-435f-846f-5bb5c929df39",
+      "folderName": "Relations",
+      "source": "234f5ab8-4323-4e8c-a5f2-7f464caa8276",
+      "target": "539a9436-f825-45da-b59a-deeccce8569a"
+    },
+    {
+      "collection": "relationships",
+      "id": "215ffc3c-0304-45be-8b05-6b6b5361b6ad",
+      "name": "+",
+      "type": "archimate:InfluenceRelationship",
+      "folderId": "1834abd8-2fcc-435f-846f-5bb5c929df39",
+      "folderName": "Relations",
+      "source": "441941b6-c128-4702-9cc0-6892af7d1520",
+      "target": "234f5ab8-4323-4e8c-a5f2-7f464caa8276"
+    },
+    {
+      "collection": "relationships",
+      "id": "bbeae474-a73c-4e06-8ef0-69e89161b537",
+      "name": null,
+      "type": "archimate:AssociationRelationship",
+      "folderId": "1834abd8-2fcc-435f-846f-5bb5c929df39",
+      "folderName": "Relations",
+      "source": "539a9436-f825-45da-b59a-deeccce8569a",
+      "target": "c89d36f0-01e3-41ae-b634-8cbe5dd08778"
+    },
+    {
+      "collection": "relationships",
+      "id": "6c64c117-732b-412d-b3e3-74c9a946a9e1",
+      "name": null,
+      "type": "archimate:AssociationRelationship",
+      "folderId": "1834abd8-2fcc-435f-846f-5bb5c929df39",
+      "folderName": "Relations",
+      "source": "c89d36f0-01e3-41ae-b634-8cbe5dd08778",
+      "target": "b70c85da-d736-40dc-a856-23b7fdb184f0"
+    },
+    {
+      "collection": "relationships",
+      "id": "5afed025-2d88-4f34-9f78-30ff43a7d538",
+      "name": "+",
+      "type": "archimate:InfluenceRelationship",
+      "folderId": "1834abd8-2fcc-435f-846f-5bb5c929df39",
+      "folderName": "Relations",
+      "source": "0d694952-8274-4a81-ac6e-4e21eeb7ccb4",
+      "target": "b70c85da-d736-40dc-a856-23b7fdb184f0"
+    },
+    {
+      "collection": "relationships",
+      "id": "e80764ae-6814-4e2b-8d1c-959afc15849d",
+      "name": "+",
+      "type": "archimate:InfluenceRelationship",
+      "folderId": "1834abd8-2fcc-435f-846f-5bb5c929df39",
+      "folderName": "Relations",
+      "source": "f05186e5-b26c-449c-8084-73ef9f1fe915",
+      "target": "0d694952-8274-4a81-ac6e-4e21eeb7ccb4"
+    },
+    {
+      "collection": "relationships",
+      "id": "48d7d797-d323-485f-a5c8-bfc352be0435",
+      "name": "+",
+      "type": "archimate:InfluenceRelationship",
+      "folderId": "1834abd8-2fcc-435f-846f-5bb5c929df39",
+      "folderName": "Relations",
+      "source": "0d694952-8274-4a81-ac6e-4e21eeb7ccb4",
+      "target": "7632c7e4-368e-46b9-8150-e11087b7cbb2"
+    },
+    {
+      "collection": "relationships",
+      "id": "5562c5b3-310f-4f22-bef8-fde9ce357ed7",
+      "name": null,
+      "type": "archimate:AssociationRelationship",
+      "folderId": "1834abd8-2fcc-435f-846f-5bb5c929df39",
+      "folderName": "Relations",
+      "source": "7632c7e4-368e-46b9-8150-e11087b7cbb2",
+      "target": "c89d36f0-01e3-41ae-b634-8cbe5dd08778"
+    },
+    {
+      "collection": "relationships",
+      "id": "939210bf-a989-4c30-8715-ad5f998265a6",
+      "name": null,
+      "type": "archimate:AssociationRelationship",
+      "folderId": "1834abd8-2fcc-435f-846f-5bb5c929df39",
+      "folderName": "Relations",
+      "source": "bc23245b-4a94-4fde-b6c5-7ba84f660ddb",
+      "target": "c89d36f0-01e3-41ae-b634-8cbe5dd08778"
+    },
+    {
+      "collection": "relationships",
+      "id": "40b10d3e-9afb-4ec7-967f-1e4e60ba94bb",
+      "name": null,
+      "type": "archimate:AssociationRelationship",
+      "folderId": "1834abd8-2fcc-435f-846f-5bb5c929df39",
+      "folderName": "Relations",
+      "source": "d3673968-f8cd-4216-b82e-4f61cac74943",
+      "target": "73aba525-e300-48c7-a967-ea12f700dff0"
+    },
+    {
+      "collection": "relationships",
+      "id": "82efd09a-d6d5-4048-b9df-73c30d2f86e0",
+      "name": null,
+      "type": "archimate:AssociationRelationship",
+      "folderId": "1834abd8-2fcc-435f-846f-5bb5c929df39",
+      "folderName": "Relations",
+      "source": "d3673968-f8cd-4216-b82e-4f61cac74943",
+      "target": "a298db37-cccd-4f32-a94d-8fd52c889b1f"
+    },
+    {
+      "collection": "relationships",
+      "id": "57fdb9c8-d6f3-49a3-89f9-0324df36c9d6",
+      "name": "+",
+      "type": "archimate:InfluenceRelationship",
+      "folderId": "1834abd8-2fcc-435f-846f-5bb5c929df39",
+      "folderName": "Relations",
+      "source": "9456b8b2-7692-462b-9551-99bba832e0cf",
+      "target": "d3673968-f8cd-4216-b82e-4f61cac74943"
+    },
+    {
+      "collection": "relationships",
+      "id": "2e0fd218-fed8-4f57-91a1-5b13d164887d",
+      "name": "+",
+      "type": "archimate:InfluenceRelationship",
+      "folderId": "1834abd8-2fcc-435f-846f-5bb5c929df39",
+      "folderName": "Relations",
+      "source": "73aba525-e300-48c7-a967-ea12f700dff0",
+      "target": "bc23245b-4a94-4fde-b6c5-7ba84f660ddb"
+    },
+    {
+      "collection": "relationships",
+      "id": "d0ccae76-3c7a-4a11-82c2-9cfe7d8ae8d7",
+      "name": "+",
+      "type": "archimate:InfluenceRelationship",
+      "folderId": "1834abd8-2fcc-435f-846f-5bb5c929df39",
+      "folderName": "Relations",
+      "source": "a298db37-cccd-4f32-a94d-8fd52c889b1f",
+      "target": "bc23245b-4a94-4fde-b6c5-7ba84f660ddb"
+    },
+    {
+      "collection": "relationships",
+      "id": "e5f96e53-b6cb-4a79-8d85-6aa41f565d2a",
+      "name": " +",
+      "type": "archimate:InfluenceRelationship",
+      "folderId": "1834abd8-2fcc-435f-846f-5bb5c929df39",
+      "folderName": "Relations",
+      "source": "bc23245b-4a94-4fde-b6c5-7ba84f660ddb",
+      "target": "0d694952-8274-4a81-ac6e-4e21eeb7ccb4"
+    },
+    {
+      "collection": "relationships",
+      "id": "37dc66e9-f0b0-4b47-8d50-d55ec8be9443",
+      "name": null,
+      "type": "archimate:AssociationRelationship",
+      "folderId": "1834abd8-2fcc-435f-846f-5bb5c929df39",
+      "folderName": "Relations",
+      "source": "c89d36f0-01e3-41ae-b634-8cbe5dd08778",
+      "target": "aafb861b-df6d-4a96-a7b6-c70ca4e8d832"
+    },
+    {
+      "collection": "relationships",
+      "id": "31ea6e9c-3f3e-441b-bfd0-7f69fe58626b",
+      "name": "+",
+      "type": "archimate:InfluenceRelationship",
+      "folderId": "1834abd8-2fcc-435f-846f-5bb5c929df39",
+      "folderName": "Relations",
+      "source": "aafb861b-df6d-4a96-a7b6-c70ca4e8d832",
+      "target": "12bc4173-cc2f-4619-a95b-989682122548"
+    },
+    {
+      "collection": "relationships",
+      "id": "756ce143-206b-42ff-a3a1-cefe76397249",
+      "name": "+",
+      "type": "archimate:InfluenceRelationship",
+      "folderId": "1834abd8-2fcc-435f-846f-5bb5c929df39",
+      "folderName": "Relations",
+      "source": "aafb861b-df6d-4a96-a7b6-c70ca4e8d832",
+      "target": "dd1cdacf-7e87-44f0-af3d-a27c1ccbc9ff"
+    },
+    {
+      "collection": "relationships",
+      "id": "f4ae4e4a-1b6c-4205-893c-21b62ba6bdc7",
+      "name": "+",
+      "type": "archimate:InfluenceRelationship",
+      "folderId": "1834abd8-2fcc-435f-846f-5bb5c929df39",
+      "folderName": "Relations",
+      "source": "b7cf4ee5-f0cd-4a59-8e71-7c33c633b310",
+      "target": "aafb861b-df6d-4a96-a7b6-c70ca4e8d832"
+    },
+    {
+      "collection": "relationships",
+      "id": "45ef3d06-4e5e-4417-acac-52e2beb06b0c",
+      "name": null,
+      "type": "archimate:AssociationRelationship",
+      "folderId": "1834abd8-2fcc-435f-846f-5bb5c929df39",
+      "folderName": "Relations",
+      "source": "b70c85da-d736-40dc-a856-23b7fdb184f0",
+      "target": "7632c7e4-368e-46b9-8150-e11087b7cbb2"
+    },
+    {
+      "collection": "relationships",
+      "id": "f1a1f9ad-927f-4937-8ea5-29f39bb3e5fb",
+      "name": null,
+      "type": "archimate:AssociationRelationship",
+      "folderId": "1834abd8-2fcc-435f-846f-5bb5c929df39",
+      "folderName": "Relations",
+      "source": "f46e5a7e-0a4d-4fad-8e50-b803387fc77e",
+      "target": "c89d36f0-01e3-41ae-b634-8cbe5dd08778"
+    },
+    {
+      "collection": "relationships",
+      "id": "c9d5ce21-526d-4187-8590-0b9b14275e8b",
+      "name": "+",
+      "type": "archimate:InfluenceRelationship",
+      "folderId": "1834abd8-2fcc-435f-846f-5bb5c929df39",
+      "folderName": "Relations",
+      "source": "78f60606-2112-4331-a744-3d18ff90fcc8",
+      "target": "f46e5a7e-0a4d-4fad-8e50-b803387fc77e"
+    },
+    {
+      "collection": "relationships",
+      "id": "7738d4f6-bde4-4802-ac46-b9c3bc48e69f",
+      "name": "+",
+      "type": "archimate:InfluenceRelationship",
+      "folderId": "1834abd8-2fcc-435f-846f-5bb5c929df39",
+      "folderName": "Relations",
+      "source": "437ebe49-1541-40b3-8b5e-de4ad987a112",
+      "target": "78f60606-2112-4331-a744-3d18ff90fcc8"
+    },
+    {
+      "collection": "relationships",
+      "id": "82e06691-8b5d-4791-ac5b-0aa3ce85ea38",
+      "name": "+",
+      "type": "archimate:InfluenceRelationship",
+      "folderId": "1834abd8-2fcc-435f-846f-5bb5c929df39",
+      "folderName": "Relations",
+      "source": "9a0aebe8-f698-40b4-9c50-d16b28a33f99",
+      "target": "bacb4850-a689-445d-bf80-7bd9598df48c"
+    },
+    {
+      "collection": "relationships",
+      "id": "5bae82a5-a7b0-40a0-ba77-9083a592dd3d",
+      "name": "+",
+      "type": "archimate:InfluenceRelationship",
+      "folderId": "1834abd8-2fcc-435f-846f-5bb5c929df39",
+      "folderName": "Relations",
+      "source": "bacb4850-a689-445d-bf80-7bd9598df48c",
+      "target": "dba42491-792f-456b-9402-b34258f78726"
+    },
+    {
+      "collection": "relationships",
+      "id": "9fe7b6b3-fce9-4902-a229-1e1e6f2616c4",
+      "name": "+",
+      "type": "archimate:InfluenceRelationship",
+      "folderId": "1834abd8-2fcc-435f-846f-5bb5c929df39",
+      "folderName": "Relations",
+      "source": "b1082889-c7ab-4384-b24a-834fec4817a5",
+      "target": "9a0aebe8-f698-40b4-9c50-d16b28a33f99"
+    },
+    {
+      "collection": "relationships",
+      "id": "d2d5d03e-6b78-4f6e-9c74-43f2c227b64b",
+      "name": "+",
+      "type": "archimate:InfluenceRelationship",
+      "folderId": "1834abd8-2fcc-435f-846f-5bb5c929df39",
+      "folderName": "Relations",
+      "source": "9a0aebe8-f698-40b4-9c50-d16b28a33f99",
+      "target": "dba42491-792f-456b-9402-b34258f78726"
+    },
+    {
+      "collection": "relationships",
+      "id": "860d4e22-68f0-4849-aaf2-3258779f2292",
+      "name": null,
+      "type": "archimate:AssociationRelationship",
+      "folderId": "1834abd8-2fcc-435f-846f-5bb5c929df39",
+      "folderName": "Relations",
+      "source": "dba42491-792f-456b-9402-b34258f78726",
+      "target": "c89d36f0-01e3-41ae-b634-8cbe5dd08778"
     }
   ],
   "views": [
     {
-      "id": "view-001",
-      "name": "TO-BE Application View",
+      "collection": "views",
+      "id": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "name": "12 Principles of Agile Software",
       "type": "archimate:ArchimateDiagramModel",
-      "folderId": "folder-views",
-      "folderName": "Views",
-      "elementCount": 12,
-      "connectionCount": 8
-    },
-    {
-      "id": "view-002",
-      "name": "AS-IS Business View",
-      "type": "archimate:ArchimateDiagramModel",
-      "folderId": "folder-as-is",
-      "folderName": "AS-IS",
-      "elementCount": 7,
-      "connectionCount": 4
-    },
-    {
-      "id": "view-003",
-      "name": "TO-BE Technology View",
-      "type": "archimate:ArchimateDiagramModel",
-      "folderId": "folder-to-be",
+      "folderId": "id-ca4190f92cfc442e9c4beec158a9d825",
       "folderName": "TO-BE",
-      "elementCount": 9,
-      "connectionCount": 6
+      "elementCount": 53,
+      "connectionCount": 69
+    },
+    {
+      "collection": "views",
+      "id": "ca2871ba-f3a4-42da-bd8e-9ec5155ea620",
+      "name": "Agile Manifesto",
+      "type": "archimate:ArchimateDiagramModel",
+      "folderId": "id-ca4190f92cfc442e9c4beec158a9d825",
+      "folderName": "TO-BE",
+      "elementCount": 20,
+      "connectionCount": 35
+    },
+    {
+      "collection": "views",
+      "id": "86cb72bd-4ddf-4a16-8a4f-e4afa8ea24ca",
+      "name": "Default View",
+      "type": "archimate:ArchimateDiagramModel",
+      "folderId": "id-ca4190f92cfc442e9c4beec158a9d825",
+      "folderName": "TO-BE",
+      "elementCount": 0,
+      "connectionCount": 0
     }
   ],
   "diagramObjects": [
     {
-      "id": "obj-001",
-      "viewId": "view-001",
-      "elementRef": "el-001",
-      "x": 36,
-      "y": 60,
-      "width": 180,
-      "height": 55
+      "collection": "diagramObjects",
+      "id": "571d434e-89c2-4a21-9bea-f976f8341bfd",
+      "name": null,
+      "type": "archimate:DiagramObject",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "elementRef": "f05186e5-b26c-449c-8084-73ef9f1fe915",
+      "x": null,
+      "y": null,
+      "width": null,
+      "height": null
     },
     {
-      "id": "obj-002",
-      "viewId": "view-001",
-      "elementRef": "el-002",
-      "x": 260,
-      "y": 60,
-      "width": 180,
-      "height": 55
+      "collection": "diagramObjects",
+      "id": "b8ed24ea-e9ee-4436-912b-3d08e83e8ced",
+      "name": null,
+      "type": "archimate:DiagramObject",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "elementRef": "bdc25d56-cfce-4381-8dc1-78a1f9047f3d",
+      "x": null,
+      "y": null,
+      "width": null,
+      "height": null
+    },
+    {
+      "collection": "diagramObjects",
+      "id": "dc6e0c8e-d5d2-4d1e-9b6c-ff614f1074a2",
+      "name": null,
+      "type": "archimate:DiagramObject",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "elementRef": "f655e0cb-7761-4a29-9deb-8e300b4fa146",
+      "x": null,
+      "y": null,
+      "width": null,
+      "height": null
+    },
+    {
+      "collection": "diagramObjects",
+      "id": "308b366b-1095-476a-894e-d56f75822dd6",
+      "name": null,
+      "type": "archimate:DiagramObject",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "elementRef": "a654dbf0-0b27-4678-8032-9db141e153b3",
+      "x": null,
+      "y": null,
+      "width": null,
+      "height": null
+    },
+    {
+      "collection": "diagramObjects",
+      "id": "3e78f4a8-c230-47d9-aa0d-0a8bf23a8633",
+      "name": null,
+      "type": "archimate:DiagramObject",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "elementRef": "21756b8b-bab6-485e-8de3-2ae4dd0a3026",
+      "x": null,
+      "y": null,
+      "width": null,
+      "height": null
+    },
+    {
+      "collection": "diagramObjects",
+      "id": "9981ad93-df48-492b-9fa0-1a43993b10a6",
+      "name": null,
+      "type": "archimate:DiagramObject",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "elementRef": "2b222efb-649a-4097-9e14-47feb8524725",
+      "x": null,
+      "y": null,
+      "width": null,
+      "height": null
+    },
+    {
+      "collection": "diagramObjects",
+      "id": "45a6c5b6-0cdc-40bc-ae0f-1948664a1efe",
+      "name": null,
+      "type": "archimate:DiagramObject",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "elementRef": "624e5e7d-73c6-469b-a092-ff896faea0f3",
+      "x": null,
+      "y": null,
+      "width": null,
+      "height": null
+    },
+    {
+      "collection": "diagramObjects",
+      "id": "cc643246-63ff-4dd5-9cf1-716aa76479eb",
+      "name": null,
+      "type": "archimate:DiagramObject",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "elementRef": "441941b6-c128-4702-9cc0-6892af7d1520",
+      "x": null,
+      "y": null,
+      "width": null,
+      "height": null
+    },
+    {
+      "collection": "diagramObjects",
+      "id": "71e8d325-60fd-478f-8d20-abb506a7de1a",
+      "name": null,
+      "type": "archimate:DiagramObject",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "elementRef": "9456b8b2-7692-462b-9551-99bba832e0cf",
+      "x": null,
+      "y": null,
+      "width": null,
+      "height": null
+    },
+    {
+      "collection": "diagramObjects",
+      "id": "968caed7-65ec-48c5-8c9b-9d6c6f4d027b",
+      "name": null,
+      "type": "archimate:DiagramObject",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "elementRef": "b7cf4ee5-f0cd-4a59-8e71-7c33c633b310",
+      "x": null,
+      "y": null,
+      "width": null,
+      "height": null
+    },
+    {
+      "collection": "diagramObjects",
+      "id": "6e4c1d10-f2c8-4a87-b731-97219b1b132e",
+      "name": null,
+      "type": "archimate:DiagramObject",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "elementRef": "437ebe49-1541-40b3-8b5e-de4ad987a112",
+      "x": null,
+      "y": null,
+      "width": null,
+      "height": null
+    },
+    {
+      "collection": "diagramObjects",
+      "id": "9a043a8d-1b66-48d4-a15c-dc92de168969",
+      "name": null,
+      "type": "archimate:DiagramObject",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "elementRef": "b1082889-c7ab-4384-b24a-834fec4817a5",
+      "x": null,
+      "y": null,
+      "width": null,
+      "height": null
+    },
+    {
+      "collection": "diagramObjects",
+      "id": "3dc58299-6cb0-494c-bdd0-dbc880c36009",
+      "name": null,
+      "type": "archimate:DiagramObject",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "elementRef": "5786c2e0-2582-432b-8ed1-35426743dd01",
+      "x": null,
+      "y": null,
+      "width": null,
+      "height": null
+    },
+    {
+      "collection": "diagramObjects",
+      "id": "db75f958-eee2-475a-b739-864ed017a05d",
+      "name": null,
+      "type": "archimate:DiagramObject",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "elementRef": "c89d36f0-01e3-41ae-b634-8cbe5dd08778",
+      "x": null,
+      "y": null,
+      "width": null,
+      "height": null
+    },
+    {
+      "collection": "diagramObjects",
+      "id": "67341de9-0108-4d09-9f8b-73bb9dc6009d",
+      "name": null,
+      "type": "archimate:DiagramObject",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "elementRef": "7350668e-c640-48d9-8d52-77190b0d1b96",
+      "x": null,
+      "y": null,
+      "width": null,
+      "height": null
+    },
+    {
+      "collection": "diagramObjects",
+      "id": "9472945c-da35-4698-b5a3-eb06f07ba352",
+      "name": null,
+      "type": "archimate:DiagramObject",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "elementRef": "c436b32c-6527-4fdc-ad31-ea317cd472fe",
+      "x": null,
+      "y": null,
+      "width": null,
+      "height": null
+    },
+    {
+      "collection": "diagramObjects",
+      "id": "16c0186e-edd8-47c9-9575-990a1d2c5c93",
+      "name": null,
+      "type": "archimate:DiagramObject",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "elementRef": "f2bbf020-b54d-4c28-81c3-1ef1b0625389",
+      "x": null,
+      "y": null,
+      "width": null,
+      "height": null
+    },
+    {
+      "collection": "diagramObjects",
+      "id": "fbfbff89-c91e-4c42-8338-e7ee6ab54da9",
+      "name": null,
+      "type": "archimate:DiagramObject",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "elementRef": "fd8fcb81-ee0e-40aa-9a73-d18b5cfa1f8f",
+      "x": null,
+      "y": null,
+      "width": null,
+      "height": null
+    },
+    {
+      "collection": "diagramObjects",
+      "id": "14cc7bd0-87ec-4f93-a030-6b61351d5a43",
+      "name": null,
+      "type": "archimate:DiagramObject",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "elementRef": "6e338cc0-6403-44c2-83de-748d108a6ada",
+      "x": null,
+      "y": null,
+      "width": null,
+      "height": null
+    },
+    {
+      "collection": "diagramObjects",
+      "id": "3b456453-58b7-4968-a39c-e1ed42640209",
+      "name": null,
+      "type": "archimate:DiagramObject",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "elementRef": "df0ac801-07bb-40c8-ade0-cfe216812dbe",
+      "x": null,
+      "y": null,
+      "width": null,
+      "height": null
+    },
+    {
+      "collection": "diagramObjects",
+      "id": "3106cdae-557b-4c35-905b-bec233d26091",
+      "name": null,
+      "type": "archimate:DiagramObject",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "elementRef": "90bb8850-70a5-4da4-bdc9-0aa8f50bd299",
+      "x": null,
+      "y": null,
+      "width": null,
+      "height": null
+    },
+    {
+      "collection": "diagramObjects",
+      "id": "df052d22-c49d-4d03-a3f5-9e4aaf3b8ff6",
+      "name": null,
+      "type": "archimate:DiagramObject",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "elementRef": "1869fa51-0b26-433b-9d95-2a9a89403161",
+      "x": null,
+      "y": null,
+      "width": null,
+      "height": null
+    },
+    {
+      "collection": "diagramObjects",
+      "id": "50eb445e-e8d2-43a3-b9f9-d0d289c82fd5",
+      "name": null,
+      "type": "archimate:DiagramObject",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "elementRef": "4cc5b868-1c32-4ec6-9ae0-051b0223adab",
+      "x": null,
+      "y": null,
+      "width": null,
+      "height": null
+    },
+    {
+      "collection": "diagramObjects",
+      "id": "79f24ac1-e979-4141-8e52-6a0ddfe3917a",
+      "name": null,
+      "type": "archimate:DiagramObject",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "elementRef": "050d5252-14c8-468c-9f9f-c2ef2667bcc5",
+      "x": null,
+      "y": null,
+      "width": null,
+      "height": null
+    },
+    {
+      "collection": "diagramObjects",
+      "id": "f811e0d2-2027-4d30-98d0-cd848bba4e47",
+      "name": null,
+      "type": "archimate:DiagramObject",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "elementRef": "70951419-241e-42e0-b3b5-3b70af04a195",
+      "x": null,
+      "y": null,
+      "width": null,
+      "height": null
+    },
+    {
+      "collection": "diagramObjects",
+      "id": "2dc38205-cd7e-45de-8294-13b4b5db8b8f",
+      "name": null,
+      "type": "archimate:DiagramObject",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "elementRef": "b211c56c-9a56-4449-a4d6-b3f643d129b9",
+      "x": null,
+      "y": null,
+      "width": null,
+      "height": null
+    },
+    {
+      "collection": "diagramObjects",
+      "id": "4014db58-9bad-4322-85d5-667aca5cd997",
+      "name": null,
+      "type": "archimate:DiagramObject",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "elementRef": "27bf346c-910b-47c9-be71-8f3b5a2a1b5f",
+      "x": null,
+      "y": null,
+      "width": null,
+      "height": null
+    },
+    {
+      "collection": "diagramObjects",
+      "id": "444a9796-e534-4242-815a-b6a7542b249d",
+      "name": null,
+      "type": "archimate:DiagramObject",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "elementRef": "f896e070-3fed-490d-9387-766aaaad996b",
+      "x": null,
+      "y": null,
+      "width": null,
+      "height": null
+    },
+    {
+      "collection": "diagramObjects",
+      "id": "64b16b8d-86df-4aa8-b446-65737c1972de",
+      "name": null,
+      "type": "archimate:DiagramObject",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "elementRef": "2335713b-2f1b-46c5-acee-1d39c98c8186",
+      "x": null,
+      "y": null,
+      "width": null,
+      "height": null
+    },
+    {
+      "collection": "diagramObjects",
+      "id": "6b3c4792-4779-453f-844b-0176d8c31328",
+      "name": null,
+      "type": "archimate:DiagramObject",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "elementRef": "4d806cec-ff5e-4835-b646-f65789e6fc61",
+      "x": null,
+      "y": null,
+      "width": null,
+      "height": null
+    },
+    {
+      "collection": "diagramObjects",
+      "id": "13593420-47c6-4c59-af66-217149b7dd93",
+      "name": null,
+      "type": "archimate:DiagramObject",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "elementRef": "6ad05bc7-5b38-4aef-8ada-aef8672db286",
+      "x": null,
+      "y": null,
+      "width": null,
+      "height": null
+    },
+    {
+      "collection": "diagramObjects",
+      "id": "86d7d008-201f-4d64-bd7a-199fcdcef6f5",
+      "name": null,
+      "type": "archimate:DiagramObject",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "elementRef": "6d7710eb-57ec-4c1b-a645-b9ce5d6b231d",
+      "x": null,
+      "y": null,
+      "width": null,
+      "height": null
+    },
+    {
+      "collection": "diagramObjects",
+      "id": "3d80893e-3e10-4804-9e56-755f9935d095",
+      "name": null,
+      "type": "archimate:DiagramObject",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "elementRef": "a8a6804d-e17b-45fd-9703-af10eb14ee1c",
+      "x": null,
+      "y": null,
+      "width": null,
+      "height": null
+    },
+    {
+      "collection": "diagramObjects",
+      "id": "d13d1c43-b25e-4359-98fa-533fb92a8199",
+      "name": null,
+      "type": "archimate:DiagramObject",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "elementRef": "3c30d268-2693-4b74-ac86-8068c94df4b7",
+      "x": null,
+      "y": null,
+      "width": null,
+      "height": null
+    },
+    {
+      "collection": "diagramObjects",
+      "id": "74532d9b-83c3-49af-af00-e1c532998f3b",
+      "name": null,
+      "type": "archimate:DiagramObject",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "elementRef": "b255fe7c-be92-46ae-98ed-88cdd6ae5ed9",
+      "x": null,
+      "y": null,
+      "width": null,
+      "height": null
+    },
+    {
+      "collection": "diagramObjects",
+      "id": "3b6a3519-cca0-4f4f-958d-fa8adeb6ff74",
+      "name": null,
+      "type": "archimate:DiagramObject",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "elementRef": "d16b91b4-b68f-47bd-900d-d6db8d064045",
+      "x": null,
+      "y": null,
+      "width": null,
+      "height": null
+    },
+    {
+      "collection": "diagramObjects",
+      "id": "a9bf99d3-ece0-4548-9a77-39e530ebb51d",
+      "name": null,
+      "type": "archimate:DiagramObject",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "elementRef": "539a9436-f825-45da-b59a-deeccce8569a",
+      "x": null,
+      "y": null,
+      "width": null,
+      "height": null
+    },
+    {
+      "collection": "diagramObjects",
+      "id": "f7cb3a7e-a90b-4b1b-aca2-7ea9faaf2dc7",
+      "name": null,
+      "type": "archimate:DiagramObject",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "elementRef": "234f5ab8-4323-4e8c-a5f2-7f464caa8276",
+      "x": null,
+      "y": null,
+      "width": null,
+      "height": null
+    },
+    {
+      "collection": "diagramObjects",
+      "id": "6bbdb459-03c1-4c6b-9a6b-57d254d14927",
+      "name": null,
+      "type": "archimate:DiagramObject",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "elementRef": "b70c85da-d736-40dc-a856-23b7fdb184f0",
+      "x": null,
+      "y": null,
+      "width": null,
+      "height": null
+    },
+    {
+      "collection": "diagramObjects",
+      "id": "169098f4-abd2-48a1-99c7-81a65acfd9d9",
+      "name": null,
+      "type": "archimate:DiagramObject",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "elementRef": "0d694952-8274-4a81-ac6e-4e21eeb7ccb4",
+      "x": null,
+      "y": null,
+      "width": null,
+      "height": null
+    },
+    {
+      "collection": "diagramObjects",
+      "id": "b638ed1d-036c-4575-8aec-15a7dd7c1406",
+      "name": null,
+      "type": "archimate:DiagramObject",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "elementRef": "7632c7e4-368e-46b9-8150-e11087b7cbb2",
+      "x": null,
+      "y": null,
+      "width": null,
+      "height": null
+    },
+    {
+      "collection": "diagramObjects",
+      "id": "d02df814-b82b-404e-92d5-7fa633e84113",
+      "name": null,
+      "type": "archimate:DiagramObject",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "elementRef": "bc23245b-4a94-4fde-b6c5-7ba84f660ddb",
+      "x": null,
+      "y": null,
+      "width": null,
+      "height": null
+    },
+    {
+      "collection": "diagramObjects",
+      "id": "67ea30f3-e91e-4a21-9ad8-999a15091850",
+      "name": null,
+      "type": "archimate:DiagramObject",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "elementRef": "d3673968-f8cd-4216-b82e-4f61cac74943",
+      "x": null,
+      "y": null,
+      "width": null,
+      "height": null
+    },
+    {
+      "collection": "diagramObjects",
+      "id": "3e20d70b-0eeb-42c1-9229-1f8195d5a905",
+      "name": null,
+      "type": "archimate:DiagramObject",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "elementRef": "73aba525-e300-48c7-a967-ea12f700dff0",
+      "x": null,
+      "y": null,
+      "width": null,
+      "height": null
+    },
+    {
+      "collection": "diagramObjects",
+      "id": "8080b7cb-708a-43a5-883f-7cdcaac45c81",
+      "name": null,
+      "type": "archimate:DiagramObject",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "elementRef": "a298db37-cccd-4f32-a94d-8fd52c889b1f",
+      "x": null,
+      "y": null,
+      "width": null,
+      "height": null
+    },
+    {
+      "collection": "diagramObjects",
+      "id": "f862d2ed-c71a-4ba3-9596-10b1427ec3cf",
+      "name": null,
+      "type": "archimate:DiagramObject",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "elementRef": "aafb861b-df6d-4a96-a7b6-c70ca4e8d832",
+      "x": null,
+      "y": null,
+      "width": null,
+      "height": null
+    },
+    {
+      "collection": "diagramObjects",
+      "id": "40e80137-3765-4b58-a226-1aad22566b48",
+      "name": null,
+      "type": "archimate:DiagramObject",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "elementRef": "12bc4173-cc2f-4619-a95b-989682122548",
+      "x": null,
+      "y": null,
+      "width": null,
+      "height": null
+    },
+    {
+      "collection": "diagramObjects",
+      "id": "189df721-cc9b-4b41-b427-ce284d8fec55",
+      "name": null,
+      "type": "archimate:DiagramObject",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "elementRef": "dd1cdacf-7e87-44f0-af3d-a27c1ccbc9ff",
+      "x": null,
+      "y": null,
+      "width": null,
+      "height": null
+    },
+    {
+      "collection": "diagramObjects",
+      "id": "0a13b291-521e-4566-bcff-34972b002ec7",
+      "name": null,
+      "type": "archimate:DiagramObject",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "elementRef": "f46e5a7e-0a4d-4fad-8e50-b803387fc77e",
+      "x": null,
+      "y": null,
+      "width": null,
+      "height": null
+    },
+    {
+      "collection": "diagramObjects",
+      "id": "18097a4b-b411-4ef8-8055-acf2958cce4d",
+      "name": null,
+      "type": "archimate:DiagramObject",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "elementRef": "78f60606-2112-4331-a744-3d18ff90fcc8",
+      "x": null,
+      "y": null,
+      "width": null,
+      "height": null
+    },
+    {
+      "collection": "diagramObjects",
+      "id": "757181ee-b244-44f8-a166-b6cf37995297",
+      "name": null,
+      "type": "archimate:DiagramObject",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "elementRef": "dba42491-792f-456b-9402-b34258f78726",
+      "x": null,
+      "y": null,
+      "width": null,
+      "height": null
+    },
+    {
+      "collection": "diagramObjects",
+      "id": "e9e34d15-b20f-4c38-8c36-b76737e54a70",
+      "name": null,
+      "type": "archimate:DiagramObject",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "elementRef": "bacb4850-a689-445d-bf80-7bd9598df48c",
+      "x": null,
+      "y": null,
+      "width": null,
+      "height": null
+    },
+    {
+      "collection": "diagramObjects",
+      "id": "8d13d91b-d8f8-4519-9da7-f0bce15b7353",
+      "name": null,
+      "type": "archimate:DiagramObject",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "elementRef": "9a0aebe8-f698-40b4-9c50-d16b28a33f99",
+      "x": null,
+      "y": null,
+      "width": null,
+      "height": null
+    },
+    {
+      "collection": "diagramObjects",
+      "id": "f189bd19-e3d4-47c9-b5d7-beca0147fac4",
+      "name": null,
+      "type": "archimate:DiagramObject",
+      "viewId": "ca2871ba-f3a4-42da-bd8e-9ec5155ea620",
+      "elementRef": "00d4acfd-9da1-4d5c-80cc-2cf682725ddb",
+      "x": null,
+      "y": null,
+      "width": null,
+      "height": null
+    },
+    {
+      "collection": "diagramObjects",
+      "id": "8cc26cce-3bac-4e22-b1a7-3a9679d72b61",
+      "name": null,
+      "type": "archimate:DiagramObject",
+      "viewId": "ca2871ba-f3a4-42da-bd8e-9ec5155ea620",
+      "elementRef": "f7fae001-cab8-4b90-a0ab-784c69228c30",
+      "x": null,
+      "y": null,
+      "width": null,
+      "height": null
+    },
+    {
+      "collection": "diagramObjects",
+      "id": "7fe962eb-9be7-44e5-a20b-38f9195118f1",
+      "name": null,
+      "type": "archimate:DiagramObject",
+      "viewId": "ca2871ba-f3a4-42da-bd8e-9ec5155ea620",
+      "elementRef": "74922623-12f2-4c19-9270-221d2f5920e8",
+      "x": null,
+      "y": null,
+      "width": null,
+      "height": null
+    },
+    {
+      "collection": "diagramObjects",
+      "id": "8b091571-b14d-4c5f-911d-7073fc00acc2",
+      "name": null,
+      "type": "archimate:DiagramObject",
+      "viewId": "ca2871ba-f3a4-42da-bd8e-9ec5155ea620",
+      "elementRef": "09297a62-c2e3-46c3-8f4a-8ead8625a466",
+      "x": null,
+      "y": null,
+      "width": null,
+      "height": null
+    },
+    {
+      "collection": "diagramObjects",
+      "id": "2816fe1c-f6ec-44e1-9532-9d4e40fe09e8",
+      "name": null,
+      "type": "archimate:DiagramObject",
+      "viewId": "ca2871ba-f3a4-42da-bd8e-9ec5155ea620",
+      "elementRef": "1a57452c-7c95-402a-bf1b-e2c4a710acea",
+      "x": null,
+      "y": null,
+      "width": null,
+      "height": null
+    },
+    {
+      "collection": "diagramObjects",
+      "id": "8040201a-9fcf-4c9f-ba47-65e705acb15a",
+      "name": null,
+      "type": "archimate:DiagramObject",
+      "viewId": "ca2871ba-f3a4-42da-bd8e-9ec5155ea620",
+      "elementRef": "80fc542a-0116-4503-8d7b-b2ca17251513",
+      "x": null,
+      "y": null,
+      "width": null,
+      "height": null
+    },
+    {
+      "collection": "diagramObjects",
+      "id": "1ea6f37c-91b4-495e-8572-4b6c502b154f",
+      "name": null,
+      "type": "archimate:DiagramObject",
+      "viewId": "ca2871ba-f3a4-42da-bd8e-9ec5155ea620",
+      "elementRef": "57aa40db-5d2c-4249-b9d6-0f9774080b76",
+      "x": null,
+      "y": null,
+      "width": null,
+      "height": null
+    },
+    {
+      "collection": "diagramObjects",
+      "id": "923be3bd-d6be-42c9-b757-a34de016128c",
+      "name": null,
+      "type": "archimate:DiagramObject",
+      "viewId": "ca2871ba-f3a4-42da-bd8e-9ec5155ea620",
+      "elementRef": "8b416a69-dabb-4f5e-9a7e-4b55b65ced03",
+      "x": null,
+      "y": null,
+      "width": null,
+      "height": null
+    },
+    {
+      "collection": "diagramObjects",
+      "id": "f6aa285a-bee4-48b6-b8bd-99e62a7aac23",
+      "name": null,
+      "type": "archimate:DiagramObject",
+      "viewId": "ca2871ba-f3a4-42da-bd8e-9ec5155ea620",
+      "elementRef": "a1b39a05-8e32-4f67-869b-5b208381b5ec",
+      "x": null,
+      "y": null,
+      "width": null,
+      "height": null
+    },
+    {
+      "collection": "diagramObjects",
+      "id": "009963a2-287f-45a0-a1a8-1752765b002c",
+      "name": null,
+      "type": "archimate:DiagramObject",
+      "viewId": "ca2871ba-f3a4-42da-bd8e-9ec5155ea620",
+      "elementRef": "211ab6f2-1737-4d70-bed6-6f76870986f2",
+      "x": null,
+      "y": null,
+      "width": null,
+      "height": null
+    },
+    {
+      "collection": "diagramObjects",
+      "id": "d1c6cd28-3c2e-4e5a-b11e-df969eea84a2",
+      "name": null,
+      "type": "archimate:DiagramObject",
+      "viewId": "ca2871ba-f3a4-42da-bd8e-9ec5155ea620",
+      "elementRef": "9c00c2d0-115d-47c8-9f02-99730f6d4158",
+      "x": null,
+      "y": null,
+      "width": null,
+      "height": null
+    },
+    {
+      "collection": "diagramObjects",
+      "id": "31b66516-71ae-40b4-81ad-02d46c1abdcd",
+      "name": null,
+      "type": "archimate:DiagramObject",
+      "viewId": "ca2871ba-f3a4-42da-bd8e-9ec5155ea620",
+      "elementRef": "a9450b04-e885-47b3-addf-079d7766475e",
+      "x": null,
+      "y": null,
+      "width": null,
+      "height": null
+    },
+    {
+      "collection": "diagramObjects",
+      "id": "541a3e64-82d8-4840-b559-b1ddabbc5959",
+      "name": null,
+      "type": "archimate:DiagramObject",
+      "viewId": "ca2871ba-f3a4-42da-bd8e-9ec5155ea620",
+      "elementRef": "4a05c0d8-26f2-4737-b3fa-960faa9d8a4c",
+      "x": null,
+      "y": null,
+      "width": null,
+      "height": null
+    },
+    {
+      "collection": "diagramObjects",
+      "id": "08594115-e69a-4de6-9a06-451ec5ea6876",
+      "name": null,
+      "type": "archimate:DiagramObject",
+      "viewId": "ca2871ba-f3a4-42da-bd8e-9ec5155ea620",
+      "elementRef": "80c31b9b-f474-49f0-9588-4c9d68136240",
+      "x": null,
+      "y": null,
+      "width": null,
+      "height": null
+    },
+    {
+      "collection": "diagramObjects",
+      "id": "d0ce8a96-aa16-49c3-a9d2-a127abf8c674",
+      "name": null,
+      "type": "archimate:DiagramObject",
+      "viewId": "ca2871ba-f3a4-42da-bd8e-9ec5155ea620",
+      "elementRef": "fc43cec0-90d7-45ff-92c1-2f4789cc7e71",
+      "x": null,
+      "y": null,
+      "width": null,
+      "height": null
+    },
+    {
+      "collection": "diagramObjects",
+      "id": "219016ea-8989-48d3-8bdb-b0cd11b855ba",
+      "name": null,
+      "type": "archimate:DiagramObject",
+      "viewId": "ca2871ba-f3a4-42da-bd8e-9ec5155ea620",
+      "elementRef": "295527bc-9644-4fc1-888f-27776ede846a",
+      "x": null,
+      "y": null,
+      "width": null,
+      "height": null
+    },
+    {
+      "collection": "diagramObjects",
+      "id": "63efd1c8-35e1-487c-a247-b036535b2a0f",
+      "name": null,
+      "type": "archimate:DiagramObject",
+      "viewId": "ca2871ba-f3a4-42da-bd8e-9ec5155ea620",
+      "elementRef": "fd087fda-a48b-4cbe-992f-1689160591c0",
+      "x": null,
+      "y": null,
+      "width": null,
+      "height": null
+    },
+    {
+      "collection": "diagramObjects",
+      "id": "ac9ad4b3-0d2b-4805-a9ff-a74877960968",
+      "name": null,
+      "type": "archimate:DiagramObject",
+      "viewId": "ca2871ba-f3a4-42da-bd8e-9ec5155ea620",
+      "elementRef": "fe65bfbf-1850-44a7-a79b-8efe7bf402d9",
+      "x": null,
+      "y": null,
+      "width": null,
+      "height": null
+    },
+    {
+      "collection": "diagramObjects",
+      "id": "caf923b9-eedd-413e-847f-01910e135934",
+      "name": null,
+      "type": "archimate:DiagramObject",
+      "viewId": "ca2871ba-f3a4-42da-bd8e-9ec5155ea620",
+      "elementRef": "2b3629b5-b051-42a8-b032-7ca4e8c43d36",
+      "x": null,
+      "y": null,
+      "width": null,
+      "height": null
+    },
+    {
+      "collection": "diagramObjects",
+      "id": "d9ade29a-a1fd-4c04-9a77-e2294462381f",
+      "name": null,
+      "type": "archimate:DiagramObject",
+      "viewId": "ca2871ba-f3a4-42da-bd8e-9ec5155ea620",
+      "elementRef": "71b4a705-4c22-460e-8044-6d9c0c0f9bd0",
+      "x": null,
+      "y": null,
+      "width": null,
+      "height": null
     }
   ],
   "diagramConnections": [
     {
-      "id": "conn-001",
-      "viewId": "view-001",
-      "relationshipRef": "rel-001",
-      "source": "obj-001",
-      "target": "obj-002",
+      "collection": "diagramConnections",
+      "id": "69f04cb7-758c-4c16-9549-b9986d0d8be4",
+      "name": null,
+      "type": "archimate:Connection",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "relationshipRef": "e80764ae-6814-4e2b-8d1c-959afc15849d",
+      "source": "571d434e-89c2-4a21-9bea-f976f8341bfd",
+      "target": "169098f4-abd2-48a1-99c7-81a65acfd9d9",
       "bendpoints": []
     },
     {
-      "id": "conn-002",
-      "viewId": "view-001",
-      "relationshipRef": "rel-014",
-      "source": "obj-001",
-      "target": "obj-002",
+      "collection": "diagramConnections",
+      "id": "2c9c692f-96bd-4bbc-8cb3-77cc3795cb7a",
+      "name": null,
+      "type": "archimate:Connection",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "relationshipRef": "febaa042-e446-4639-ae18-b3d6c3908557",
+      "source": "b8ed24ea-e9ee-4436-912b-3d08e83e8ced",
+      "target": "f811e0d2-2027-4d30-98d0-cd848bba4e47",
+      "bendpoints": [
+        {
+          "startX": 276,
+          "startY": 78,
+          "endX": -222,
+          "endY": 30
+        }
+      ]
+    },
+    {
+      "collection": "diagramConnections",
+      "id": "5bec2905-e6d6-49a6-9f69-973c8655d35c",
+      "name": null,
+      "type": "archimate:Connection",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "relationshipRef": "bd1526e4-ae46-4009-898a-16ace1402ef7",
+      "source": "dc6e0c8e-d5d2-4d1e-9b6c-ff614f1074a2",
+      "target": "3106cdae-557b-4c35-905b-bec233d26091",
+      "bendpoints": [
+        {
+          "startX": 276,
+          "startY": 72,
+          "endX": -222,
+          "endY": 18
+        }
+      ]
+    },
+    {
+      "collection": "diagramConnections",
+      "id": "d453a2f4-5514-49c0-bc63-31f50fa471cb",
+      "name": null,
+      "type": "archimate:Connection",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "relationshipRef": "9fbadba6-c960-49dd-a533-811a3a0745ba",
+      "source": "308b366b-1095-476a-894e-d56f75822dd6",
+      "target": "3dc58299-6cb0-494c-bdd0-dbc880c36009",
+      "bendpoints": []
+    },
+    {
+      "collection": "diagramConnections",
+      "id": "5dd95529-c481-4b1d-bc68-b50b5a071640",
+      "name": null,
+      "type": "archimate:Connection",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "relationshipRef": "f4cba77e-5c1f-443f-a739-c5998c0265f9",
+      "source": "308b366b-1095-476a-894e-d56f75822dd6",
+      "target": "16c0186e-edd8-47c9-9575-990a1d2c5c93",
+      "bendpoints": []
+    },
+    {
+      "collection": "diagramConnections",
+      "id": "597c5ab0-8461-4e05-941f-1740426de09a",
+      "name": null,
+      "type": "archimate:Connection",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "relationshipRef": "fd0673df-6c97-45b6-bc13-b921bc578d66",
+      "source": "308b366b-1095-476a-894e-d56f75822dd6",
+      "target": "9472945c-da35-4698-b5a3-eb06f07ba352",
+      "bendpoints": []
+    },
+    {
+      "collection": "diagramConnections",
+      "id": "407dda94-2a4d-4a73-a059-c5926d8866f1",
+      "name": null,
+      "type": "archimate:Connection",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "relationshipRef": "9ffbb0c4-1a31-4de3-8bda-866b583c6f64",
+      "source": "3e78f4a8-c230-47d9-aa0d-0a8bf23a8633",
+      "target": "14cc7bd0-87ec-4f93-a030-6b61351d5a43",
+      "bendpoints": []
+    },
+    {
+      "collection": "diagramConnections",
+      "id": "304201d8-bb00-470a-ac35-91395f12b25c",
+      "name": null,
+      "type": "archimate:Connection",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "relationshipRef": "7df29147-7ccb-4a13-9bb6-af908cc1628a",
+      "source": "3e78f4a8-c230-47d9-aa0d-0a8bf23a8633",
+      "target": "3b456453-58b7-4968-a39c-e1ed42640209",
+      "bendpoints": []
+    },
+    {
+      "collection": "diagramConnections",
+      "id": "83118d92-346b-45b3-8618-60830a855635",
+      "name": null,
+      "type": "archimate:Connection",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "relationshipRef": "fa6a66e7-fe2f-40e4-9de1-1acecee0a742",
+      "source": "9981ad93-df48-492b-9fa0-1a43993b10a6",
+      "target": "86d7d008-201f-4d64-bd7a-199fcdcef6f5",
+      "bendpoints": []
+    },
+    {
+      "collection": "diagramConnections",
+      "id": "ac26095b-b4ad-49c9-aea2-fec599123bec",
+      "name": null,
+      "type": "archimate:Connection",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "relationshipRef": "254a8a77-ab42-4296-a576-a5a66797e015",
+      "source": "45a6c5b6-0cdc-40bc-ae0f-1948664a1efe",
+      "target": "d13d1c43-b25e-4359-98fa-533fb92a8199",
+      "bendpoints": []
+    },
+    {
+      "collection": "diagramConnections",
+      "id": "4bee3ed7-2c62-485f-8534-04796ee6cd03",
+      "name": null,
+      "type": "archimate:Connection",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "relationshipRef": "215ffc3c-0304-45be-8b05-6b6b5361b6ad",
+      "source": "cc643246-63ff-4dd5-9cf1-716aa76479eb",
+      "target": "f7cb3a7e-a90b-4b1b-aca2-7ea9faaf2dc7",
+      "bendpoints": []
+    },
+    {
+      "collection": "diagramConnections",
+      "id": "cfdb40f0-cc0e-465d-b93a-efd4643a2d18",
+      "name": null,
+      "type": "archimate:Connection",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "relationshipRef": "57fdb9c8-d6f3-49a3-89f9-0324df36c9d6",
+      "source": "71e8d325-60fd-478f-8d20-abb506a7de1a",
+      "target": "67ea30f3-e91e-4a21-9ad8-999a15091850",
+      "bendpoints": []
+    },
+    {
+      "collection": "diagramConnections",
+      "id": "922321c6-89d7-4bdf-9edc-02f985ff5606",
+      "name": null,
+      "type": "archimate:Connection",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "relationshipRef": "f4ae4e4a-1b6c-4205-893c-21b62ba6bdc7",
+      "source": "968caed7-65ec-48c5-8c9b-9d6c6f4d027b",
+      "target": "f862d2ed-c71a-4ba3-9596-10b1427ec3cf",
+      "bendpoints": []
+    },
+    {
+      "collection": "diagramConnections",
+      "id": "ab713525-c65c-4f7f-82e7-d321b1a838c6",
+      "name": null,
+      "type": "archimate:Connection",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "relationshipRef": "7738d4f6-bde4-4802-ac46-b9c3bc48e69f",
+      "source": "6e4c1d10-f2c8-4a87-b731-97219b1b132e",
+      "target": "18097a4b-b411-4ef8-8055-acf2958cce4d",
+      "bendpoints": []
+    },
+    {
+      "collection": "diagramConnections",
+      "id": "7e365722-0002-4880-bc1a-24b3c605e7d2",
+      "name": null,
+      "type": "archimate:Connection",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "relationshipRef": "9fe7b6b3-fce9-4902-a229-1e1e6f2616c4",
+      "source": "9a043a8d-1b66-48d4-a15c-dc92de168969",
+      "target": "8d13d91b-d8f8-4519-9da7-f0bce15b7353",
+      "bendpoints": []
+    },
+    {
+      "collection": "diagramConnections",
+      "id": "93cd3c2f-710e-4c7d-8db0-20d7060406a7",
+      "name": null,
+      "type": "archimate:Connection",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "relationshipRef": "c4686a3e-dde6-4e68-873a-415c9d037628",
+      "source": "3dc58299-6cb0-494c-bdd0-dbc880c36009",
+      "target": "67341de9-0108-4d09-9f8b-73bb9dc6009d",
+      "bendpoints": []
+    },
+    {
+      "collection": "diagramConnections",
+      "id": "0910fcd4-d33e-4d6f-b622-13c033d8d111",
+      "name": null,
+      "type": "archimate:Connection",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "relationshipRef": "c0caddc1-aca7-4706-b01a-9279f2741068",
+      "source": "3dc58299-6cb0-494c-bdd0-dbc880c36009",
+      "target": "16c0186e-edd8-47c9-9575-990a1d2c5c93",
+      "bendpoints": []
+    },
+    {
+      "collection": "diagramConnections",
+      "id": "2733f7e3-4120-442e-a924-9b8393e2d396",
+      "name": null,
+      "type": "archimate:Connection",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "relationshipRef": "e891047b-26f1-43dd-9302-659e003b887e",
+      "source": "db75f958-eee2-475a-b739-864ed017a05d",
+      "target": "67341de9-0108-4d09-9f8b-73bb9dc6009d",
+      "bendpoints": []
+    },
+    {
+      "collection": "diagramConnections",
+      "id": "80c3db85-e6fc-4b6b-bc8a-7297cbafed17",
+      "name": null,
+      "type": "archimate:Connection",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "relationshipRef": "9c11f945-5139-4a2b-9c69-3d4a79d6208f",
+      "source": "db75f958-eee2-475a-b739-864ed017a05d",
+      "target": "d13d1c43-b25e-4359-98fa-533fb92a8199",
+      "bendpoints": []
+    },
+    {
+      "collection": "diagramConnections",
+      "id": "5fe55419-0c6a-4243-b153-51ca6a7775cc",
+      "name": null,
+      "type": "archimate:Connection",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "relationshipRef": "6c64c117-732b-412d-b3e3-74c9a946a9e1",
+      "source": "db75f958-eee2-475a-b739-864ed017a05d",
+      "target": "6bbdb459-03c1-4c6b-9a6b-57d254d14927",
+      "bendpoints": []
+    },
+    {
+      "collection": "diagramConnections",
+      "id": "98292487-bb01-46fb-9e32-4cb5faa5fd8a",
+      "name": null,
+      "type": "archimate:Connection",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "relationshipRef": "37dc66e9-f0b0-4b47-8d50-d55ec8be9443",
+      "source": "db75f958-eee2-475a-b739-864ed017a05d",
+      "target": "f862d2ed-c71a-4ba3-9596-10b1427ec3cf",
+      "bendpoints": []
+    },
+    {
+      "collection": "diagramConnections",
+      "id": "470c7e0b-05bd-40bd-a2c0-8ff55168f353",
+      "name": null,
+      "type": "archimate:Connection",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "relationshipRef": "f9986fdf-f2ee-4300-ae20-340a31072568",
+      "source": "9472945c-da35-4698-b5a3-eb06f07ba352",
+      "target": "67341de9-0108-4d09-9f8b-73bb9dc6009d",
+      "bendpoints": []
+    },
+    {
+      "collection": "diagramConnections",
+      "id": "7503848b-dc2e-4220-b947-7c4e30d4b7b3",
+      "name": null,
+      "type": "archimate:Connection",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "relationshipRef": "e5ccb80d-e4cb-4685-ad88-1bca300e866d",
+      "source": "9472945c-da35-4698-b5a3-eb06f07ba352",
+      "target": "3dc58299-6cb0-494c-bdd0-dbc880c36009",
+      "bendpoints": []
+    },
+    {
+      "collection": "diagramConnections",
+      "id": "4598ba1e-2db5-4db2-abe5-fca17c6fe076",
+      "name": null,
+      "type": "archimate:Connection",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "relationshipRef": "33858e3c-9059-4b4e-8acf-110e01d8c2b6",
+      "source": "16c0186e-edd8-47c9-9575-990a1d2c5c93",
+      "target": "67341de9-0108-4d09-9f8b-73bb9dc6009d",
+      "bendpoints": []
+    },
+    {
+      "collection": "diagramConnections",
+      "id": "f5afa5c7-9baa-4552-a72f-9876ce658785",
+      "name": null,
+      "type": "archimate:Connection",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "relationshipRef": "ab7077ec-8267-4adc-951a-0fc4ed53426e",
+      "source": "fbfbff89-c91e-4c42-8338-e7ee6ab54da9",
+      "target": "db75f958-eee2-475a-b739-864ed017a05d",
+      "bendpoints": []
+    },
+    {
+      "collection": "diagramConnections",
+      "id": "0cbb0a33-b153-4b95-b609-8f12d5f3e0ab",
+      "name": null,
+      "type": "archimate:Connection",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "relationshipRef": "a0193524-aea5-41e2-a844-b127c23adecd",
+      "source": "fbfbff89-c91e-4c42-8338-e7ee6ab54da9",
+      "target": "67341de9-0108-4d09-9f8b-73bb9dc6009d",
+      "bendpoints": []
+    },
+    {
+      "collection": "diagramConnections",
+      "id": "a8e38710-a420-44a4-8074-4868c8b672eb",
+      "name": null,
+      "type": "archimate:Connection",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "relationshipRef": "aee10ef4-7444-4934-b8cc-9815d84265f3",
+      "source": "14cc7bd0-87ec-4f93-a030-6b61351d5a43",
+      "target": "fbfbff89-c91e-4c42-8338-e7ee6ab54da9",
+      "bendpoints": []
+    },
+    {
+      "collection": "diagramConnections",
+      "id": "48a5ccda-dca5-4f72-af5d-5ca74d500b1d",
+      "name": null,
+      "type": "archimate:Connection",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "relationshipRef": "0d7bfbe9-227b-40a3-8de6-9ff4c304648a",
+      "source": "3b456453-58b7-4968-a39c-e1ed42640209",
+      "target": "14cc7bd0-87ec-4f93-a030-6b61351d5a43",
+      "bendpoints": []
+    },
+    {
+      "collection": "diagramConnections",
+      "id": "b3a8a196-f76b-411d-8093-ac7431265ba4",
+      "name": null,
+      "type": "archimate:Connection",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "relationshipRef": "b29b4e11-9b63-4c50-8990-ef13528ece03",
+      "source": "3106cdae-557b-4c35-905b-bec233d26091",
+      "target": "db75f958-eee2-475a-b739-864ed017a05d",
+      "bendpoints": []
+    },
+    {
+      "collection": "diagramConnections",
+      "id": "54526e09-908a-425d-951e-368c7e01a1aa",
+      "name": null,
+      "type": "archimate:Connection",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "relationshipRef": "4360167e-53c6-4d01-a24b-41303ee85799",
+      "source": "df052d22-c49d-4d03-a3f5-9e4aaf3b8ff6",
+      "target": "3106cdae-557b-4c35-905b-bec233d26091",
+      "bendpoints": []
+    },
+    {
+      "collection": "diagramConnections",
+      "id": "6c0ac8a8-46d7-48fe-bae1-bf265eace959",
+      "name": null,
+      "type": "archimate:Connection",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "relationshipRef": "0347c2d9-cb17-4378-a7af-49948361d7de",
+      "source": "df052d22-c49d-4d03-a3f5-9e4aaf3b8ff6",
+      "target": "db75f958-eee2-475a-b739-864ed017a05d",
+      "bendpoints": []
+    },
+    {
+      "collection": "diagramConnections",
+      "id": "eca12544-799d-4184-8705-4cfaa7d1e493",
+      "name": null,
+      "type": "archimate:Connection",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "relationshipRef": "ee1c1a14-3f7a-47bf-8acb-75f4c46f367c",
+      "source": "50eb445e-e8d2-43a3-b9f9-d0d289c82fd5",
+      "target": "3106cdae-557b-4c35-905b-bec233d26091",
+      "bendpoints": []
+    },
+    {
+      "collection": "diagramConnections",
+      "id": "e8323931-fde3-4b8b-8151-c7efc6169d02",
+      "name": null,
+      "type": "archimate:Connection",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "relationshipRef": "91dab273-78c7-49de-a987-86d504baf6a7",
+      "source": "79f24ac1-e979-4141-8e52-6a0ddfe3917a",
+      "target": "50eb445e-e8d2-43a3-b9f9-d0d289c82fd5",
+      "bendpoints": []
+    },
+    {
+      "collection": "diagramConnections",
+      "id": "e4dfcdfa-dcd8-4590-b604-69b1ab8f19f9",
+      "name": null,
+      "type": "archimate:Connection",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "relationshipRef": "f1bf83e7-1216-4714-aac8-d0c58291b45e",
+      "source": "f811e0d2-2027-4d30-98d0-cd848bba4e47",
+      "target": "db75f958-eee2-475a-b739-864ed017a05d",
+      "bendpoints": []
+    },
+    {
+      "collection": "diagramConnections",
+      "id": "4c4c37be-e557-43b2-a2ca-dc4420a567e8",
+      "name": null,
+      "type": "archimate:Connection",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "relationshipRef": "2ad72e34-a089-43a9-8584-f9b842faf3c9",
+      "source": "2dc38205-cd7e-45de-8294-13b4b5db8b8f",
+      "target": "db75f958-eee2-475a-b739-864ed017a05d",
+      "bendpoints": []
+    },
+    {
+      "collection": "diagramConnections",
+      "id": "b51adc72-e865-492e-9236-a94ee6da0498",
+      "name": null,
+      "type": "archimate:Connection",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "relationshipRef": "81f35b7f-00ea-4ddb-bf15-b19eba844506",
+      "source": "4014db58-9bad-4322-85d5-667aca5cd997",
+      "target": "f811e0d2-2027-4d30-98d0-cd848bba4e47",
+      "bendpoints": []
+    },
+    {
+      "collection": "diagramConnections",
+      "id": "0e267663-38f2-4324-8113-5f90f1079931",
+      "name": null,
+      "type": "archimate:Connection",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "relationshipRef": "720b42a9-b51a-41ad-87f5-c1c3704fb149",
+      "source": "444a9796-e534-4242-815a-b6a7542b249d",
+      "target": "f811e0d2-2027-4d30-98d0-cd848bba4e47",
+      "bendpoints": []
+    },
+    {
+      "collection": "diagramConnections",
+      "id": "4bac99ca-aadc-4bc9-98ee-9fa2ab019514",
+      "name": null,
+      "type": "archimate:Connection",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "relationshipRef": "6f7a1ea2-5db4-420c-8e40-b86a0d11941c",
+      "source": "64b16b8d-86df-4aa8-b446-65737c1972de",
+      "target": "3b456453-58b7-4968-a39c-e1ed42640209",
+      "bendpoints": []
+    },
+    {
+      "collection": "diagramConnections",
+      "id": "941f6ae8-4432-4fab-ac90-d88fe5ce5a82",
+      "name": null,
+      "type": "archimate:Connection",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "relationshipRef": "ffb0fe33-251d-47ce-83a9-d4df446f5691",
+      "source": "6b3c4792-4779-453f-844b-0176d8c31328",
+      "target": "2dc38205-cd7e-45de-8294-13b4b5db8b8f",
+      "bendpoints": []
+    },
+    {
+      "collection": "diagramConnections",
+      "id": "652cffec-6319-4171-9483-2260dfa628bc",
+      "name": null,
+      "type": "archimate:Connection",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "relationshipRef": "b3a21f56-ef29-40ef-bce1-1e4412f2badf",
+      "source": "6b3c4792-4779-453f-844b-0176d8c31328",
+      "target": "86d7d008-201f-4d64-bd7a-199fcdcef6f5",
+      "bendpoints": []
+    },
+    {
+      "collection": "diagramConnections",
+      "id": "41a5d3d1-8aa8-4b14-8fc0-c3abf35a946e",
+      "name": null,
+      "type": "archimate:Connection",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "relationshipRef": "20b9b811-24e1-48a8-87bf-42773156b7d1",
+      "source": "13593420-47c6-4c59-af66-217149b7dd93",
+      "target": "2dc38205-cd7e-45de-8294-13b4b5db8b8f",
+      "bendpoints": []
+    },
+    {
+      "collection": "diagramConnections",
+      "id": "31e91193-19c1-4d04-a4fc-aba475f3c0fc",
+      "name": null,
+      "type": "archimate:Connection",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "relationshipRef": "3c0a07fb-99a8-41ae-a14c-889aca8a3c04",
+      "source": "13593420-47c6-4c59-af66-217149b7dd93",
+      "target": "86d7d008-201f-4d64-bd7a-199fcdcef6f5",
+      "bendpoints": [
+        {
+          "startX": -78,
+          "startY": -120,
+          "endX": -78,
+          "endY": 108
+        }
+      ]
+    },
+    {
+      "collection": "diagramConnections",
+      "id": "0a150ac2-9784-4772-9bfe-8c37e1899f95",
+      "name": null,
+      "type": "archimate:Connection",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "relationshipRef": "aa7428f5-67f3-4152-aabc-6c96563db7b3",
+      "source": "86d7d008-201f-4d64-bd7a-199fcdcef6f5",
+      "target": "2dc38205-cd7e-45de-8294-13b4b5db8b8f",
+      "bendpoints": []
+    },
+    {
+      "collection": "diagramConnections",
+      "id": "c497dce5-bebf-4a08-9dd4-d57256f17f30",
+      "name": null,
+      "type": "archimate:Connection",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "relationshipRef": "c9f681cd-374b-4148-8db6-f2c862bda867",
+      "source": "3d80893e-3e10-4804-9e56-755f9935d095",
+      "target": "2dc38205-cd7e-45de-8294-13b4b5db8b8f",
+      "bendpoints": []
+    },
+    {
+      "collection": "diagramConnections",
+      "id": "5638847e-3b3b-4743-99b3-61d7b9e3a76e",
+      "name": null,
+      "type": "archimate:Connection",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "relationshipRef": "22fbef19-f718-41e9-a333-7dd1c04abbae",
+      "source": "3d80893e-3e10-4804-9e56-755f9935d095",
+      "target": "86d7d008-201f-4d64-bd7a-199fcdcef6f5",
+      "bendpoints": []
+    },
+    {
+      "collection": "diagramConnections",
+      "id": "08bb1528-8269-4973-be60-4211efc43a0a",
+      "name": null,
+      "type": "archimate:Connection",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "relationshipRef": "45805d87-70c1-4b49-b90f-203c036ec0d3",
+      "source": "74532d9b-83c3-49af-af00-e1c532998f3b",
+      "target": "3b6a3519-cca0-4f4f-958d-fa8adeb6ff74",
+      "bendpoints": []
+    },
+    {
+      "collection": "diagramConnections",
+      "id": "0f8c7abb-beed-49bd-b11a-0f28ac581c30",
+      "name": null,
+      "type": "archimate:Connection",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "relationshipRef": "f7b7757c-5e18-410e-9464-49fd71305c7c",
+      "source": "74532d9b-83c3-49af-af00-e1c532998f3b",
+      "target": "d13d1c43-b25e-4359-98fa-533fb92a8199",
+      "bendpoints": []
+    },
+    {
+      "collection": "diagramConnections",
+      "id": "860e92e4-67dc-4bc3-817d-1468ca151540",
+      "name": null,
+      "type": "archimate:Connection",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "relationshipRef": "54f25524-d2cc-4d69-a9ce-49f4fc7e0010",
+      "source": "74532d9b-83c3-49af-af00-e1c532998f3b",
+      "target": "db75f958-eee2-475a-b739-864ed017a05d",
+      "bendpoints": []
+    },
+    {
+      "collection": "diagramConnections",
+      "id": "e67475f9-a97c-482e-bec7-a68f1e16175c",
+      "name": null,
+      "type": "archimate:Connection",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "relationshipRef": "196932ed-2d9c-4a28-9d25-5c0d40ce529b",
+      "source": "3b6a3519-cca0-4f4f-958d-fa8adeb6ff74",
+      "target": "d13d1c43-b25e-4359-98fa-533fb92a8199",
+      "bendpoints": []
+    },
+    {
+      "collection": "diagramConnections",
+      "id": "b0917d02-13af-49b9-8f49-cedcf2d06066",
+      "name": null,
+      "type": "archimate:Connection",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "relationshipRef": "bbeae474-a73c-4e06-8ef0-69e89161b537",
+      "source": "a9bf99d3-ece0-4548-9a77-39e530ebb51d",
+      "target": "db75f958-eee2-475a-b739-864ed017a05d",
+      "bendpoints": []
+    },
+    {
+      "collection": "diagramConnections",
+      "id": "ac4adb76-a9e5-4238-896e-0585ee0b1f0d",
+      "name": null,
+      "type": "archimate:Connection",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "relationshipRef": "8f1ac062-45f3-4394-84e9-1156a3607ad7",
+      "source": "f7cb3a7e-a90b-4b1b-aca2-7ea9faaf2dc7",
+      "target": "a9bf99d3-ece0-4548-9a77-39e530ebb51d",
+      "bendpoints": []
+    },
+    {
+      "collection": "diagramConnections",
+      "id": "25218ce1-bcaf-4ef6-9f1b-49d8f60dcaea",
+      "name": null,
+      "type": "archimate:Connection",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "relationshipRef": "45ef3d06-4e5e-4417-acac-52e2beb06b0c",
+      "source": "6bbdb459-03c1-4c6b-9a6b-57d254d14927",
+      "target": "b638ed1d-036c-4575-8aec-15a7dd7c1406",
+      "bendpoints": []
+    },
+    {
+      "collection": "diagramConnections",
+      "id": "1ad32870-60b7-4fab-b475-39c8af27f000",
+      "name": null,
+      "type": "archimate:Connection",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "relationshipRef": "5afed025-2d88-4f34-9f78-30ff43a7d538",
+      "source": "169098f4-abd2-48a1-99c7-81a65acfd9d9",
+      "target": "6bbdb459-03c1-4c6b-9a6b-57d254d14927",
+      "bendpoints": []
+    },
+    {
+      "collection": "diagramConnections",
+      "id": "615e3416-13a6-4816-b8e4-518a6736f43a",
+      "name": null,
+      "type": "archimate:Connection",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "relationshipRef": "48d7d797-d323-485f-a5c8-bfc352be0435",
+      "source": "169098f4-abd2-48a1-99c7-81a65acfd9d9",
+      "target": "b638ed1d-036c-4575-8aec-15a7dd7c1406",
+      "bendpoints": []
+    },
+    {
+      "collection": "diagramConnections",
+      "id": "1ef9b3ca-0ab2-4d55-9347-f3ec22675e49",
+      "name": null,
+      "type": "archimate:Connection",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "relationshipRef": "5562c5b3-310f-4f22-bef8-fde9ce357ed7",
+      "source": "b638ed1d-036c-4575-8aec-15a7dd7c1406",
+      "target": "db75f958-eee2-475a-b739-864ed017a05d",
+      "bendpoints": []
+    },
+    {
+      "collection": "diagramConnections",
+      "id": "108e794b-d55a-4ecd-af7f-645d80a23263",
+      "name": null,
+      "type": "archimate:Connection",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "relationshipRef": "939210bf-a989-4c30-8715-ad5f998265a6",
+      "source": "d02df814-b82b-404e-92d5-7fa633e84113",
+      "target": "db75f958-eee2-475a-b739-864ed017a05d",
+      "bendpoints": []
+    },
+    {
+      "collection": "diagramConnections",
+      "id": "917ce1b5-7798-4772-918d-463e77e7a89e",
+      "name": null,
+      "type": "archimate:Connection",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "relationshipRef": "e5f96e53-b6cb-4a79-8d85-6aa41f565d2a",
+      "source": "d02df814-b82b-404e-92d5-7fa633e84113",
+      "target": "169098f4-abd2-48a1-99c7-81a65acfd9d9",
+      "bendpoints": []
+    },
+    {
+      "collection": "diagramConnections",
+      "id": "007f5b11-afd1-453b-9c3e-44f493118104",
+      "name": null,
+      "type": "archimate:Connection",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "relationshipRef": "40b10d3e-9afb-4ec7-967f-1e4e60ba94bb",
+      "source": "67ea30f3-e91e-4a21-9ad8-999a15091850",
+      "target": "3e20d70b-0eeb-42c1-9229-1f8195d5a905",
+      "bendpoints": []
+    },
+    {
+      "collection": "diagramConnections",
+      "id": "b2110e58-01ac-4f62-9284-b2f7d0236e19",
+      "name": null,
+      "type": "archimate:Connection",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "relationshipRef": "82efd09a-d6d5-4048-b9df-73c30d2f86e0",
+      "source": "67ea30f3-e91e-4a21-9ad8-999a15091850",
+      "target": "8080b7cb-708a-43a5-883f-7cdcaac45c81",
+      "bendpoints": []
+    },
+    {
+      "collection": "diagramConnections",
+      "id": "0520ecc1-4492-4a26-959e-857f232f4d33",
+      "name": null,
+      "type": "archimate:Connection",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "relationshipRef": "2e0fd218-fed8-4f57-91a1-5b13d164887d",
+      "source": "3e20d70b-0eeb-42c1-9229-1f8195d5a905",
+      "target": "d02df814-b82b-404e-92d5-7fa633e84113",
+      "bendpoints": []
+    },
+    {
+      "collection": "diagramConnections",
+      "id": "a196f158-6792-435e-8ff4-f83ea1986759",
+      "name": null,
+      "type": "archimate:Connection",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "relationshipRef": "d0ccae76-3c7a-4a11-82c2-9cfe7d8ae8d7",
+      "source": "8080b7cb-708a-43a5-883f-7cdcaac45c81",
+      "target": "d02df814-b82b-404e-92d5-7fa633e84113",
+      "bendpoints": []
+    },
+    {
+      "collection": "diagramConnections",
+      "id": "0e45427b-9c1e-4436-a38b-3046a8465f1f",
+      "name": null,
+      "type": "archimate:Connection",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "relationshipRef": "31ea6e9c-3f3e-441b-bfd0-7f69fe58626b",
+      "source": "f862d2ed-c71a-4ba3-9596-10b1427ec3cf",
+      "target": "40e80137-3765-4b58-a226-1aad22566b48",
+      "bendpoints": []
+    },
+    {
+      "collection": "diagramConnections",
+      "id": "5a888f88-a118-4873-98b6-636d2b75ce62",
+      "name": null,
+      "type": "archimate:Connection",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "relationshipRef": "756ce143-206b-42ff-a3a1-cefe76397249",
+      "source": "f862d2ed-c71a-4ba3-9596-10b1427ec3cf",
+      "target": "189df721-cc9b-4b41-b427-ce284d8fec55",
+      "bendpoints": []
+    },
+    {
+      "collection": "diagramConnections",
+      "id": "82e4ab10-4387-4434-8a53-97d57b95664b",
+      "name": null,
+      "type": "archimate:Connection",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "relationshipRef": "f1a1f9ad-927f-4937-8ea5-29f39bb3e5fb",
+      "source": "0a13b291-521e-4566-bcff-34972b002ec7",
+      "target": "db75f958-eee2-475a-b739-864ed017a05d",
+      "bendpoints": []
+    },
+    {
+      "collection": "diagramConnections",
+      "id": "3461bdb4-742e-4bba-aebc-7579c37d9425",
+      "name": null,
+      "type": "archimate:Connection",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "relationshipRef": "c9d5ce21-526d-4187-8590-0b9b14275e8b",
+      "source": "18097a4b-b411-4ef8-8055-acf2958cce4d",
+      "target": "0a13b291-521e-4566-bcff-34972b002ec7",
+      "bendpoints": []
+    },
+    {
+      "collection": "diagramConnections",
+      "id": "d28d172e-1076-4b0f-948d-5ef48f26d918",
+      "name": null,
+      "type": "archimate:Connection",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "relationshipRef": "860d4e22-68f0-4849-aaf2-3258779f2292",
+      "source": "757181ee-b244-44f8-a166-b6cf37995297",
+      "target": "db75f958-eee2-475a-b739-864ed017a05d",
+      "bendpoints": []
+    },
+    {
+      "collection": "diagramConnections",
+      "id": "e2b5355e-a136-4b07-8eaa-1c1ff0cf8eaa",
+      "name": null,
+      "type": "archimate:Connection",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "relationshipRef": "5bae82a5-a7b0-40a0-ba77-9083a592dd3d",
+      "source": "e9e34d15-b20f-4c38-8c36-b76737e54a70",
+      "target": "757181ee-b244-44f8-a166-b6cf37995297",
+      "bendpoints": []
+    },
+    {
+      "collection": "diagramConnections",
+      "id": "82e42592-b4bd-4ed6-a550-1e9ad3d11bf3",
+      "name": null,
+      "type": "archimate:Connection",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "relationshipRef": "82e06691-8b5d-4791-ac5b-0aa3ce85ea38",
+      "source": "8d13d91b-d8f8-4519-9da7-f0bce15b7353",
+      "target": "e9e34d15-b20f-4c38-8c36-b76737e54a70",
+      "bendpoints": []
+    },
+    {
+      "collection": "diagramConnections",
+      "id": "d06f5559-1074-467f-ac8e-dfaaf95c9f9c",
+      "name": null,
+      "type": "archimate:Connection",
+      "viewId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+      "relationshipRef": "d2d5d03e-6b78-4f6e-9c74-43f2c227b64b",
+      "source": "8d13d91b-d8f8-4519-9da7-f0bce15b7353",
+      "target": "757181ee-b244-44f8-a166-b6cf37995297",
+      "bendpoints": []
+    },
+    {
+      "collection": "diagramConnections",
+      "id": "5bb0688a-9681-49cb-ab64-fea0c1c52550",
+      "name": null,
+      "type": "archimate:Connection",
+      "viewId": "ca2871ba-f3a4-42da-bd8e-9ec5155ea620",
+      "relationshipRef": "9dc6eb3b-d80a-4778-b0b8-91327a3d74ba",
+      "source": "f189bd19-e3d4-47c9-b5d7-beca0147fac4",
+      "target": "2816fe1c-f6ec-44e1-9532-9d4e40fe09e8",
+      "bendpoints": []
+    },
+    {
+      "collection": "diagramConnections",
+      "id": "95d31e0f-3008-40ab-a66e-54ddba29342c",
+      "name": null,
+      "type": "archimate:Connection",
+      "viewId": "ca2871ba-f3a4-42da-bd8e-9ec5155ea620",
+      "relationshipRef": "0f3d5255-7f2e-4e5b-96f0-62e09c27618d",
+      "source": "8cc26cce-3bac-4e22-b1a7-3a9679d72b61",
+      "target": "7fe962eb-9be7-44e5-a20b-38f9195118f1",
+      "bendpoints": []
+    },
+    {
+      "collection": "diagramConnections",
+      "id": "d3a443cd-254a-4d98-880a-08cc235821d3",
+      "name": null,
+      "type": "archimate:Connection",
+      "viewId": "ca2871ba-f3a4-42da-bd8e-9ec5155ea620",
+      "relationshipRef": "a387e77d-9d7e-48eb-a793-04a86e3a1a62",
+      "source": "8cc26cce-3bac-4e22-b1a7-3a9679d72b61",
+      "target": "8b091571-b14d-4c5f-911d-7073fc00acc2",
+      "bendpoints": []
+    },
+    {
+      "collection": "diagramConnections",
+      "id": "5030eb37-ecd6-468b-9e1f-edf7ddf7c530",
+      "name": null,
+      "type": "archimate:Connection",
+      "viewId": "ca2871ba-f3a4-42da-bd8e-9ec5155ea620",
+      "relationshipRef": "03be5571-3fbd-4956-8f8e-c223b6c6e9b8",
+      "source": "7fe962eb-9be7-44e5-a20b-38f9195118f1",
+      "target": "8b091571-b14d-4c5f-911d-7073fc00acc2",
+      "bendpoints": []
+    },
+    {
+      "collection": "diagramConnections",
+      "id": "f728e2dd-5577-4403-9c71-743c7085ae2d",
+      "name": null,
+      "type": "archimate:Connection",
+      "viewId": "ca2871ba-f3a4-42da-bd8e-9ec5155ea620",
+      "relationshipRef": "721d9408-9b00-46f0-9857-0ada8499efc6",
+      "source": "7fe962eb-9be7-44e5-a20b-38f9195118f1",
+      "target": "8040201a-9fcf-4c9f-ba47-65e705acb15a",
+      "bendpoints": []
+    },
+    {
+      "collection": "diagramConnections",
+      "id": "32e6087c-25ce-491d-87a2-54a3222b64f6",
+      "name": null,
+      "type": "archimate:Connection",
+      "viewId": "ca2871ba-f3a4-42da-bd8e-9ec5155ea620",
+      "relationshipRef": "7be0fde6-9840-46e4-b204-ad40b26e786a",
+      "source": "8b091571-b14d-4c5f-911d-7073fc00acc2",
+      "target": "8040201a-9fcf-4c9f-ba47-65e705acb15a",
+      "bendpoints": []
+    },
+    {
+      "collection": "diagramConnections",
+      "id": "b4ff045c-3ba5-4239-89a7-ec390eedc639",
+      "name": null,
+      "type": "archimate:Connection",
+      "viewId": "ca2871ba-f3a4-42da-bd8e-9ec5155ea620",
+      "relationshipRef": "e7f4d99b-0e4c-419b-ac97-24ccf7e01919",
+      "source": "2816fe1c-f6ec-44e1-9532-9d4e40fe09e8",
+      "target": "8cc26cce-3bac-4e22-b1a7-3a9679d72b61",
+      "bendpoints": []
+    },
+    {
+      "collection": "diagramConnections",
+      "id": "4cb0fa95-d3f4-4548-80d3-e39a9a2c932c",
+      "name": null,
+      "type": "archimate:Connection",
+      "viewId": "ca2871ba-f3a4-42da-bd8e-9ec5155ea620",
+      "relationshipRef": "b37e7786-86de-4a71-b6e4-d7d96d2ccdcf",
+      "source": "8040201a-9fcf-4c9f-ba47-65e705acb15a",
+      "target": "caf923b9-eedd-413e-847f-01910e135934",
+      "bendpoints": []
+    },
+    {
+      "collection": "diagramConnections",
+      "id": "0554ae94-656b-41ca-a041-3b85a7ffc4c4",
+      "name": null,
+      "type": "archimate:Connection",
+      "viewId": "ca2871ba-f3a4-42da-bd8e-9ec5155ea620",
+      "relationshipRef": "3938e813-4069-4d6f-8b1d-1d237f178d4a",
+      "source": "1ea6f37c-91b4-495e-8572-4b6c502b154f",
+      "target": "009963a2-287f-45a0-a1a8-1752765b002c",
+      "bendpoints": []
+    },
+    {
+      "collection": "diagramConnections",
+      "id": "f0d36025-3533-44de-a309-e153b6e0c993",
+      "name": null,
+      "type": "archimate:Connection",
+      "viewId": "ca2871ba-f3a4-42da-bd8e-9ec5155ea620",
+      "relationshipRef": "73ace2d3-573b-4f75-a209-bc915043b7a7",
+      "source": "1ea6f37c-91b4-495e-8572-4b6c502b154f",
+      "target": "f6aa285a-bee4-48b6-b8bd-99e62a7aac23",
+      "bendpoints": []
+    },
+    {
+      "collection": "diagramConnections",
+      "id": "e29f256e-ec84-4051-95c7-bea4041ed5f1",
+      "name": null,
+      "type": "archimate:Connection",
+      "viewId": "ca2871ba-f3a4-42da-bd8e-9ec5155ea620",
+      "relationshipRef": "a7c928cb-b271-4a7a-a3c4-ca3f1cc96b50",
+      "source": "1ea6f37c-91b4-495e-8572-4b6c502b154f",
+      "target": "d1c6cd28-3c2e-4e5a-b11e-df969eea84a2",
+      "bendpoints": []
+    },
+    {
+      "collection": "diagramConnections",
+      "id": "9f5e7f7e-7a65-4d8d-945d-9c58398d89c1",
+      "name": null,
+      "type": "archimate:Connection",
+      "viewId": "ca2871ba-f3a4-42da-bd8e-9ec5155ea620",
+      "relationshipRef": "56615c4a-63cd-483c-bac3-caa72d49a13b",
+      "source": "1ea6f37c-91b4-495e-8572-4b6c502b154f",
+      "target": "31b66516-71ae-40b4-81ad-02d46c1abdcd",
+      "bendpoints": []
+    },
+    {
+      "collection": "diagramConnections",
+      "id": "34e4a207-a32e-47f0-933e-0fd2fe3d5af6",
+      "name": null,
+      "type": "archimate:Connection",
+      "viewId": "ca2871ba-f3a4-42da-bd8e-9ec5155ea620",
+      "relationshipRef": "40ff3079-83c2-47be-9e1f-5eba283708cb",
+      "source": "1ea6f37c-91b4-495e-8572-4b6c502b154f",
+      "target": "923be3bd-d6be-42c9-b757-a34de016128c",
+      "bendpoints": []
+    },
+    {
+      "collection": "diagramConnections",
+      "id": "8b3d1fb2-d2d1-4a1b-9873-7731a0aa9d61",
+      "name": null,
+      "type": "archimate:Connection",
+      "viewId": "ca2871ba-f3a4-42da-bd8e-9ec5155ea620",
+      "relationshipRef": "8267a610-e948-4344-b885-fa9638dcb779",
+      "source": "923be3bd-d6be-42c9-b757-a34de016128c",
+      "target": "08594115-e69a-4de6-9a06-451ec5ea6876",
+      "bendpoints": []
+    },
+    {
+      "collection": "diagramConnections",
+      "id": "1c63bf5c-3f95-43e7-bea8-70295de131f9",
+      "name": null,
+      "type": "archimate:Connection",
+      "viewId": "ca2871ba-f3a4-42da-bd8e-9ec5155ea620",
+      "relationshipRef": "5817c2cc-82c0-445e-89ad-659b0b5cb910",
+      "source": "923be3bd-d6be-42c9-b757-a34de016128c",
+      "target": "f6aa285a-bee4-48b6-b8bd-99e62a7aac23",
+      "bendpoints": []
+    },
+    {
+      "collection": "diagramConnections",
+      "id": "260b002a-668d-45cb-b85b-313bfbb649f8",
+      "name": null,
+      "type": "archimate:Connection",
+      "viewId": "ca2871ba-f3a4-42da-bd8e-9ec5155ea620",
+      "relationshipRef": "89af8465-887c-42db-a86b-75cd2b440fea",
+      "source": "009963a2-287f-45a0-a1a8-1752765b002c",
+      "target": "f6aa285a-bee4-48b6-b8bd-99e62a7aac23",
+      "bendpoints": []
+    },
+    {
+      "collection": "diagramConnections",
+      "id": "c89e8ed0-0fc6-446c-9153-43e5754fea83",
+      "name": null,
+      "type": "archimate:Connection",
+      "viewId": "ca2871ba-f3a4-42da-bd8e-9ec5155ea620",
+      "relationshipRef": "3dfa16ea-6128-41b4-a92f-da5503412e7b",
+      "source": "009963a2-287f-45a0-a1a8-1752765b002c",
+      "target": "d1c6cd28-3c2e-4e5a-b11e-df969eea84a2",
+      "bendpoints": []
+    },
+    {
+      "collection": "diagramConnections",
+      "id": "861a0fe4-c630-414e-a6f9-ad1c17abb597",
+      "name": null,
+      "type": "archimate:Connection",
+      "viewId": "ca2871ba-f3a4-42da-bd8e-9ec5155ea620",
+      "relationshipRef": "6e734df1-3910-41d0-8404-80a08256e136",
+      "source": "d1c6cd28-3c2e-4e5a-b11e-df969eea84a2",
+      "target": "63efd1c8-35e1-487c-a247-b036535b2a0f",
+      "bendpoints": []
+    },
+    {
+      "collection": "diagramConnections",
+      "id": "bdbf6e7d-fef0-4a40-acea-258422c5f1eb",
+      "name": null,
+      "type": "archimate:Connection",
+      "viewId": "ca2871ba-f3a4-42da-bd8e-9ec5155ea620",
+      "relationshipRef": "0b5f2b56-ea18-4a57-b4f1-c6227e4ab54b",
+      "source": "d1c6cd28-3c2e-4e5a-b11e-df969eea84a2",
+      "target": "31b66516-71ae-40b4-81ad-02d46c1abdcd",
+      "bendpoints": []
+    },
+    {
+      "collection": "diagramConnections",
+      "id": "c858dee1-3bea-4d02-9b11-f9f0d903ff3f",
+      "name": null,
+      "type": "archimate:Connection",
+      "viewId": "ca2871ba-f3a4-42da-bd8e-9ec5155ea620",
+      "relationshipRef": "76f9c0e9-44d2-4b87-a012-bfd2ca9c3afa",
+      "source": "541a3e64-82d8-4840-b559-b1ddabbc5959",
+      "target": "d0ce8a96-aa16-49c3-a9d2-a127abf8c674",
+      "bendpoints": []
+    },
+    {
+      "collection": "diagramConnections",
+      "id": "fbb97813-42f3-4e10-9b5e-e150201a9dbd",
+      "name": null,
+      "type": "archimate:Connection",
+      "viewId": "ca2871ba-f3a4-42da-bd8e-9ec5155ea620",
+      "relationshipRef": "e091ecc4-2f3b-4b82-924b-dc1b82a428ad",
+      "source": "541a3e64-82d8-4840-b559-b1ddabbc5959",
+      "target": "219016ea-8989-48d3-8bdb-b0cd11b855ba",
+      "bendpoints": []
+    },
+    {
+      "collection": "diagramConnections",
+      "id": "fc69af14-18b5-4afe-bb76-74b96ef39c2a",
+      "name": null,
+      "type": "archimate:Connection",
+      "viewId": "ca2871ba-f3a4-42da-bd8e-9ec5155ea620",
+      "relationshipRef": "b2f7c101-741f-40b7-b058-92372c4459fc",
+      "source": "541a3e64-82d8-4840-b559-b1ddabbc5959",
+      "target": "ac9ad4b3-0d2b-4805-a9ff-a74877960968",
+      "bendpoints": []
+    },
+    {
+      "collection": "diagramConnections",
+      "id": "411c36d8-e627-499c-900a-9a8bdb9f0818",
+      "name": null,
+      "type": "archimate:Connection",
+      "viewId": "ca2871ba-f3a4-42da-bd8e-9ec5155ea620",
+      "relationshipRef": "4a4e9cd5-a56e-415d-838c-98b6b6a78297",
+      "source": "541a3e64-82d8-4840-b559-b1ddabbc5959",
+      "target": "08594115-e69a-4de6-9a06-451ec5ea6876",
+      "bendpoints": []
+    },
+    {
+      "collection": "diagramConnections",
+      "id": "21fe961a-7182-430c-891c-a84612463a07",
+      "name": null,
+      "type": "archimate:Connection",
+      "viewId": "ca2871ba-f3a4-42da-bd8e-9ec5155ea620",
+      "relationshipRef": "93450367-c3e9-4cd6-bcff-efcc47fe473a",
+      "source": "541a3e64-82d8-4840-b559-b1ddabbc5959",
+      "target": "63efd1c8-35e1-487c-a247-b036535b2a0f",
+      "bendpoints": []
+    },
+    {
+      "collection": "diagramConnections",
+      "id": "06b65c20-a312-4fb8-8d49-1f9e3ebebe97",
+      "name": null,
+      "type": "archimate:Connection",
+      "viewId": "ca2871ba-f3a4-42da-bd8e-9ec5155ea620",
+      "relationshipRef": "2e214c4f-1dc3-49b1-9f21-2019a07386c2",
+      "source": "d0ce8a96-aa16-49c3-a9d2-a127abf8c674",
+      "target": "f6aa285a-bee4-48b6-b8bd-99e62a7aac23",
+      "bendpoints": []
+    },
+    {
+      "collection": "diagramConnections",
+      "id": "c0577365-fba0-4836-8999-5d89052ddcc5",
+      "name": null,
+      "type": "archimate:Connection",
+      "viewId": "ca2871ba-f3a4-42da-bd8e-9ec5155ea620",
+      "relationshipRef": "46d770cf-e4de-4f05-a4c6-a26316ed338b",
+      "source": "d0ce8a96-aa16-49c3-a9d2-a127abf8c674",
+      "target": "08594115-e69a-4de6-9a06-451ec5ea6876",
+      "bendpoints": []
+    },
+    {
+      "collection": "diagramConnections",
+      "id": "29d20c07-e3b6-49ea-8ff2-76b18b63ca99",
+      "name": null,
+      "type": "archimate:Connection",
+      "viewId": "ca2871ba-f3a4-42da-bd8e-9ec5155ea620",
+      "relationshipRef": "aa835ebd-6772-46ea-8c1c-7d041dcde5c2",
+      "source": "d0ce8a96-aa16-49c3-a9d2-a127abf8c674",
+      "target": "219016ea-8989-48d3-8bdb-b0cd11b855ba",
+      "bendpoints": []
+    },
+    {
+      "collection": "diagramConnections",
+      "id": "f1a420c5-4aad-4cd4-ae3e-22494a17e65c",
+      "name": null,
+      "type": "archimate:Connection",
+      "viewId": "ca2871ba-f3a4-42da-bd8e-9ec5155ea620",
+      "relationshipRef": "b483a3e1-2102-4525-9662-0274974ff843",
+      "source": "219016ea-8989-48d3-8bdb-b0cd11b855ba",
+      "target": "63efd1c8-35e1-487c-a247-b036535b2a0f",
+      "bendpoints": []
+    },
+    {
+      "collection": "diagramConnections",
+      "id": "43afd246-277f-4293-97ca-2090a02a6a3e",
+      "name": null,
+      "type": "archimate:Connection",
+      "viewId": "ca2871ba-f3a4-42da-bd8e-9ec5155ea620",
+      "relationshipRef": "1a5119a8-fef9-4888-807d-2abda645f74c",
+      "source": "219016ea-8989-48d3-8bdb-b0cd11b855ba",
+      "target": "009963a2-287f-45a0-a1a8-1752765b002c",
+      "bendpoints": []
+    },
+    {
+      "collection": "diagramConnections",
+      "id": "9ec5b31e-aa72-44bd-b8fa-4ae3f4875e2b",
+      "name": null,
+      "type": "archimate:Connection",
+      "viewId": "ca2871ba-f3a4-42da-bd8e-9ec5155ea620",
+      "relationshipRef": "96ec4f62-6210-4fda-93cb-a09ddf275bc8",
+      "source": "ac9ad4b3-0d2b-4805-a9ff-a74877960968",
+      "target": "31b66516-71ae-40b4-81ad-02d46c1abdcd",
+      "bendpoints": []
+    },
+    {
+      "collection": "diagramConnections",
+      "id": "4c1f7abe-02a2-47d2-a3b8-ddcfa94cc0fe",
+      "name": null,
+      "type": "archimate:Connection",
+      "viewId": "ca2871ba-f3a4-42da-bd8e-9ec5155ea620",
+      "relationshipRef": "ef077150-eb0a-49f1-bc3b-46f13478149b",
+      "source": "ac9ad4b3-0d2b-4805-a9ff-a74877960968",
+      "target": "63efd1c8-35e1-487c-a247-b036535b2a0f",
+      "bendpoints": []
+    },
+    {
+      "collection": "diagramConnections",
+      "id": "5b7b8868-f850-482b-8ad1-e2dd69ad03b4",
+      "name": null,
+      "type": "archimate:Connection",
+      "viewId": "ca2871ba-f3a4-42da-bd8e-9ec5155ea620",
+      "relationshipRef": "8a93b363-4b77-4219-af51-b9eded28e80a",
+      "source": "caf923b9-eedd-413e-847f-01910e135934",
+      "target": "1ea6f37c-91b4-495e-8572-4b6c502b154f",
+      "bendpoints": [
+        {
+          "startX": -150,
+          "startY": 4,
+          "endX": 12,
+          "endY": -276
+        }
+      ]
+    },
+    {
+      "collection": "diagramConnections",
+      "id": "f6e3b283-1c9c-4174-865e-282400124218",
+      "name": null,
+      "type": "archimate:Connection",
+      "viewId": "ca2871ba-f3a4-42da-bd8e-9ec5155ea620",
+      "relationshipRef": "7ac63fe5-a662-4ef6-98b1-b436028ddc98",
+      "source": "caf923b9-eedd-413e-847f-01910e135934",
+      "target": "541a3e64-82d8-4840-b559-b1ddabbc5959",
+      "bendpoints": [
+        {
+          "startX": 162,
+          "startY": 4,
+          "endX": -6,
+          "endY": -276
+        }
+      ]
+    },
+    {
+      "collection": "diagramConnections",
+      "id": "7b441940-0b0f-4f88-a575-2b2cf526b1d4",
+      "name": null,
+      "type": "archimate:Connection",
+      "viewId": "ca2871ba-f3a4-42da-bd8e-9ec5155ea620",
+      "relationshipRef": "e095fd71-64ed-46bd-9cc2-36ed1a6fd55b",
+      "source": "d9ade29a-a1fd-4c04-9a77-e2294462381f",
+      "target": "1ea6f37c-91b4-495e-8572-4b6c502b154f",
+      "bendpoints": []
+    },
+    {
+      "collection": "diagramConnections",
+      "id": "be88a828-22a1-471b-bb4c-871fd60e1d98",
+      "name": null,
+      "type": "archimate:Connection",
+      "viewId": "ca2871ba-f3a4-42da-bd8e-9ec5155ea620",
+      "relationshipRef": "7ef8da84-20cd-4450-8c77-8b33c8435f12",
+      "source": "d9ade29a-a1fd-4c04-9a77-e2294462381f",
+      "target": "541a3e64-82d8-4840-b559-b1ddabbc5959",
       "bendpoints": []
     }
   ]

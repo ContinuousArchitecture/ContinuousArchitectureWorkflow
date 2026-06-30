@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import * as cheerio from 'cheerio';
 import { loadYamlFile } from './infra/yaml.mjs';
 
 const SUPPORTED_SCOPES = new Set(['collection', 'each']);
@@ -12,18 +13,24 @@ const SUPPORTED_OPERATORS = new Set([
   'percentageLessThanOrEqual',
 ]);
 
-export function generateDesignReports(repoRoot) {
-  const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-  const rulesPath = path.join(root, '.calinter', 'archi-rules.yml');
-  const qualityPath = path.join(root, '.calinter', 'archi-quality.yml');
-  const catalogPath = path.join(root, 'reports', 'catalog.json');
-  const ruleResultsPath = path.join(root, 'reports', 'rule-results.json');
-  const qualityScorePath = path.join(root, 'reports', 'quality-score.json');
-  const quickchartPath = path.join(root, 'reports', 'quickchart-radar.json');
+export function generateDesignReports({ governanceRoot, targetRoot, outputRoot } = {}) {
+  const roots = resolveRoots({ governanceRoot, targetRoot, outputRoot });
+  const adapterPath = path.join(roots.governanceRoot, '.calinter', 'archi-adapter.yml');
+  const rulesPath = path.join(roots.governanceRoot, '.calinter', 'archi-rules.yml');
+  const qualityPath = path.join(roots.governanceRoot, '.calinter', 'archi-quality.yml');
+  const catalogPath = path.join(roots.outputRoot, 'reports', 'catalog.json');
+  const ruleResultsPath = path.join(roots.outputRoot, 'reports', 'rule-results.json');
+  const qualityScorePath = path.join(roots.outputRoot, 'reports', 'quality-score.json');
+  const quickchartPath = path.join(roots.outputRoot, 'reports', 'quickchart-radar.json');
 
+  const adapterConfig = loadYamlFile(adapterPath);
   const rulesConfig = loadYamlFile(rulesPath);
   const qualityConfig = loadYamlFile(qualityPath);
-  const catalog = readJsonFile(catalogPath);
+  const sourcePath = resolveTargetArchimatePath(roots.targetRoot, adapterConfig);
+  const xmlText = fs.readFileSync(sourcePath, 'utf8');
+  const catalog = buildCatalogFromAdapter(adapterConfig, xmlText, sourcePath, roots.targetRoot);
+
+  writeJsonFile(catalogPath, catalog);
 
   const ruleResults = buildRuleResults(rulesConfig, catalog);
   const qualityScore = buildQualityScore(qualityConfig, ruleResults);
@@ -36,13 +43,14 @@ export function generateDesignReports(repoRoot) {
     qualityScore,
     quickchart,
   });
+
   const allRuleResults = [...ruleResults, contractCheck.result];
-  const finalQualityScore = buildQualityScore(qualityConfig, allRuleResults);
+  const finalQualityScore = buildQualityScore(qualityConfig, ruleResults);
   const finalQuickchart = buildQuickchartRadar(finalQualityScore);
 
   writeJsonFile(ruleResultsPath, {
     metadata: {
-      source: catalog.metadata?.source ?? 'artifact/source/design.archimate',
+      source: relativeToRoot(roots.targetRoot, sourcePath),
       generatedAt: new Date().toISOString(),
     },
     rules: allRuleResults,
@@ -56,6 +64,11 @@ export function generateDesignReports(repoRoot) {
   }
 
   return {
+    governanceRoot: roots.governanceRoot,
+    targetRoot: roots.targetRoot,
+    outputRoot: roots.outputRoot,
+    sourcePath,
+    adapterConfig,
     rulesConfig,
     qualityConfig,
     catalog,
@@ -65,17 +78,279 @@ export function generateDesignReports(repoRoot) {
   };
 }
 
+function resolveRoots({ governanceRoot, targetRoot, outputRoot } = {}) {
+  const defaultGovernanceRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+  return {
+    governanceRoot: path.resolve(governanceRoot ?? defaultGovernanceRoot),
+    targetRoot: path.resolve(targetRoot ?? defaultGovernanceRoot),
+    outputRoot: path.resolve(outputRoot ?? defaultGovernanceRoot),
+  };
+}
+
+function resolveTargetArchimatePath(targetRoot) {
+  const folder = path.join(targetRoot, 'artifact', 'source');
+  if (!fs.existsSync(folder) || !fs.statSync(folder).isDirectory()) {
+    throw new Error(`No se encontró artifact/source en ${targetRoot}.`);
+  }
+
+  const candidates = fs.readdirSync(folder)
+    .filter((entry) => entry.toLowerCase().endsWith('.archimate'))
+    .sort((left, right) => left.localeCompare(right));
+
+  if (candidates.length === 0) {
+    throw new Error(`No se encontró ningún archivo .archimate en ${folder}.`);
+  }
+
+  const preferred = candidates.find((entry) => entry.toLowerCase() === 'design.archimate') ?? candidates[0];
+  return path.join(folder, preferred);
+}
+
+function buildCatalogFromAdapter(adapterConfig, xmlText, sourcePath, targetRoot) {
+  const $ = cheerio.load(xmlText, { xmlMode: true, decodeEntities: true });
+  const rootNode = $.root().children().first().get(0);
+  if (!rootNode) {
+    throw new Error(`No se pudo leer el XML de ${sourcePath}.`);
+  }
+
+  const collections = {};
+  for (const [collectionName, extractor] of Object.entries(adapterConfig.extractors ?? {})) {
+    const nodes = selectExtractorNodes(rootNode, collectionName, extractor);
+    collections[collectionName] = nodes.map((node) => buildRecord(collectionName, node, rootNode));
+  }
+
+  return {
+    metadata: {
+      source: relativeToRoot(targetRoot, sourcePath),
+      adapterVersion: String(adapterConfig.archi_adapter_dsl ?? 'unknown'),
+      format: String(adapterConfig.input?.format ?? 'archi-native'),
+      generatedAt: new Date().toISOString(),
+      modelId: readAttr(rootNode, 'id') ?? null,
+      modelName: readAttr(rootNode, 'name') ?? null,
+    },
+    folders: collections.folders ?? [],
+    elements: collections.elements ?? [],
+    relationships: collections.relationships ?? [],
+    views: collections.views ?? [],
+    diagramObjects: collections.diagramObjects ?? [],
+    diagramConnections: collections.diagramConnections ?? [],
+  };
+}
+
+function selectExtractorNodes(rootNode, collectionName) {
+  const allNodes = collectNodes(rootNode);
+
+  switch (collectionName) {
+    case 'folders':
+      return allNodes.filter((node) => node.name === 'folder');
+    case 'elements':
+      return allNodes.filter((node) => isBusinessElement(node));
+    case 'relationships':
+      return allNodes.filter((node) => isRelationshipElement(node));
+    case 'views':
+      return allNodes.filter((node) => isViewElement(node));
+    case 'diagramObjects':
+      return allNodes.filter((node) => hasAttr(node, 'archimateElement'));
+    case 'diagramConnections':
+      return allNodes.filter((node) => hasAttr(node, 'archimateRelationship') || hasAttr(node, 'relationship'));
+    default:
+      return [];
+  }
+}
+
+function buildRecord(collectionName, node, rootNode) {
+  const record = {
+    collection: collectionName,
+    id: readAttr(node, 'id') ?? null,
+    name: readAttr(node, 'name') ?? null,
+    type: readAttr(node, 'xsi:type') ?? null,
+  };
+
+  if (collectionName === 'folders') {
+    record.parentId = readAttr(findAncestorFolder(node), 'id') ?? null;
+    record.parentName = readAttr(findAncestorFolder(node), 'name') ?? null;
+    record.type = readAttr(node, 'type') ?? null;
+    record.path = buildFolderPath(node);
+    return record;
+  }
+
+  if (collectionName === 'elements' || collectionName === 'relationships' || collectionName === 'views') {
+    const folder = findAncestorFolder(node);
+    record.folderId = readAttr(folder, 'id') ?? null;
+    record.folderName = readAttr(folder, 'name') ?? null;
+  }
+
+  if (collectionName === 'relationships') {
+    record.source = readAttr(node, 'source') ?? null;
+    record.target = readAttr(node, 'target') ?? null;
+  }
+
+  if (collectionName === 'views') {
+    record.elementCount = countDescendants(node, (descendant) => hasAttr(descendant, 'archimateElement'));
+    record.connectionCount = countDescendants(node, (descendant) => hasAttr(descendant, 'archimateRelationship') || hasAttr(descendant, 'relationship'));
+  }
+
+  if (collectionName === 'diagramObjects') {
+    const view = findAncestorView(node, rootNode);
+    record.viewId = readAttr(view, 'id') ?? null;
+    record.elementRef = readAttr(node, 'archimateElement') ?? null;
+    record.x = toNumberOrString(readAttr(node, 'x'));
+    record.y = toNumberOrString(readAttr(node, 'y'));
+    record.width = toNumberOrString(readAttr(node, 'width'));
+    record.height = toNumberOrString(readAttr(node, 'height'));
+  }
+
+  if (collectionName === 'diagramConnections') {
+    const view = findAncestorView(node, rootNode);
+    record.viewId = readAttr(view, 'id') ?? null;
+    record.relationshipRef = readAttr(node, 'archimateRelationship') ?? readAttr(node, 'relationship') ?? null;
+    record.source = readAttr(node, 'source') ?? null;
+    record.target = readAttr(node, 'target') ?? null;
+    record.bendpoints = collectBendpoints(node);
+  }
+
+  return record;
+}
+
+function buildFolderPath(node) {
+  const names = [];
+  let current = node;
+
+  while (current) {
+    if (current.name === 'folder') {
+      const name = readAttr(current, 'name');
+      if (name) {
+        names.unshift(name);
+      }
+    }
+
+    current = current.parent;
+  }
+
+  return `/${names.join('/')}`;
+}
+
+function findAncestorFolder(node) {
+  let current = node?.parent;
+  while (current) {
+    if (current.name === 'folder') {
+      return current;
+    }
+    current = current.parent;
+  }
+  return null;
+}
+
+function findAncestorView(node, rootNode) {
+  let current = node?.parent;
+  while (current) {
+    if (current !== rootNode && isViewElement(current)) {
+      return current;
+    }
+    current = current.parent;
+  }
+  return null;
+}
+
+function isBusinessElement(node) {
+  if (node?.name !== 'element' || !hasAttr(node, 'id') || !hasAttr(node, 'xsi:type')) {
+    return false;
+  }
+
+  const type = String(readAttr(node, 'xsi:type') ?? '');
+  if (type.includes('Relationship') || type.includes('Diagram') || type.includes('View')) {
+    return false;
+  }
+
+  return /Business|Application|Technology|Motivation|Strategy|Implementation|Deliverable|Assessment|Driver|Stakeholder|Requirement|Meaning|Principle|Value/i.test(type);
+}
+
+function isRelationshipElement(node) {
+  if (node?.name !== 'element' || !hasAttr(node, 'xsi:type')) {
+    return false;
+  }
+
+  return String(readAttr(node, 'xsi:type') ?? '').includes('Relationship');
+}
+
+function isViewElement(node) {
+  if (node?.name !== 'element' || !hasAttr(node, 'xsi:type')) {
+    return false;
+  }
+
+  const type = String(readAttr(node, 'xsi:type') ?? '');
+  return type.includes('Diagram') || type.includes('View');
+}
+
+function collectNodes(rootNode) {
+  const out = [];
+  const visit = (node) => {
+    if (!node || node.type !== 'tag') {
+      return;
+    }
+
+    out.push(node);
+    for (const child of node.children ?? []) {
+      visit(child);
+    }
+  };
+
+  visit(rootNode);
+  return out;
+}
+
+function countDescendants(node, predicate) {
+  let count = 0;
+  const visit = (current) => {
+    for (const child of current.children ?? []) {
+      if (child?.type !== 'tag') {
+        continue;
+      }
+
+      if (predicate(child)) {
+        count += 1;
+      }
+
+      visit(child);
+    }
+  };
+
+  visit(node);
+  return count;
+}
+
+function collectBendpoints(node) {
+  const points = [];
+  const visit = (current) => {
+    for (const child of current.children ?? []) {
+      if (child?.type !== 'tag') {
+        continue;
+      }
+
+      if (child.name === 'bendpoint') {
+        points.push({
+          startX: toNumberOrString(readAttr(child, 'startX')),
+          startY: toNumberOrString(readAttr(child, 'startY')),
+          endX: toNumberOrString(readAttr(child, 'endX')),
+          endY: toNumberOrString(readAttr(child, 'endY')),
+        });
+      }
+
+      visit(child);
+    }
+  };
+
+  visit(node);
+  return points;
+}
+
 function buildRuleResults(rulesConfig, catalog) {
   const results = [];
-  const rules = rulesConfig.rules ?? {};
-
-  for (const [ruleId, rule] of Object.entries(rules)) {
+  for (const [ruleId, rule] of Object.entries(rulesConfig.rules ?? {})) {
     if (ruleId === 'contract_consistency_check') {
       continue;
     }
 
-    const result = evaluateYamlRule(ruleId, rule, catalog);
-    results.push(result);
+    results.push(evaluateYamlRule(ruleId, rule, catalog));
   }
 
   return results;
@@ -88,64 +363,67 @@ function evaluateYamlRule(ruleId, rule, catalog) {
   const severity = String(rule?.severity ?? 'error');
 
   if (!SUPPORTED_SCOPES.has(scope) || !SUPPORTED_OPERATORS.has(operator)) {
-    return {
-      ruleId,
-      dimension,
-      severity,
-      scope,
-      includeInQualityScore: false,
-      includeInRadar: false,
-      status: 'notImplemented',
-      score: null,
-      evaluated: 0,
-      passed: 0,
-      failed: 0,
-      findings: [],
-      evidence: [],
-      reason: 'unsupported-scope-or-operator',
-    };
+    return notImplemented(ruleId, rule, 'unsupported-scope-or-operator');
   }
 
   if (operator === 'percentageLessThanOrEqual') {
     return evaluatePercentageRule(ruleId, rule, catalog);
   }
 
-  const items = selectItems(rule.source, catalog);
-  const filtered = applyFilter(items, rule.source?.filter);
+  const items = applyFilter(selectItems(rule.source, catalog), rule.source?.filter);
 
   if (scope === 'collection') {
-    return evaluateCollectionRule(ruleId, rule, filtered, operator);
+    return evaluateCollectionRule(ruleId, rule, items, operator);
   }
 
-  return evaluateEachRule(ruleId, rule, filtered, operator);
+  if (scope === 'each') {
+    return evaluateEachRule(ruleId, rule, items, operator);
+  }
+
+  return notImplemented(ruleId, rule, 'unsupported-scope');
+}
+
+function selectItems(source, catalog) {
+  const collections = source?.collections ?? (source?.collection ? [source.collection] : []);
+  return collections.flatMap((collection) => (catalog[collection] ?? []).map((item) => ({ ...item, collection })));
+}
+
+function applyFilter(items, filter) {
+  if (!filter) {
+    return items;
+  }
+
+  return items.filter((item) => matchesCondition(item, filter));
 }
 
 function evaluateCollectionRule(ruleId, rule, items, operator) {
   const field = rule.assert?.field ?? 'name';
-  const values = items.map((item) => readValue(item, field));
-  const targets = rule.assert?.values ?? [];
+  const values = items.map((item) => String(readValue(item, field) ?? ''));
+  const targets = (rule.assert?.values ?? []).map((value) => String(value));
 
-  switch (operator) {
-    case 'containsAll': {
-      const missing = targets.filter((value) => !values.includes(value));
-      const ok = missing.length === 0;
-      return {
-        ruleId,
-        dimension: rule.dimension,
-        severity: rule.severity,
-        scope: rule.scope,
-        status: ok ? 'pass' : severityToStatus(rule.severity),
-        score: ok ? passScore(rule) : failScore(rule),
-        evaluated: values.length,
-        passed: ok ? values.length : values.length - missing.length,
-        failed: missing.length,
-        findings: ok ? [] : [{ id: `${ruleId}-missing`, message: `Faltan valores: ${missing.join(', ')}` }],
-        evidence: [{ collection: rule.source?.collection, recordIds: items.map((item) => item.id).filter(Boolean) }],
-      };
-    }
-    default:
-      return unsupported(ruleId, rule);
+  if (operator === 'containsAll') {
+    const missing = targets.filter((value) => !values.includes(value));
+    const matched = targets.length - missing.length;
+    const ok = missing.length === 0;
+
+    return {
+      ruleId,
+      dimension: rule.dimension,
+      severity: rule.severity,
+      scope: rule.scope,
+      includeInQualityScore: true,
+      includeInRadar: true,
+      status: ok ? 'pass' : severityToStatus(rule.severity),
+      score: targets.length > 0 ? Math.round((matched / targets.length) * 100) : (ok ? 100 : 0),
+      evaluated: values.length,
+      passed: matched,
+      failed: missing.length,
+      findings: ok ? [] : [{ id: `${ruleId}-missing`, message: `Faltan valores: ${missing.join(', ')}` }],
+      evidence: [{ collection: rule.source?.collection, recordIds: items.map((item) => item.id).filter(Boolean) }],
+    };
   }
+
+  return notImplemented(ruleId, rule, 'unsupported-collection-operator');
 }
 
 function evaluateEachRule(ruleId, rule, items, operator) {
@@ -166,6 +444,8 @@ function evaluateEachRule(ruleId, rule, items, operator) {
       ok = Number(value) > threshold;
     } else if (operator === 'lessThanOrEqual') {
       ok = Number(value) <= threshold;
+    } else {
+      return notImplemented(ruleId, rule, 'unsupported-each-operator');
     }
 
     if (ok) {
@@ -192,8 +472,10 @@ function evaluateEachRule(ruleId, rule, items, operator) {
     dimension: rule.dimension,
     severity: rule.severity,
     scope: rule.scope,
+    includeInQualityScore: true,
+    includeInRadar: true,
     status,
-    score: total === 0 ? null : Math.round((passed / total) * 100),
+    score: total > 0 ? Math.round((passed / total) * 100) : 0,
     evaluated: total,
     passed,
     failed,
@@ -203,9 +485,9 @@ function evaluateEachRule(ruleId, rule, items, operator) {
 }
 
 function evaluatePercentageRule(ruleId, rule, catalog) {
-  const collection = selectItems(rule.source, catalog);
-  const numerator = collection.filter((item) => matchesCondition(item, rule.metric?.numerator));
-  const denominator = rule.metric?.denominator?.count === 'all' ? collection.length : collection.length;
+  const items = selectItems(rule.source, catalog);
+  const numerator = items.filter((item) => matchesCondition(item, rule.metric?.numerator));
+  const denominator = rule.metric?.denominator?.count === 'all' ? items.length : items.length;
   const ratio = denominator > 0 ? (numerator.length / denominator) * 100 : 0;
   const threshold = Number(rule.assert?.value ?? rule.assert?.threshold ?? 0);
   const pass = ratio <= threshold;
@@ -215,6 +497,8 @@ function evaluatePercentageRule(ruleId, rule, catalog) {
     dimension: rule.dimension,
     severity: rule.severity,
     scope: rule.scope,
+    includeInQualityScore: true,
+    includeInRadar: true,
     status: pass ? 'pass' : severityToStatus(rule.severity),
     score: Math.max(0, Math.round(100 - ratio)),
     evaluated: denominator,
@@ -226,18 +510,23 @@ function evaluatePercentageRule(ruleId, rule, catalog) {
 }
 
 function buildQualityScore(qualityConfig, ruleResults) {
-  const dimensions = [];
   const ruleResultsById = new Map(ruleResults.map((result) => [result.ruleId, result]));
+  const dimensions = [];
+  let partial = false;
 
-  for (const [id, dimension] of Object.entries(qualityConfig.qualityModel?.dimensions ?? {})) {
+  for (const [dimensionId, dimension] of Object.entries(qualityConfig.qualityModel?.dimensions ?? {})) {
     const rules = [];
     let weightTotal = 0;
     let weightedScore = 0;
+    let includedRules = 0;
     let hasCriticalFailure = false;
+    let dimensionPartial = false;
 
     for (const ruleRef of dimension.rules ?? []) {
       const result = ruleResultsById.get(ruleRef.id);
       if (!result) {
+        dimensionPartial = true;
+        partial = true;
         continue;
       }
 
@@ -249,12 +538,17 @@ function buildQualityScore(qualityConfig, ruleResults) {
         weight: Number(ruleRef.weight) || 0,
         score,
         status: result.status,
+        includeInQualityScore: result.includeInQualityScore !== false,
       });
 
       if (includeInScore && Number.isFinite(score)) {
         const weight = Number(ruleRef.weight) || 0;
         weightTotal += weight;
         weightedScore += score * weight;
+        includedRules += 1;
+      } else if (result.status === 'notImplemented') {
+        dimensionPartial = true;
+        partial = true;
       }
 
       if (result.status === 'fail' && isCriticalSeverity(result.severity, qualityConfig)) {
@@ -263,15 +557,22 @@ function buildQualityScore(qualityConfig, ruleResults) {
     }
 
     const score = weightTotal > 0 ? Math.round(weightedScore / weightTotal) : null;
-    const status = hasCriticalFailure ? 'fail' : (score === null ? 'notImplemented' : (score >= Number(dimension.target ?? 0) ? 'pass' : 'warning'));
+    const status = hasCriticalFailure
+      ? 'fail'
+      : (dimensionPartial ? 'incomplete' : (score >= Number(dimension.target ?? 0) ? 'pass' : 'warning'));
+
+    if (dimensionPartial) {
+      partial = true;
+    }
 
     dimensions.push({
-      id,
+      id: dimensionId,
       label: dimension.label,
       target: Number(dimension.target) || 0,
       score,
       status,
       weightTotal,
+      includedRules,
       rules,
     });
   }
@@ -282,7 +583,7 @@ function buildQualityScore(qualityConfig, ruleResults) {
     : null;
   const status = dimensions.some((dimension) => dimension.status === 'fail')
     ? 'fail'
-    : (dimensions.some((dimension) => dimension.status === 'warning') ? 'warning' : 'pass');
+    : (partial ? 'incomplete' : (dimensions.some((dimension) => dimension.status === 'warning') ? 'warning' : 'pass'));
 
   return {
     metadata: {
@@ -291,20 +592,25 @@ function buildQualityScore(qualityConfig, ruleResults) {
     },
     overallScore,
     status,
+    partial,
     radarOrder: dimensions.map((dimension) => dimension.label),
     dimensions,
   };
 }
 
 function buildQuickchartRadar(qualityScore) {
+  const includedDimensions = (qualityScore.dimensions ?? []).filter((dimension) => Number.isFinite(dimension.score));
   return {
     type: 'radar',
+    status: qualityScore.partial ? 'partial' : 'complete',
+    partial: Boolean(qualityScore.partial),
+    omittedDimensions: (qualityScore.dimensions ?? []).filter((dimension) => !Number.isFinite(dimension.score)).map((dimension) => dimension.label),
     data: {
-      labels: qualityScore.radarOrder,
+      labels: includedDimensions.map((dimension) => dimension.label),
       datasets: [
         {
           label: 'Evaluado',
-          data: qualityScore.dimensions.map((dimension) => dimension.score),
+          data: includedDimensions.map((dimension) => dimension.score),
           backgroundColor: 'rgba(34, 197, 94, 0.20)',
           borderColor: '#22c55e',
           pointBackgroundColor: '#22c55e',
@@ -312,7 +618,7 @@ function buildQuickchartRadar(qualityScore) {
         },
         {
           label: 'Objetivo',
-          data: qualityScore.dimensions.map((dimension) => dimension.target),
+          data: includedDimensions.map((dimension) => dimension.target),
           backgroundColor: 'rgba(156, 163, 175, 0.10)',
           borderColor: '#9ca3af',
           pointBackgroundColor: '#9ca3af',
@@ -361,7 +667,7 @@ function buildContractConsistencyCheck({ rulesConfig, qualityConfig, catalog, ru
     }
   }
 
-  for (const dimension of qualityScore?.dimensions ?? []) {
+  for (const dimension of qualityScore.dimensions ?? []) {
     for (const rule of dimension.rules ?? []) {
       if (!resultRuleIds.has(rule.ruleId)) {
         messages.push(`quality-score.json usa la regla '${rule.ruleId}' sin resultado en rule-results.json.`);
@@ -369,29 +675,21 @@ function buildContractConsistencyCheck({ rulesConfig, qualityConfig, catalog, ru
     }
   }
 
-  if (qualityScore?.radarOrder && quickchart?.data?.labels && JSON.stringify(qualityScore.radarOrder) !== JSON.stringify(quickchart.data.labels)) {
-    messages.push('quickchart-radar.json no coincide con quality-score.json en las etiquetas.');
+  const expectedQualityScore = buildQualityScore(qualityConfig, ruleResults);
+  if (!qualityScoresMatch(qualityScore, expectedQualityScore)) {
+    messages.push('quality-score.json no se puede recalcular desde rule-results.json.');
   }
 
-  if (qualityScore?.dimensions && quickchart?.data?.datasets?.[0]?.data) {
-    const qualityScores = qualityScore.dimensions.map((dimension) => dimension.score);
-    const radarScores = quickchart.data.datasets[0].data;
-    if (JSON.stringify(qualityScores) !== JSON.stringify(radarScores)) {
-      messages.push('quickchart-radar.json no coincide con quality-score.json en el dataset Evaluado.');
+  const expectedQuickchart = buildQuickchartRadar(expectedQualityScore);
+  if (!quickchartsMatch(quickchart, expectedQuickchart)) {
+    messages.push('quickchart-radar.json no coincide con quality-score.json.');
+  }
+
+  if (resultRuleIds.has('referencias_rotas_regla') && (ruleResults.find((rule) => rule.ruleId === 'referencias_rotas_regla')?.status === 'pass')) {
+    const broken = validateCatalogReferences(catalog);
+    if (!broken.ok) {
+      messages.push(broken.message);
     }
-  }
-
-  if (qualityScore?.dimensions && quickchart?.data?.datasets?.[1]?.data) {
-    const qualityTargets = qualityScore.dimensions.map((dimension) => dimension.target);
-    const radarTargets = quickchart.data.datasets[1].data;
-    if (JSON.stringify(qualityTargets) !== JSON.stringify(radarTargets)) {
-      messages.push('quickchart-radar.json no coincide con quality-score.json en el dataset Objetivo.');
-    }
-  }
-
-  const referencesPass = evaluateCatalogReferences(catalog);
-  if (!referencesPass.ok) {
-    messages.push(referencesPass.message);
   }
 
   return {
@@ -405,7 +703,7 @@ function buildContractConsistencyCheck({ rulesConfig, qualityConfig, catalog, ru
       includeInQualityScore: false,
       includeInRadar: false,
       status: messages.length === 0 ? 'pass' : 'fail',
-      score: 100,
+      score: messages.length === 0 ? 100 : 0,
       evaluated: 5,
       passed: messages.length === 0 ? 5 : 0,
       failed: messages.length === 0 ? 0 : 5,
@@ -416,7 +714,7 @@ function buildContractConsistencyCheck({ rulesConfig, qualityConfig, catalog, ru
   };
 }
 
-function evaluateCatalogReferences(catalog) {
+function validateCatalogReferences(catalog) {
   const elementIds = new Set((catalog.elements ?? []).map((element) => element.id));
   const relationshipIds = new Set((catalog.relationships ?? []).map((relationship) => relationship.id));
   const brokenReferences = [];
@@ -450,17 +748,76 @@ function evaluateCatalogReferences(catalog) {
   return { ok: true, message: '' };
 }
 
-function applyFilter(items, filter) {
-  if (!filter) {
-    return items;
-  }
-
-  return items.filter((item) => matchesCondition(item, filter));
+function quickchartsMatch(actual, expected) {
+  return JSON.stringify(actual?.data?.labels ?? []) === JSON.stringify(expected?.data?.labels ?? [])
+    && JSON.stringify(actual?.data?.datasets?.[0]?.data ?? []) === JSON.stringify(expected?.data?.datasets?.[0]?.data ?? [])
+    && JSON.stringify(actual?.data?.datasets?.[1]?.data ?? []) === JSON.stringify(expected?.data?.datasets?.[1]?.data ?? [])
+    && Boolean(actual?.partial) === Boolean(expected?.partial)
+    && JSON.stringify(actual?.omittedDimensions ?? []) === JSON.stringify(expected?.omittedDimensions ?? []);
 }
 
-function selectItems(source, catalog) {
-  const collections = source?.collections ?? (source?.collection ? [source.collection] : []);
-  return collections.flatMap((collection) => (catalog[collection] ?? []).map((item) => ({ ...item, collection })));
+function qualityScoresMatch(actual, expected) {
+  return JSON.stringify(actual?.radarOrder ?? []) === JSON.stringify(expected?.radarOrder ?? [])
+    && String(actual?.status ?? '') === String(expected?.status ?? '')
+    && Boolean(actual?.partial) === Boolean(expected?.partial)
+    && Number(actual?.overallScore ?? NaN) === Number(expected?.overallScore ?? NaN)
+    && JSON.stringify((actual?.dimensions ?? []).map((dimension) => ({
+      id: dimension.id,
+      label: dimension.label,
+      target: dimension.target,
+      score: dimension.score,
+      status: dimension.status,
+      weightTotal: dimension.weightTotal,
+      rules: (dimension.rules ?? []).map((rule) => ({
+        ruleId: rule.ruleId,
+        weight: rule.weight,
+        score: rule.score,
+        status: rule.status,
+        includeInQualityScore: rule.includeInQualityScore,
+      })),
+    }))) === JSON.stringify((expected?.dimensions ?? []).map((dimension) => ({
+      id: dimension.id,
+      label: dimension.label,
+      target: dimension.target,
+      score: dimension.score,
+      status: dimension.status,
+      weightTotal: dimension.weightTotal,
+      rules: (dimension.rules ?? []).map((rule) => ({
+        ruleId: rule.ruleId,
+        weight: rule.weight,
+        score: rule.score,
+        status: rule.status,
+        includeInQualityScore: rule.includeInQualityScore,
+      })),
+    })));
+}
+
+function notImplemented(ruleId, rule, reason) {
+  return {
+    ruleId,
+    dimension: rule?.dimension,
+    severity: rule?.severity,
+    scope: rule?.scope,
+    includeInQualityScore: false,
+    includeInRadar: false,
+    status: 'notImplemented',
+    score: null,
+    evaluated: 0,
+    passed: 0,
+    failed: 0,
+    findings: [],
+    evidence: [],
+    reason,
+  };
+}
+
+function severityToStatus(severity) {
+  return String(severity ?? 'error').toLowerCase() === 'warning' ? 'warning' : 'fail';
+}
+
+function isCriticalSeverity(severity, qualityConfig) {
+  const critical = qualityConfig.qualityModel?.statusPolicy?.criticalSeverities ?? ['error'];
+  return critical.includes(String(severity ?? '').toLowerCase());
 }
 
 function matchesCondition(item, condition) {
@@ -469,6 +826,7 @@ function matchesCondition(item, condition) {
   }
 
   const value = String(readValue(item, condition.field ?? condition.attribute ?? '') ?? '');
+
   if (condition.notEmpty) {
     return value.trim().length > 0;
   }
@@ -479,6 +837,10 @@ function matchesCondition(item, condition) {
 
   if (condition.contains !== undefined) {
     return value.includes(String(condition.contains));
+  }
+
+  if (condition.notEquals !== undefined) {
+    return value !== String(condition.notEquals);
   }
 
   return true;
@@ -497,47 +859,28 @@ function readValue(item, field) {
     return item.attrs?.[field.slice('attrs.'.length)];
   }
 
-  return undefined;
+  return item[field];
 }
 
-function severityToStatus(severity) {
-  return String(severity ?? 'error').toLowerCase() === 'warning' ? 'warning' : 'fail';
+function readAttr(node, attr) {
+  return node?.attribs?.[attr];
 }
 
-function passScore() {
-  return 100;
+function hasAttr(node, attr) {
+  return readAttr(node, attr) !== undefined;
 }
 
-function failScore(rule) {
-  return String(rule?.severity ?? 'error').toLowerCase() === 'warning' ? 50 : 0;
+function toNumberOrString(value) {
+  if (value === undefined || value === null || value === '') {
+    return null;
+  }
+
+  const text = String(value);
+  return /^-?\d+(?:\.\d+)?$/.test(text) ? Number(text) : text;
 }
 
-function unsupported(ruleId, rule) {
-  return {
-    ruleId,
-    dimension: rule?.dimension,
-    severity: rule?.severity,
-    scope: rule?.scope,
-    includeInQualityScore: false,
-    includeInRadar: false,
-    status: 'notImplemented',
-    score: null,
-    evaluated: 0,
-    passed: 0,
-    failed: 0,
-    findings: [],
-    evidence: [],
-    reason: 'unsupported-rule',
-  };
-}
-
-function isCriticalSeverity(severity, qualityConfig) {
-  const critical = qualityConfig.qualityModel?.statusPolicy?.criticalSeverities ?? ['error'];
-  return critical.includes(String(severity ?? '').toLowerCase());
-}
-
-function readJsonFile(filePath) {
-  return JSON.parse(fs.readFileSync(filePath, 'utf8'));
+function relativeToRoot(root, target) {
+  return path.relative(root, target).replace(/\\/g, '/');
 }
 
 function writeJsonFile(filePath, data) {

@@ -1,7 +1,7 @@
 {
   "metadata": {
     "source": "artifact/source/design.archimate",
-    "generatedAt": "2026-06-30T00:20:38.609Z"
+    "generatedAt": "2026-06-30T00:43:04.366Z"
   },
   "rules": [
     {
@@ -9,6 +9,8 @@
       "dimension": "Estructura",
       "severity": "error",
       "scope": "collection",
+      "includeInQualityScore": true,
+      "includeInRadar": true,
       "status": "pass",
       "score": 100,
       "evaluated": 2,
@@ -19,8 +21,8 @@
         {
           "collection": "folders",
           "recordIds": [
-            "folder-as-is",
-            "folder-to-be"
+            "id-ca4190f92cfc442e9c4beec158a9d825",
+            "id-aa84eddb394248ba852a9478bc5af61b"
           ]
         }
       ]
@@ -30,18 +32,140 @@
       "dimension": "Nomenclatura",
       "severity": "warning",
       "scope": "each",
+      "includeInQualityScore": true,
+      "includeInRadar": true,
       "status": "warning",
-      "score": 75,
-      "evaluated": 4,
-      "passed": 3,
-      "failed": 1,
+      "score": 77,
+      "evaluated": 70,
+      "passed": 54,
+      "failed": 16,
       "findings": [
         {
-          "id": "nomenclatura_regla-el-012",
+          "id": "nomenclatura_regla-a1b39a05-8e32-4f67-869b-5b208381b5ec",
           "collection": "elements",
-          "recordId": "el-012",
+          "recordId": "a1b39a05-8e32-4f67-869b-5b208381b5ec",
           "field": "name",
-          "value": "employee data management",
+          "value": "interactions ",
+          "message": "El nombre debe ser claro, legible y comenzar con mayúscula."
+        },
+        {
+          "id": "nomenclatura_regla-a654dbf0-0b27-4678-8032-9db141e153b3",
+          "collection": "elements",
+          "recordId": "a654dbf0-0b27-4678-8032-9db141e153b3",
+          "field": "name",
+          "value": "1. Our highest priority is to satisfy the customer through early and continuous delivery of valuable software.",
+          "message": "El nombre debe ser claro, legible y comenzar con mayúscula."
+        },
+        {
+          "id": "nomenclatura_regla-21756b8b-bab6-485e-8de3-2ae4dd0a3026",
+          "collection": "elements",
+          "recordId": "21756b8b-bab6-485e-8de3-2ae4dd0a3026",
+          "field": "name",
+          "value": "2. Welcome changing requirements, even late in  development. Agile processes harness change for  the customer's competitive advantage.",
+          "message": "El nombre debe ser claro, legible y comenzar con mayúscula."
+        },
+        {
+          "id": "nomenclatura_regla-f655e0cb-7761-4a29-9deb-8e300b4fa146",
+          "collection": "elements",
+          "recordId": "f655e0cb-7761-4a29-9deb-8e300b4fa146",
+          "field": "name",
+          "value": "3. Deliver working software frequently, from a  couple of weeks to a couple of months, with a  preference to the shorter timescale.",
+          "message": "El nombre debe ser claro, legible y comenzar con mayúscula."
+        },
+        {
+          "id": "nomenclatura_regla-bdc25d56-cfce-4381-8dc1-78a1f9047f3d",
+          "collection": "elements",
+          "recordId": "bdc25d56-cfce-4381-8dc1-78a1f9047f3d",
+          "field": "name",
+          "value": "4. Business people and developers must work  together daily throughout the project.",
+          "message": "El nombre debe ser claro, legible y comenzar con mayúscula."
+        },
+        {
+          "id": "nomenclatura_regla-2b222efb-649a-4097-9e14-47feb8524725",
+          "collection": "elements",
+          "recordId": "2b222efb-649a-4097-9e14-47feb8524725",
+          "field": "name",
+          "value": "5. Build projects around motivated individuals.  Give them the environment and support they need,  and trust them to get the job done.",
+          "message": "El nombre debe ser claro, legible y comenzar con mayúscula."
+        },
+        {
+          "id": "nomenclatura_regla-624e5e7d-73c6-469b-a092-ff896faea0f3",
+          "collection": "elements",
+          "recordId": "624e5e7d-73c6-469b-a092-ff896faea0f3",
+          "field": "name",
+          "value": "6. The most efficient and effective method of  conveying information to and within a development  team is face-to-face conversation.",
+          "message": "El nombre debe ser claro, legible y comenzar con mayúscula."
+        },
+        {
+          "id": "nomenclatura_regla-441941b6-c128-4702-9cc0-6892af7d1520",
+          "collection": "elements",
+          "recordId": "441941b6-c128-4702-9cc0-6892af7d1520",
+          "field": "name",
+          "value": "7. Working software is the primary measure of progress.",
+          "message": "El nombre debe ser claro, legible y comenzar con mayúscula."
+        },
+        {
+          "id": "nomenclatura_regla-f05186e5-b26c-449c-8084-73ef9f1fe915",
+          "collection": "elements",
+          "recordId": "f05186e5-b26c-449c-8084-73ef9f1fe915",
+          "field": "name",
+          "value": "8. Agile processes promote sustainable development.  The sponsors, developers, and users should be able  to maintain a constant pace indefinitely.",
+          "message": "El nombre debe ser claro, legible y comenzar con mayúscula."
+        },
+        {
+          "id": "nomenclatura_regla-9456b8b2-7692-462b-9551-99bba832e0cf",
+          "collection": "elements",
+          "recordId": "9456b8b2-7692-462b-9551-99bba832e0cf",
+          "field": "name",
+          "value": "9. Continuous attention to technical excellence  and good design enhances agility.",
+          "message": "El nombre debe ser claro, legible y comenzar con mayúscula."
+        },
+        {
+          "id": "nomenclatura_regla-b7cf4ee5-f0cd-4a59-8e71-7c33c633b310",
+          "collection": "elements",
+          "recordId": "b7cf4ee5-f0cd-4a59-8e71-7c33c633b310",
+          "field": "name",
+          "value": "10. Simplicity – the art of maximizing the amount  of work not done – is essential.",
+          "message": "El nombre debe ser claro, legible y comenzar con mayúscula."
+        },
+        {
+          "id": "nomenclatura_regla-437ebe49-1541-40b3-8b5e-de4ad987a112",
+          "collection": "elements",
+          "recordId": "437ebe49-1541-40b3-8b5e-de4ad987a112",
+          "field": "name",
+          "value": "11. The best architectures, requirements, and designs  emerge from self-organizing teams.",
+          "message": "El nombre debe ser claro, legible y comenzar con mayúscula."
+        },
+        {
+          "id": "nomenclatura_regla-b1082889-c7ab-4384-b24a-834fec4817a5",
+          "collection": "elements",
+          "recordId": "b1082889-c7ab-4384-b24a-834fec4817a5",
+          "field": "name",
+          "value": "12. At regular intervals, the team reflects on how  to become more effective, then tunes and adjusts  its behavior accordingly.",
+          "message": "El nombre debe ser claro, legible y comenzar con mayúscula."
+        },
+        {
+          "id": "nomenclatura_regla-71b4a705-4c22-460e-8044-6d9c0c0f9bd0",
+          "collection": "elements",
+          "recordId": "71b4a705-4c22-460e-8044-6d9c0c0f9bd0",
+          "field": "name",
+          "value": "It's all about priority!",
+          "message": "El nombre debe ser claro, legible y comenzar con mayúscula."
+        },
+        {
+          "id": "nomenclatura_regla-7632c7e4-368e-46b9-8150-e11087b7cbb2",
+          "collection": "elements",
+          "recordId": "7632c7e4-368e-46b9-8150-e11087b7cbb2",
+          "field": "name",
+          "value": "Indefinite and constant pace of sponsors, developers and users",
+          "message": "El nombre debe ser claro, legible y comenzar con mayúscula."
+        },
+        {
+          "id": "nomenclatura_regla-f46e5a7e-0a4d-4fad-8e50-b803387fc77e",
+          "collection": "elements",
+          "recordId": "f46e5a7e-0a4d-4fad-8e50-b803387fc77e",
+          "field": "name",
+          "value": "Best  Architecture, Requirements  and Design",
           "message": "El nombre debe ser claro, legible y comenzar con mayúscula."
         }
       ],
@@ -49,10 +173,76 @@
         {
           "collection": "elements",
           "recordIds": [
-            "el-001",
-            "el-002",
-            "el-009",
-            "el-012"
+            "00d4acfd-9da1-4d5c-80cc-2cf682725ddb",
+            "f7fae001-cab8-4b90-a0ab-784c69228c30",
+            "74922623-12f2-4c19-9270-221d2f5920e8",
+            "09297a62-c2e3-46c3-8f4a-8ead8625a466",
+            "1a57452c-7c95-402a-bf1b-e2c4a710acea",
+            "8b416a69-dabb-4f5e-9a7e-4b55b65ced03",
+            "a1b39a05-8e32-4f67-869b-5b208381b5ec",
+            "9c00c2d0-115d-47c8-9f02-99730f6d4158",
+            "a9450b04-e885-47b3-addf-079d7766475e",
+            "80c31b9b-f474-49f0-9588-4c9d68136240",
+            "fd087fda-a48b-4cbe-992f-1689160591c0",
+            "fe65bfbf-1850-44a7-a79b-8efe7bf402d9",
+            "211ab6f2-1737-4d70-bed6-6f76870986f2",
+            "fc43cec0-90d7-45ff-92c1-2f4789cc7e71",
+            "2b3629b5-b051-42a8-b032-7ca4e8c43d36",
+            "a654dbf0-0b27-4678-8032-9db141e153b3",
+            "21756b8b-bab6-485e-8de3-2ae4dd0a3026",
+            "f655e0cb-7761-4a29-9deb-8e300b4fa146",
+            "bdc25d56-cfce-4381-8dc1-78a1f9047f3d",
+            "2b222efb-649a-4097-9e14-47feb8524725",
+            "624e5e7d-73c6-469b-a092-ff896faea0f3",
+            "441941b6-c128-4702-9cc0-6892af7d1520",
+            "f05186e5-b26c-449c-8084-73ef9f1fe915",
+            "9456b8b2-7692-462b-9551-99bba832e0cf",
+            "b7cf4ee5-f0cd-4a59-8e71-7c33c633b310",
+            "437ebe49-1541-40b3-8b5e-de4ad987a112",
+            "b1082889-c7ab-4384-b24a-834fec4817a5",
+            "5786c2e0-2582-432b-8ed1-35426743dd01",
+            "c89d36f0-01e3-41ae-b634-8cbe5dd08778",
+            "7350668e-c640-48d9-8d52-77190b0d1b96",
+            "c436b32c-6527-4fdc-ad31-ea317cd472fe",
+            "f2bbf020-b54d-4c28-81c3-1ef1b0625389",
+            "71b4a705-4c22-460e-8044-6d9c0c0f9bd0",
+            "fd8fcb81-ee0e-40aa-9a73-d18b5cfa1f8f",
+            "6e338cc0-6403-44c2-83de-748d108a6ada",
+            "df0ac801-07bb-40c8-ade0-cfe216812dbe",
+            "90bb8850-70a5-4da4-bdc9-0aa8f50bd299",
+            "1869fa51-0b26-433b-9d95-2a9a89403161",
+            "4cc5b868-1c32-4ec6-9ae0-051b0223adab",
+            "050d5252-14c8-468c-9f9f-c2ef2667bcc5",
+            "70951419-241e-42e0-b3b5-3b70af04a195",
+            "b211c56c-9a56-4449-a4d6-b3f643d129b9",
+            "27bf346c-910b-47c9-be71-8f3b5a2a1b5f",
+            "f896e070-3fed-490d-9387-766aaaad996b",
+            "2335713b-2f1b-46c5-acee-1d39c98c8186",
+            "4d806cec-ff5e-4835-b646-f65789e6fc61",
+            "6ad05bc7-5b38-4aef-8ada-aef8672db286",
+            "6d7710eb-57ec-4c1b-a645-b9ce5d6b231d",
+            "a8a6804d-e17b-45fd-9703-af10eb14ee1c",
+            "3c30d268-2693-4b74-ac86-8068c94df4b7",
+            "b255fe7c-be92-46ae-98ed-88cdd6ae5ed9",
+            "d16b91b4-b68f-47bd-900d-d6db8d064045",
+            "539a9436-f825-45da-b59a-deeccce8569a",
+            "234f5ab8-4323-4e8c-a5f2-7f464caa8276",
+            "b70c85da-d736-40dc-a856-23b7fdb184f0",
+            "0d694952-8274-4a81-ac6e-4e21eeb7ccb4",
+            "7632c7e4-368e-46b9-8150-e11087b7cbb2",
+            "bc23245b-4a94-4fde-b6c5-7ba84f660ddb",
+            "d3673968-f8cd-4216-b82e-4f61cac74943",
+            "73aba525-e300-48c7-a967-ea12f700dff0",
+            "a298db37-cccd-4f32-a94d-8fd52c889b1f",
+            "aafb861b-df6d-4a96-a7b6-c70ca4e8d832",
+            "12bc4173-cc2f-4619-a95b-989682122548",
+            "dd1cdacf-7e87-44f0-af3d-a27c1ccbc9ff",
+            "f46e5a7e-0a4d-4fad-8e50-b803387fc77e",
+            "78f60606-2112-4331-a744-3d18ff90fcc8",
+            "dba42491-792f-456b-9402-b34258f78726",
+            "bacb4850-a689-445d-bf80-7bd9598df48c",
+            "9a0aebe8-f698-40b4-9c50-d16b28a33f99",
+            "295527bc-9644-4fc1-888f-27776ede846a"
           ]
         }
       ]
@@ -62,19 +252,30 @@
       "dimension": "Legibilidad",
       "severity": "warning",
       "scope": "each",
-      "status": "pass",
-      "score": 100,
+      "includeInQualityScore": true,
+      "includeInRadar": true,
+      "status": "warning",
+      "score": 67,
       "evaluated": 3,
-      "passed": 3,
-      "failed": 0,
-      "findings": [],
+      "passed": 2,
+      "failed": 1,
+      "findings": [
+        {
+          "id": "vistas_vacias_regla-86cb72bd-4ddf-4a16-8a4f-e4afa8ea24ca",
+          "collection": "views",
+          "recordId": "86cb72bd-4ddf-4a16-8a4f-e4afa8ea24ca",
+          "field": "elementCount",
+          "value": 0,
+          "message": "Existen vistas vacías que no aportan valor."
+        }
+      ],
       "evidence": [
         {
           "collection": "views",
           "recordIds": [
-            "view-001",
-            "view-002",
-            "view-003"
+            "0643de12-b85a-49b6-a812-14cde2caa04c",
+            "ca2871ba-f3a4-42da-bd8e-9ec5155ea620",
+            "86cb72bd-4ddf-4a16-8a4f-e4afa8ea24ca"
           ]
         }
       ]
@@ -100,23 +301,19 @@
       "dimension": "Relaciones",
       "severity": "warning",
       "scope": "collection",
-      "status": "warning",
-      "score": 50,
-      "evaluated": 2,
-      "passed": 1,
-      "failed": 1,
-      "findings": [
-        {
-          "id": "abuso_association_regla-ratio",
-          "ratio": 50,
-          "threshold": 35
-        }
-      ],
+      "includeInQualityScore": true,
+      "includeInRadar": true,
+      "status": "pass",
+      "score": 71,
+      "evaluated": 104,
+      "passed": 30,
+      "failed": 74,
+      "findings": [],
       "evidence": [
         {
           "collection": "relationships",
-          "associationCount": 1,
-          "totalCount": 2
+          "associationCount": 30,
+          "totalCount": 104
         }
       ]
     },
@@ -125,19 +322,30 @@
       "dimension": "Legibilidad",
       "severity": "warning",
       "scope": "each",
-      "status": "pass",
-      "score": 100,
+      "includeInQualityScore": true,
+      "includeInRadar": true,
+      "status": "warning",
+      "score": 67,
       "evaluated": 3,
-      "passed": 3,
-      "failed": 0,
-      "findings": [],
+      "passed": 2,
+      "failed": 1,
+      "findings": [
+        {
+          "id": "exceso_elementos_por_vista_regla-0643de12-b85a-49b6-a812-14cde2caa04c",
+          "collection": "views",
+          "recordId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+          "field": "elementCount",
+          "value": 53,
+          "message": "La vista contiene demasiados elementos."
+        }
+      ],
       "evidence": [
         {
           "collection": "views",
           "recordIds": [
-            "view-001",
-            "view-002",
-            "view-003"
+            "0643de12-b85a-49b6-a812-14cde2caa04c",
+            "ca2871ba-f3a4-42da-bd8e-9ec5155ea620",
+            "86cb72bd-4ddf-4a16-8a4f-e4afa8ea24ca"
           ]
         }
       ]
@@ -147,19 +355,30 @@
       "dimension": "Legibilidad",
       "severity": "warning",
       "scope": "each",
-      "status": "pass",
-      "score": 100,
+      "includeInQualityScore": true,
+      "includeInRadar": true,
+      "status": "warning",
+      "score": 67,
       "evaluated": 3,
-      "passed": 3,
-      "failed": 0,
-      "findings": [],
+      "passed": 2,
+      "failed": 1,
+      "findings": [
+        {
+          "id": "exceso_relaciones_por_vista_regla-0643de12-b85a-49b6-a812-14cde2caa04c",
+          "collection": "views",
+          "recordId": "0643de12-b85a-49b6-a812-14cde2caa04c",
+          "field": "connectionCount",
+          "value": 69,
+          "message": "La vista contiene demasiadas relaciones visibles."
+        }
+      ],
       "evidence": [
         {
           "collection": "views",
           "recordIds": [
-            "view-001",
-            "view-002",
-            "view-003"
+            "0643de12-b85a-49b6-a812-14cde2caa04c",
+            "ca2871ba-f3a4-42da-bd8e-9ec5155ea620",
+            "86cb72bd-4ddf-4a16-8a4f-e4afa8ea24ca"
           ]
         }
       ]

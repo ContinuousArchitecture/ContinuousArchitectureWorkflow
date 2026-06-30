@@ -1,12 +1,16 @@
 {
   "type": "radar",
+  "status": "partial",
+  "partial": true,
+  "omittedDimensions": [
+    "Integridad",
+    "Trazabilidad"
+  ],
   "data": {
     "labels": [
       "Estructura",
       "Nomenclatura",
-      "Integridad",
       "Relaciones",
-      "Trazabilidad",
       "Legibilidad"
     ],
     "datasets": [
@@ -14,11 +18,9 @@
         "label": "Evaluado",
         "data": [
           100,
-          75,
-          null,
-          50,
-          null,
-          100
+          77,
+          71,
+          67
         ],
         "backgroundColor": "rgba(34, 197, 94, 0.20)",
         "borderColor": "#22c55e",
@@ -30,8 +32,6 @@
         "data": [
           90,
           85,
-          95,
-          80,
           80,
           80
         ],

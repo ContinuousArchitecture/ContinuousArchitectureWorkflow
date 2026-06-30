@@ -12,6 +12,10 @@ El engine lee `.calinter/archi-rules.yml` y `.calinter/archi-quality.yml`, y lue
 
 Las reglas aún no soportadas se marcan como `notImplemented` en vez de inventar resultados.
 
+## Fixture De Entrada
+
+El ejemplo ArchiMate vive en `artifact/source/design.archimate` y se trata como dato de validación de solo lectura.
+
 ## Workflow
 
 El GitHub Action reutilizable vive en `.github/workflows/compliance.yml` y se alimenta con los contratos YAML de `.calinter/`.
