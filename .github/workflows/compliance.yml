@@ -2,12 +2,6 @@ name: Continuous Architecture Compliance
 
 on:
   workflow_call:
-    inputs:
-      manifest_file:
-        description: Ruta del manifiesto relativa al checkout del repositorio de gobernanza.
-        required: false
-        type: string
-        default: "specs/manifest.yaml"
     outputs:
       status:
         description: Estado consolidado.
@@ -40,10 +34,8 @@ jobs:
       - id: validate
         name: Ejecutar linter
         shell: bash
-        env:
-          MANIFEST_FILE: ${{ inputs.manifest_file }}
         run: |
-          response="$(node governance/src/engine.mjs --mode validate --repo-root "$GITHUB_WORKSPACE" --manifest "governance/$MANIFEST_FILE")"
+          response="$(node governance/src/engine.mjs --mode validate --repo-root "$GITHUB_WORKSPACE")"
           status="$(node -e "const response = JSON.parse(process.argv[1]); process.stdout.write(response.status || 'ERROR');" "$response")"
           printf 'status=%s\n' "$status" >> "$GITHUB_OUTPUT"
           printf 'response<<EOF\n%s\nEOF\n' "$response" >> "$GITHUB_OUTPUT"
@@ -52,7 +44,5 @@ jobs:
       - name: Publicar resumen
         if: always()
         shell: bash
-        env:
-          MANIFEST_FILE: ${{ inputs.manifest_file }}
         run: |
-          node governance/src/engine.mjs --mode summary --repo-root "$GITHUB_WORKSPACE" --manifest "governance/$MANIFEST_FILE"
+          node governance/src/engine.mjs --mode summary --repo-root "$GITHUB_WORKSPACE"

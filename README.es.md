@@ -4,43 +4,17 @@
 
 CALinter es un linter de gobernanza reutilizable para repositorios de diseño ArchiMate.
 
-Valida artefactos mediante un manifest y DSLs ordenados dentro de `specs/`.
+Valida repositorios desde contratos YAML en `.calinter/` y escribe reportes de calidad en `reports/`.
 
-## Autoría de DSL
+## Contratos YAML
 
-Los DSL viven en `specs/` y se listan en `specs/manifest.yaml`.
+El engine lee `.calinter/archi-rules.yml` y `.calinter/archi-quality.yml`, y luego genera `reports/rule-results.json`, `reports/quality-score.json` y `reports/quickchart-radar.json`.
 
-El manifest declara el artefacto y el orden de ejecución. Cada DSL se despacha por su clave raíz, no solo por el nombre del archivo.
-
-Ejemplo:
-
-```yaml
-schemaVersion: 1
-artifact:
-  type: archimate
-  tool: archi
-  source:
-    path: artifact/source/*.archimate
-    mode: single-file
-orderOfExecution:
-  - archi-consistency-dsl.yaml
-  - archi_style_dsl.yaml
-```
-
-## Forma del DSL
-
-Cada DSL declara:
-
-- `archi_consistency_dsl` o `archi_style_dsl`
-- `metadata`
-- `consistencyGuide` o `styleGuide`
-- `rules`
-
-El engine resuelve `target: current` desde el artefacto del manifest y ejecuta las reglas en orden.
+Las reglas aún no soportadas se marcan como `notImplemented` en vez de inventar resultados.
 
 ## Workflow
 
-El GitHub Action reutilizable vive en `.github/workflows/compliance.yml` y usa `specs/manifest.yaml` por defecto.
+El GitHub Action reutilizable vive en `.github/workflows/compliance.yml` y se alimenta con los contratos YAML de `.calinter/`.
 
 ## Semántica De Salida
 

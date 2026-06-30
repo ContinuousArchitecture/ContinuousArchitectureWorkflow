@@ -11,17 +11,16 @@ import { generateDesignReports } from './contracts.mjs';
 
 export const Engine = {
   version: '2.0.0',
-  defaultManifestPath: 'specs/manifest.yaml',
 
   async main() {
     const mode = getArg('--mode', 'validate');
     const repoRoot = resolveArgPath('--repo-root', process.cwd());
-    const manifestPath = resolveArgPath('--manifest', path.join(process.cwd(), this.defaultManifestPath));
 
-    if (mode === 'summary') {
-      try {
-        generateDesignReports(repoRoot);
-        const response = this.runManifest(repoRoot, manifestPath);
+    try {
+      const reports = generateDesignReports(repoRoot);
+      const response = buildReportResponse(repoRoot, reports);
+
+      if (mode === 'summary') {
         const summaryFile = process.env.GITHUB_STEP_SUMMARY;
 
         if (summaryFile) {
@@ -31,59 +30,26 @@ export const Engine = {
 
         process.stdout.write(`${response.systemStatus === 'ERROR' ? 'ERROR' : 'PASS'}\n`);
         return;
-      } catch (error) {
-        const response = this.buildErrorResponse(manifestPath, error);
+      }
+
+      process.stdout.write(`${JSON.stringify(this.buildValidateResponse(response))}\n`);
+    } catch (error) {
+      const response = this.buildErrorResponse(error);
+      if (mode === 'summary') {
         const summaryFile = process.env.GITHUB_STEP_SUMMARY;
 
         if (summaryFile) {
           fs.mkdirSync(path.dirname(summaryFile), { recursive: true });
           fs.writeFileSync(summaryFile, await this.renderSummary(response), 'utf8');
         }
-
-        process.stdout.write('ERROR\n');
-        process.exitCode = 1;
-        return;
       }
-    }
-
-    try {
-      generateDesignReports(repoRoot);
-      const response = this.runManifest(repoRoot, manifestPath);
-      process.stdout.write(`${JSON.stringify(this.buildValidateResponse(response))}\n`);
-    } catch (error) {
-      const response = this.buildErrorResponse(manifestPath, error);
       process.stdout.write(`${JSON.stringify(response)}\n`);
       process.exitCode = 1;
     }
   },
 
-  runManifest(repoRoot, manifestPath) {
-    const manifest = validateManifestData(loadYamlFile(manifestPath), manifestPath);
-    const manifestDir = path.dirname(manifestPath);
-    const artifact = resolveArtifact(repoRoot, manifest.artifact);
-    const context = {
-      repoRoot,
-      manifestPath,
-      manifest,
-      artifact,
-      specsDir: manifestDir,
-    };
-
-    const validators = manifest.orderOfExecution.map((dslFile) => {
-      const dslPath = path.resolve(manifestDir, dslFile);
-      const dsl = validateDslData(loadYamlFile(dslPath), dslPath);
-      return evaluateDsl(dsl, {
-        ...context,
-        dslPath,
-      });
-    });
-
-    return buildResponse(repoRoot, manifestPath, manifest, artifact, validators);
-  },
-
   buildValidateResponse(response) {
     return {
-      manifest: response.manifest,
       status: response.status,
       systemStatus: response.systemStatus,
       lintStatus: response.lintStatus,
@@ -96,6 +62,62 @@ export const Engine = {
     return renderDesignSummary(response);
   },
 };
+
+function buildReportResponse(repoRoot, reports) {
+  const validators = buildValidatorsFromReports(reports);
+  const checks = flattenChecks(validators);
+  const summary = countChecks(checks);
+  const lintStatus = summary.FAIL > 0 ? 'FAIL' : (summary.WARN > 0 ? 'WARN' : 'PASS');
+
+  return {
+    repoRoot,
+    status: lintStatus,
+    systemStatus: 'PASS',
+    lintStatus,
+    summary,
+    validators,
+    reports,
+  };
+}
+
+function buildValidatorsFromReports(reports) {
+  const ruleResults = new Map((reports.ruleResults ?? reports.rules ?? []).map((rule) => [rule.ruleId, rule]));
+  const dimensions = reports.qualityScore?.dimensions ?? [];
+
+  return dimensions.map((dimension) => ({
+    id: dimension.id,
+    title: dimension.label,
+    dslType: 'archi-quality',
+    status: mapDimensionStatus(dimension.status),
+    systemStatus: 'PASS',
+    lintStatus: mapDimensionStatus(dimension.status),
+    checks: (dimension.rules ?? []).map((ruleRef) => mapReportRuleToCheck(ruleRef.ruleId, ruleResults.get(ruleRef.ruleId), dimension.label)),
+  }));
+}
+
+function mapReportRuleToCheck(ruleId, result, dimensionLabel) {
+  return {
+    id: ruleId,
+    description: result?.reason ?? result?.message ?? ruleId,
+    group: dimensionLabel,
+    severity: result?.severity ?? 'error',
+    status: mapRuleStatus(result?.status),
+    detail: result?.reason ?? result?.status ?? 'unknown',
+    message: result?.message,
+  };
+}
+
+function mapRuleStatus(status) {
+  const value = String(status ?? '').toLowerCase();
+  if (value === 'pass') return 'PASS';
+  if (value === 'warning') return 'WARN';
+  if (value === 'fail') return 'FAIL';
+  return 'ERROR';
+}
+
+function mapDimensionStatus(status) {
+  return mapRuleStatus(status);
+}
 
 function countChecks(checks) {
   return checks.reduce((acc, check) => {
@@ -1381,9 +1403,8 @@ function escapeRegExp(value) {
   return String(value).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
-function buildErrorResponse(manifestPath, error) {
+function buildErrorResponse(error) {
   return {
-    manifest: manifestPath,
     status: 'ERROR',
     systemStatus: 'ERROR',
     lintStatus: 'UNKNOWN',
