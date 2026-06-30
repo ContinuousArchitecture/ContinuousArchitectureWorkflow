@@ -363,9 +363,14 @@ function getVisibleAlertKind(status) {
   return 'CAUTION';
 }
 
-function getRuleSummaryMessage(rule) {
+function getRuleSummaryMessage(rule, catalogIndexes) {
   if (String(rule?.status ?? '').toLowerCase() === 'pass') {
     return 'Cumple.';
+  }
+
+  const viewsSummary = getViewsRuleSummary(rule, catalogIndexes);
+  if (viewsSummary) {
+    return viewsSummary;
   }
 
   return getFailureMessage(rule) !== 'n/a'
@@ -373,10 +378,15 @@ function getRuleSummaryMessage(rule) {
     : (rule?.message ?? rule?.reason ?? 'Revisar el hallazgo reportado.');
 }
 
-function getRuleActionMessage(rule) {
+function getRuleActionMessage(rule, catalogIndexes) {
   const status = String(rule?.status ?? '').toLowerCase();
   if (status === 'pass') {
     return 'Sin acción.';
+  }
+
+  const viewsAction = getViewsRuleAction(rule, catalogIndexes);
+  if (viewsAction) {
+    return viewsAction;
   }
 
   if (status === 'notimplemented' || status === 'incomplete') {
@@ -392,6 +402,40 @@ function getRuleActionMessage(rule) {
   }
 
   return 'Corregir el hallazgo para que la regla cumpla.';
+}
+
+function getViewsRuleSummary(rule, catalogIndexes) {
+  const finding = (rule?.findings ?? [])[0] ?? null;
+  const viewName = getFindingLabel(finding, catalogIndexes) || 'Vista';
+  const value = Number(finding?.value);
+  const formattedValue = Number.isFinite(value) ? String(value) : 'n/a';
+
+  switch (String(rule?.ruleId ?? '')) {
+    case 'vistas_vacias_regla':
+      return `Línea base: cada vista debe contener al menos 1 elemento visible. Valor observado: ${formattedValue} en ${viewName}.`;
+    case 'exceso_elementos_por_vista_regla':
+      return `Línea base: una vista no debe superar 30 elementos visibles. Valor observado: ${formattedValue} en ${viewName}.`;
+    case 'exceso_relaciones_por_vista_regla':
+      return `Línea base: una vista no debe superar 45 relaciones visibles. Valor observado: ${formattedValue} en ${viewName}.`;
+    default:
+      return '';
+  }
+}
+
+function getViewsRuleAction(rule, catalogIndexes) {
+  const finding = (rule?.findings ?? [])[0] ?? null;
+  const viewName = getFindingLabel(finding, catalogIndexes) || 'Vista';
+
+  switch (String(rule?.ruleId ?? '')) {
+    case 'vistas_vacias_regla':
+      return `Aporta valor al evitar que ${viewName} quede vacía y agregue ruido en lugar de información.`;
+    case 'exceso_elementos_por_vista_regla':
+      return `Aporta valor al mantener ${viewName} legible y facilitar la revisión del modelo.`;
+    case 'exceso_relaciones_por_vista_regla':
+      return `Aporta valor al reducir la saturación visual de ${viewName} y hacer más clara la trazabilidad.`;
+    default:
+      return '';
+  }
 }
 
 function renderRuleAlert(rule, catalogIndexes) {
@@ -485,11 +529,11 @@ function renderRulesBySection(summary) {
     fail: collectSectionRulesByStatus(summary.sectionRules, sections, 'FAIL'),
   };
 
-  lines.push(...renderConsolidatedStatusAlert('warning', 'WARN', grouped.warning));
+  lines.push(...renderConsolidatedStatusAlert('warning', 'WARN', grouped.warning, summary.catalogIndexes));
   lines.push('');
-  lines.push(...renderConsolidatedStatusAlert('pass', 'PASS', grouped.pass));
+  lines.push(...renderConsolidatedStatusAlert('pass', 'PASS', grouped.pass, summary.catalogIndexes));
   lines.push('');
-  lines.push(...renderConsolidatedStatusAlert('fail', 'FAIL', grouped.fail, summary.contractIssues));
+  lines.push(...renderConsolidatedStatusAlert('fail', 'FAIL', grouped.fail, summary.catalogIndexes, summary.contractIssues));
 
   return lines;
 }
@@ -503,7 +547,7 @@ function collectSectionRulesByStatus(sectionRules, sections, status) {
     .filter(Boolean);
 }
 
-function renderConsolidatedStatusAlert(kind, statusLabel, sectionGroups, extraMessages = []) {
+function renderConsolidatedStatusAlert(kind, statusLabel, sectionGroups, catalogIndexes, extraMessages = []) {
   const lines = [];
   const count = sectionGroups.reduce((sum, group) => sum + group.rules.length, 0) + extraMessages.length;
   const alertKind = kind === 'warning' ? 'WARNING' : (kind === 'pass' ? 'TIP' : 'CAUTION');
@@ -521,8 +565,8 @@ function renderConsolidatedStatusAlert(kind, statusLabel, sectionGroups, extraMe
   for (const group of sectionGroups) {
     lines.push(`> **${group.section}**`);
     for (const rule of group.rules) {
-      const summary = normalizeInlineText(getRuleSummaryMessage(rule));
-      const action = normalizeInlineText(getRuleActionMessage(rule));
+      const summary = normalizeInlineText(getRuleSummaryMessage(rule, catalogIndexes));
+      const action = normalizeInlineText(getRuleActionMessage(rule, catalogIndexes));
       lines.push(`> - \`${escapeInlineCode(rule.ruleId)}\` · ${summary}`);
       if (kind !== 'pass') {
         lines.push(`>   - **Acción:** ${action}`);
