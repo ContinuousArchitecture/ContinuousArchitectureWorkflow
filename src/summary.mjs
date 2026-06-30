@@ -1175,47 +1175,26 @@ function buildResultChartConfig(summary) {
         {
           data: [completionPercent, pendingPercent],
           backgroundColor: ['#22c55e', '#e5e7eb'],
-          borderColor: ['#22c55e', '#e5e7eb'],
-          borderWidth: 10,
+          borderColor: ['#ffffff', '#ffffff'],
+          borderWidth: 6,
+          spacing: 2,
+          hoverOffset: 0,
         },
       ],
     },
     options: {
       circumference: Math.PI,
-      rotation: Math.PI,
-      cutout: '75%',
-      layout: { padding: 40 },
+      rotation: -Math.PI,
+      cutout: '72%',
+      responsive: true,
+      maintainAspectRatio: false,
+      layout: { padding: 8 },
       plugins: {
-        legend: {
-          display: false,
-        },
-        datalabels: {
-          color: '#000000',
-          anchor: 'end',
-          align: 'end',
-          formatter: (value) => formatPercentValue(value),
-          font: {
-            size: 18,
-            weight: 'bold',
-          },
-        },
-        doughnutlabel: {
-          labels: [
-            {
-              text: 'You are at',
-              font: { size: 16 },
-            },
-            {
-              text: hasScore ? formatPercentValue(completionPercent) : 'n/a',
-              color: '#000000',
-              font: { size: 34, weight: 'bold' },
-            },
-          ],
-        },
+        legend: { display: false },
         title: {
           display: true,
           text: title,
-          font: { size: 13 },
+          font: { size: 15, weight: 'bold' },
         },
       },
     },
