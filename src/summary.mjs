@@ -1171,14 +1171,16 @@ async function renderDashboardSectionFinal({ validators, complianceText, passCou
 function buildResultChartConfig(summary) {
   const score = Number(summary?.qualityScore?.overallScore);
   const hasScore = Number.isFinite(score);
-  const completionPercent = hasScore ? Math.max(0, Math.min(100, Math.round(score))) : 0;
-  const pendingPercent = 100 - completionPercent;
-  const title = hasScore ? `Cumplimiento ${completionPercent}%` : 'Cumplimiento n/a';
+  const completionPercent = hasScore ? Math.max(0, Math.min(100, score)) : 0;
+  const pendingPercent = Math.max(0, 100 - completionPercent);
+  const title = hasScore ? `Cumplimiento ${formatPercentValue(completionPercent)}` : 'Cumplimiento n/a';
 
   return {
     type: 'doughnut',
     data: {
-      labels: ['Score', 'Pendiente'],
+      labels: hasScore
+        ? [`Cumplimiento ${formatPercentValue(completionPercent)}`, `Pendiente ${formatPercentValue(pendingPercent)}`]
+        : ['Cumplimiento', 'Pendiente'],
       datasets: [
         {
           data: [completionPercent, pendingPercent],
@@ -1190,7 +1192,11 @@ function buildResultChartConfig(summary) {
     options: {
       layout: { padding: 4 },
       plugins: {
-        legend: { display: false },
+        legend: {
+          display: true,
+          position: 'bottom',
+          labels: { boxWidth: 10, font: { size: 10 } },
+        },
         title: {
           display: true,
           text: title,
@@ -1200,6 +1206,11 @@ function buildResultChartConfig(summary) {
       cutout: '70%',
     },
   };
+}
+
+function formatPercentValue(value) {
+  const text = Number(value).toFixed(2).replace(/\.00$/, '').replace(/(\.\d)0$/, '$1');
+  return `${text}%`;
 }
 
 function buildCoverageChartConfig(summary) {
