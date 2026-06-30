@@ -102,12 +102,22 @@ function assertSummaryShape(summaryMarkdownText) {
     throw new Error('Expected summary to show Evaluación parcial.');
   }
 
-  if (!summaryMarkdownText.includes('Cobertura actual: 4/6 dimensiones evaluadas.')) {
+  if (!summaryMarkdownText.includes('4/6 dimensiones evaluadas')) {
     throw new Error('Expected summary to show coverage 4/6.');
   }
 
   if (!summaryMarkdownText.includes('## Dashboard') || !summaryMarkdownText.includes('## Reporte de reglas')) {
     throw new Error('Expected summary to include only Dashboard and Reporte de reglas sections.');
+  }
+
+  const dashboardSection = summaryMarkdownText.split('## Dashboard')[1]?.split('## Reporte de reglas')[0] ?? '';
+  if (dashboardSection.includes('[!WARNING]') || dashboardSection.includes('[!CAUTION]') || dashboardSection.includes('[!TIP]') || dashboardSection.includes('[!NOTE]')) {
+    throw new Error('Expected dashboard to avoid admonitions.');
+  }
+
+  const chartCount = (summaryMarkdownText.match(/quickchart\.io\/chart\/render/g) ?? []).length;
+  if (chartCount !== 3) {
+    throw new Error(`Expected exactly 3 dashboard charts, got ${chartCount}.`);
   }
 
   for (const section of forbiddenSections) {
